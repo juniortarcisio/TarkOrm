@@ -64,7 +64,7 @@ using System.Configuration;
 
 namespace TarkOrm.NET
 {
-    public class BaseDataAccess<T> : IDisposable
+    public class TarkDataAccess<T> : IDisposable
     {
 
         public bool EnableNoLock { get; set; }
@@ -241,11 +241,11 @@ namespace TarkOrm.NET
 
             if (!String.IsNullOrWhiteSpace(databaseName))
             {
-                return String.Format("{0}.{1}.p_{2}_GetAll", databaseName, schema, tableName);
+                return String.Format("{0}.{1}.sp_{2}_GetAll", databaseName, schema, tableName);
             }
             else
             {
-                return String.Format("{1}.p_{2}_GetAll", schema, tableName);
+                return String.Format("{1}.sp_{2}_GetAll", schema, tableName);
             }
         }
 
