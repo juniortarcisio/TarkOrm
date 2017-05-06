@@ -1,14 +1,10 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Data;
-using System.Data.SqlClient;
-using System.Reflection;
-using System.Linq.Expressions;
 
 namespace TarkOrm.NET.Tests
 {
     [TestClass]
-    public class UnitTest1
+    public class PrototypingCmdBuilder
     {
         delegate int del(DateTime abacate);
         
@@ -18,11 +14,11 @@ namespace TarkOrm.NET.Tests
             //var con = new DataConn
             //SqlConnection con = new SqlConnection();
 
-            var data = new TarkDataAccess<Country>("data source=PH03N1XR4V4N-PC\\DBLABS;initial catalog=MyPortal;persist security info=True;user id=app_login;password=ph03n1xr4v3n;MultipleActiveResultSets=True;App=TarkOrm.NET");
+            var data = new TarkDataAccess("data source=PH03N1XR4V4N-PC\\DBLABS;initial catalog=MyPortal;persist security info=True;user id=app_login;password=ph03n1xr4v3n;MultipleActiveResultSets=True;App=TarkOrm.NET");
 
-            var lista = data.GetAll();
+            var lista = data.GetAll<Country>();
             
-            var item = data.GetById(10, "AR");
+            var item = data.GetById<Country>(10, "AR");
 
             //Creates a Where function that receives a lambda
             // the returns of lambda is a field / field property
@@ -37,7 +33,7 @@ namespace TarkOrm.NET.Tests
             //var filtered = data.Where("colname", value) (?)
             var a = new Country();
                         
-            var filtered = data.Where(1).Execute();
+            //var filtered = data.Where<Country>(1).Execute();
 
             //var rowsAffected data.Insert(new country...);
             del x = ((y) => 1 * 2);

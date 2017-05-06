@@ -47,8 +47,8 @@ namespace TarkOrm.NET.Extensions
                 }
             }
 
-            if (objectProperty == null)
-                throw new MissingFieldException(String.Format("Cannot find \"{0}\" object mapped property"));
+            if (objectProperty == null)                 
+                throw new MissingMemberException(String.Format("Cannot find \"{0}\" object mapped property"));
             else
                 return objectProperty;
         }

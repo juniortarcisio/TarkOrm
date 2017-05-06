@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Data;
 using System.Data.Entity;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -32,12 +30,9 @@ namespace TarkOrm.NET.Tests
             Debugger.Log(0, "", $"Entity Elapsed MS: {watch.ElapsedMilliseconds.ToString()}{Environment.NewLine}" );
 
 
-            watch.Reset();
-            watch.Start();
+            var data = new TarkDataAccess("data source=PH03N1XR4V4N-PC\\DBLABS;initial catalog=MyPortal;persist security info=True;user id=app_login;password=ph03n1xr4v3n;MultipleActiveResultSets=True;App=TarkOrm.NET");
 
-            var data = new TarkDataAccess<Country>("data source=PH03N1XR4V4N-PC\\DBLABS;initial catalog=MyPortal;persist security info=True;user id=app_login;password=ph03n1xr4v3n;MultipleActiveResultSets=True;App=TarkOrm.NET");
-
-            var lista = data.GetAll();
+            var lista = data.GetAll<Country>();
 
             foreach (var item in lista)
             {
@@ -47,6 +42,10 @@ namespace TarkOrm.NET.Tests
             watch.Stop();
 
             Debugger.Log(0, "", $"TarkORM Elapsed MS: {watch.ElapsedMilliseconds.ToString()}{Environment.NewLine}");
+
+            watch.Reset();
+            watch.Start();
+
         }
 
         [TestMethod]
@@ -70,10 +69,10 @@ namespace TarkOrm.NET.Tests
 
             watch.Reset();
 
-            var data = new TarkDataAccess<Country>("data source=PH03N1XR4V4N-PC\\DBLABS;initial catalog=MyPortal;persist security info=True;user id=app_login;password=ph03n1xr4v3n;MultipleActiveResultSets=True;App=TarkOrm.NET");
+            var data = new TarkDataAccess("data source=PH03N1XR4V4N-PC\\DBLABS;initial catalog=MyPortal;persist security info=True;user id=app_login;password=ph03n1xr4v3n;MultipleActiveResultSets=True;App=TarkOrm.NET");
 
             watch.Start();
-            var lista = data.GetAll();
+            var lista = data.GetAll<Country>();
 
             foreach (var item in lista)
             {
@@ -152,9 +151,9 @@ namespace TarkOrm.NET.Tests
             watch.Reset();
             watch.Start();
 
-            var data = new TarkDataAccess<City>("data source=PH03N1XR4V4N-PC\\DBLABS;initial catalog=MyPortal;persist security info=True;user id=app_login;password=ph03n1xr4v3n;MultipleActiveResultSets=True;App=TarkOrm.NET");
+            var data = new TarkDataAccess("data source=PH03N1XR4V4N-PC\\DBLABS;initial catalog=MyPortal;persist security info=True;user id=app_login;password=ph03n1xr4v3n;MultipleActiveResultSets=True;App=TarkOrm.NET");
 
-            var lista = data.GetAll();
+            var lista = data.GetAll<City>();
 
             foreach (var item in lista)
             {
@@ -164,8 +163,6 @@ namespace TarkOrm.NET.Tests
             watch.Stop();
 
             Debugger.Log(0, "", $"TarkORM Elapsed MS: {watch.ElapsedMilliseconds.ToString()}{Environment.NewLine}");
-
-
         }
 
         [TestMethod]
@@ -202,9 +199,9 @@ namespace TarkOrm.NET.Tests
             watch.Reset();
             watch.Start();
 
-            var data = new TarkDataAccess<Country>("data source=PH03N1XR4V4N-PC\\DBLABS;initial catalog=MyPortal;persist security info=True;user id=app_login;password=ph03n1xr4v3n;MultipleActiveResultSets=True;App=TarkOrm.NET");
+            var data = new TarkDataAccess("data source=PH03N1XR4V4N-PC\\DBLABS;initial catalog=MyPortal;persist security info=True;user id=app_login;password=ph03n1xr4v3n;MultipleActiveResultSets=True;App=TarkOrm.NET");
 
-            var lista = data.GetAll();
+            var lista = data.GetAll<Country>();
 
             foreach (var item in lista)
             {
@@ -216,7 +213,7 @@ namespace TarkOrm.NET.Tests
             Debugger.Log(0, "", $"TarkORM Elapsed MS: {watch.ElapsedMilliseconds.ToString()}{Environment.NewLine}");
 
 
-            var lista2 = data.GetAll();
+            var lista2 = data.GetAll<Country>();
 
             foreach (var item in lista2)
             {

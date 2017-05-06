@@ -42,15 +42,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="dustbin2.txt" />
     <Compile Include="TarkDataAccess.cs" />
     <Compile Include="Attributes\DatabaseAttribute.cs" />
     <Compile Include="Extensions\ConversionExtensions.cs" />
     <Compile Include="Extensions\Extensions.cs" />
     <Compile Include="Extensions\MappingExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TarkQueryBuilder.cs" />
+    <Compile Include="TarkTransformer.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="dustbin.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="TarkQueryBuilder.PrototypeCode.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

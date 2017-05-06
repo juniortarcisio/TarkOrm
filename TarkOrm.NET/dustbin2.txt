@@ -1,0 +1,125 @@
+//using System;
+//using System.Collections.Generic;
+//using System.ComponentModel.DataAnnotations.Schema;
+//using System.Linq;
+//using System.Reflection;
+//using System.Text;
+//using System.Data;
+//using TarkOrm.NET.Extensions;
+//using TarkOrm.NET.Attributes;
+//using System.Linq.Expressions;
+//using System.Configuration;
+
+///*
+//I'm holding in this file some prototype codes temporaly and I'm going to delete it soon before an official release
+//*/
+
+//namespace TarkOrm.NET
+//{
+//    public partial class TarkDataAccess : IDisposable
+//    {
+//        /// <summary>
+//        /// Fill an object property according it's mapped column name
+//        /// </summary>
+//        /// <param name="obj">object to receive the value</param>
+//        /// <param name="mappedColumnName">name of the column mapped to the property</param>
+//        /// <param name="value">value to be filled in the property</param>
+//        /// <exception cref="ArgumentNullException"></exception>
+//        private void FillProperty(object obj, string mappedColumnName, object value)
+//        {
+//            if (obj == null)
+//                throw new ArgumentNullException("obj");
+
+//            if (mappedColumnName == null)
+//                throw new ArgumentNullException("mappedColumnName");
+
+//            //First search the column before treating nulls,
+//            //Despite the search proccess, it's possible to get implementation mistake even when it's null
+//            PropertyInfo objectProperty;// = obj.GetType().GetMappedProperty(mappedColumnName);
+
+//            if (!_mappedProperties.TryGetValue(mappedColumnName, out objectProperty))
+//            {
+//                objectProperty = obj.GetType().GetMappedProperty(mappedColumnName);
+//                _mappedProperties.Add(mappedColumnName, objectProperty);
+//            }
+//        }
+
+//        /// <summary>
+//        /// Create and object and fill it's mapped properties through a DataRow 
+//        /// </summary>
+//        /// <param name="dr">DataRow with columns mapped to the object type</param>
+//        /// <returns>A new instance of the object type with the filled properties</returns>
+//        public T CreateObject<T>(DataRow dr)
+//        {
+//            Type typeT = typeof(T);
+
+//            var finalObject = (T)Activator.CreateInstance(typeT, new object[] { });
+
+//            for (int i = 0; i < dr.Table.Columns.Count; i++)
+//            {
+//                FillProperty(finalObject, dr.Table.Columns[i].ColumnName, dr[i]);
+//            }
+
+//            return finalObject;
+//        }
+
+//        /// <summary>
+//        /// Create and object and fill it's mapped properties through a DataReader record 
+//        /// </summary>
+//        /// <param name="dr">DataReader in the current record with fields mapped to the object type</param>
+//        /// <returns>A new instance of the object type with the filled properties</returns>
+//        public T CreateObject<T>(IDataReader dr)
+//        {
+//            Type typeT = typeof(T);
+
+//            var finalObject = (T)Activator.CreateInstance(typeT);
+
+//            for (int i = 0; i < dr.FieldCount; i++)
+//            {
+//                var drColumnName = dr.GetName(i);
+
+//                FillProperty(finalObject, drColumnName, dr[i]);
+//            }
+
+//            return finalObject;
+//        }
+        
+//        private string GetMapperTablePath<T>()
+//        {
+//            Type type = typeof(T);
+//            string databaseName = null;
+//            string tableName = null;
+//            string schema = "dbo";
+
+//            var databaseAttribute = type.GetCustomAttribute<DatabaseAttribute>();
+//            if (databaseAttribute != null && !String.IsNullOrWhiteSpace(databaseAttribute.Name))
+//            {
+//                databaseName = databaseAttribute.Name;
+//            }
+
+//            var tableAttribute = type.GetCustomAttribute<TableAttribute>();
+//            if (tableAttribute != null)
+//            {
+//                if (!String.IsNullOrWhiteSpace(tableAttribute.Name))
+//                    tableName = tableAttribute.Name;
+
+//                if (!String.IsNullOrWhiteSpace(tableAttribute.Schema))
+//                    schema = tableAttribute.Schema;
+//            }
+//            else
+//            {
+//                tableName = type.Name;
+//            }
+
+//            if (!String.IsNullOrWhiteSpace(databaseName))
+//            {
+//                return String.Format("{0}.{1}.{2}", databaseName, schema, tableName);
+//            }
+//            else
+//            {
+//                return String.Format("{0}.{1}", schema, tableName);
+//            }
+//        }
+
+//    }
+//}

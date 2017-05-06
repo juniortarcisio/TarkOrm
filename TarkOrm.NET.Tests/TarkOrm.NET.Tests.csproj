@@ -64,7 +64,7 @@
     <Compile Include="City.cs" />
     <Compile Include="Country.cs" />
     <Compile Include="LambdaExpressionTests.cs" />
-    <Compile Include="UnitTest1.cs" />
+    <Compile Include="PrototypingCmdBuilder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
