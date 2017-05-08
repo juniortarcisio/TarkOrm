@@ -18,7 +18,6 @@ namespace TarkOrm.NET.Tests
 
             var tarkDataAcess = new TarkDataAccess("localhost");
 
-            //data.GetAll<Country>();
             tarkDataAcess.Add<Country>(new Country
             {
                 CountryID = 247,
