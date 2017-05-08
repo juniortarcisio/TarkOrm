@@ -17,7 +17,7 @@ namespace TarkOrm.NET
 {
     public partial class TarkDataAccess : IDisposable
     {
-        private IDbConnection _connection;
+        public readonly IDbConnection _connection;
         private TarkQueryBuilder tarkQueryBuilder = new TarkQueryBuilder();
         private TarkTransformer tarkTransformer = new TarkTransformer();
 

@@ -5,20 +5,20 @@ using System.Data;
 using System.Data.Entity;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Diagnostics;
+using Dapper;
 
 namespace TarkOrm.NET.Tests
 {
     [TestClass]
     public class Benchmarks
     {
-
         [TestMethod]
         public void Benchmark1()
         {
             Stopwatch watch = new Stopwatch();
-
             watch.Start();
 
+            //Entity
             var listEntity = new DbLabsContext().Countries;
             foreach (var item in listEntity)
             {
@@ -29,7 +29,10 @@ namespace TarkOrm.NET.Tests
 
             Debugger.Log(0, "", $"Entity Elapsed MS: {watch.ElapsedMilliseconds.ToString()}{Environment.NewLine}" );
 
+            watch.Reset();
+            watch.Start();
 
+            //Tark
             var data = new TarkDataAccess("data source=PH03N1XR4V4N-PC\\DBLABS;initial catalog=MyPortal;persist security info=True;user id=app_login;password=ph03n1xr4v3n;MultipleActiveResultSets=True;App=TarkOrm.NET");
 
             var lista = data.GetAll<Country>();
@@ -46,6 +49,105 @@ namespace TarkOrm.NET.Tests
             watch.Reset();
             watch.Start();
 
+            //Dapper
+            IEnumerable<Country> listaDapper = data._connection.Query<Country>("SELECT * FROM Country");
+
+            foreach (var item in listaDapper)
+            {
+                item.Name.ToString();
+            }
+
+            watch.Stop();
+
+            Debugger.Log(0, "", $"Dapper Elapsed MS: {watch.ElapsedMilliseconds.ToString()}{Environment.NewLine}");
+
+        }
+
+
+        [TestMethod]
+        public void BenchmarkCountryTark()
+        {
+            Stopwatch watch = new Stopwatch();
+            watch.Start();
+
+            //Tark
+            var data = new TarkDataAccess("data source=PH03N1XR4V4N-PC\\DBLABS;initial catalog=MyPortal;persist security info=True;user id=app_login;password=ph03n1xr4v3n;MultipleActiveResultSets=True;App=TarkOrm.NET");
+
+            var lista = data.GetAll<Country>();
+
+            foreach (var item in lista)
+            {
+                item.Name.ToString();
+            }
+
+            watch.Stop();
+
+            Debugger.Log(0, "", $"TarkORM Elapsed MS: {watch.ElapsedMilliseconds.ToString()}{Environment.NewLine}");
+        }
+
+
+        [TestMethod]
+        public void BenchmarkCountryDapper()
+        {
+            Stopwatch watch = new Stopwatch();
+            watch.Start();
+
+            var data = new TarkDataAccess("data source=PH03N1XR4V4N-PC\\DBLABS;initial catalog=MyPortal;persist security info=True;user id=app_login;password=ph03n1xr4v3n;MultipleActiveResultSets=True;App=TarkOrm.NET");
+
+            //Dapper
+            IEnumerable<Country> listaDapper = data._connection.Query<Country>("SELECT * FROM Country");
+
+            foreach (var item in listaDapper)
+            {
+                item.Name.ToString();
+            }
+
+            watch.Stop();
+
+            Debugger.Log(0, "", $"Dapper Elapsed MS: {watch.ElapsedMilliseconds.ToString()}{Environment.NewLine}");
+        }
+
+        [TestMethod]
+        public void BenchmarkCountryADO()
+        {
+            Stopwatch watch = new Stopwatch();
+            watch.Start();
+
+            var con = new System.Data.SqlClient.SqlConnection("data source=PH03N1XR4V4N-PC\\DBLABS;initial catalog=MyPortal;persist security info=True;user id=app_login;password=ph03n1xr4v3n;MultipleActiveResultSets=True;App=TarkOrm.NET");
+
+            var cmd = con.CreateCommand();
+
+            cmd.CommandText = "SELECT * FROM Country";
+            cmd.CommandType = CommandType.Text;
+            con.Open();
+
+            var dr = cmd.ExecuteReader();
+
+            List<Country> listaADO = new List<Country>();
+
+            while (dr.Read())
+            {
+                var country = new Country();
+                country.CountryID = (int)dr["CountryID"];
+                country.Name = (string)dr["Name"];
+                country.ContinentID = (int)dr["ContinentID"];
+                country.CountryCode = (string)dr["CountryCode"];
+
+                if (dr["CurrencyID"] != DBNull.Value)
+                    country.CurrencyID = (int)dr["CurrencyID"];
+
+                if (dr["FlagB64"] != DBNull.Value)
+                    country.FlagB64 = (string)dr["FlagB64"];
+            }
+
+            foreach (var item in listaADO)
+            {
+                item.Name.ToString();
+            }
+
+            watch.Stop();
+
+            Debugger.Log(0, "", $"Dapper Elapsed MS: {watch.ElapsedMilliseconds.ToString()}{Environment.NewLine}");
         }
 
         [TestMethod]
@@ -166,9 +268,35 @@ namespace TarkOrm.NET.Tests
         }
 
         [TestMethod]
+        public void BenchmarkCityDapper()
+        {
+            Stopwatch watch = new Stopwatch();
+            //ADO.NET raw
+            watch.Start();
+
+            var con = new System.Data.SqlClient.SqlConnection("data source=PH03N1XR4V4N-PC\\DBLABS;initial catalog=MyPortal;persist security info=True;user id=app_login;password=ph03n1xr4v3n;MultipleActiveResultSets=True;App=TarkOrm.NET");
+
+            var cmd = con.CreateCommand();
+
+            cmd.CommandText = "SELECT * FROM City";
+            cmd.CommandType = CommandType.Text;
+            con.Open();
+            
+            IEnumerable<City> listaDapper = con.Query<City>("SELECT * FROM City");
+
+            foreach (var item in listaDapper)
+            {
+                var x = item.CityID;
+            }
+
+            watch.Stop();
+
+            Debugger.Log(0, "", $"Dapper Elapsed MS: {watch.ElapsedMilliseconds.ToString()}{Environment.NewLine}");
+        }
+
+        [TestMethod]
         public void Benchmark4()
         {
-
             Stopwatch watch = new Stopwatch();
 
             watch.Start();

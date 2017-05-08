@@ -60,7 +60,7 @@ namespace TarkOrm.NET
             catch (Exception ex)
             {
                 throw new InvalidCastException(
-                    String.Format("Cannot cast value to object property \"{1}\".", objectProperty.Name), ex);
+                    String.Format("Cannot cast data value to object property type \"{1}\".", objectProperty.Name), ex);
             }
 
             try
