@@ -150,6 +150,25 @@ namespace TarkOrm.NET.Tests
             Debugger.Log(0, "", $"Dapper Elapsed MS: {watch.ElapsedMilliseconds.ToString()}{Environment.NewLine}");
         }
 
+
+        [TestMethod]
+        public void BenchmarkCountryEntity()
+        {
+            Stopwatch watch = new Stopwatch();
+
+            watch.Start();
+
+            var listEntity = new DbLabsContext().Countries;
+            foreach (var item in listEntity)
+            {
+                var x = item.Name.ToString();
+            }
+
+            watch.Stop();
+
+            Debugger.Log(0, "", $"Entity Elapsed MS: {watch.ElapsedMilliseconds.ToString()}{Environment.NewLine}");
+        }
+
         [TestMethod]
         public void Benchmark2()
         {
