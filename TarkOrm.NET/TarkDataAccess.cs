@@ -37,7 +37,7 @@ namespace TarkOrm.NET
         /// <param name="nameOrConnectionString">Either the database name or a connection string.</param>
         public TarkDataAccess(string nameOrConnectionString)
         {
-            var connectionSetting = ConfigurationManager.ConnectionStrings["nameOrConnectionString"];
+            var connectionSetting = ConfigurationManager.ConnectionStrings[nameOrConnectionString];
             if (connectionSetting != null)
                 nameOrConnectionString = connectionSetting.ConnectionString;
 

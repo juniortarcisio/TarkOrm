@@ -16,10 +16,10 @@ namespace TarkOrm.NET.Tests
             Stopwatch watch = new Stopwatch();
             watch.Start();
 
-            var data = new TarkDataAccess("data source=PH03N1XR4V4N-PC\\DBLABS;initial catalog=MyPortal;persist security info=True;user id=app_login;password=ph03n1xr4v3n;MultipleActiveResultSets=True;App=TarkOrm.NET");
+            var tarkDataAcess = new TarkDataAccess("localhost");
 
             //data.GetAll<Country>();
-            data.Add<Country>(new Country
+            tarkDataAcess.Add<Country>(new Country
             {
                 CountryID = 247,
                 ContinentID = 1,
