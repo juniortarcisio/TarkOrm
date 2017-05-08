@@ -96,15 +96,16 @@ namespace TarkOrm.NET
                     if (i != keyValues.Count() - 1)
                         cmdFilter.Append("AND ");
 
+                    //Uses ADO Sql Parameters in order to avoid SQL Injection attacks
                     var dbParam = cmd.CreateParameter();
                     dbParam.ParameterName = $"@{ mappedKeys[i] }";
-                    //TODO: Fixing the keyValues into non-injection ado params, it may receive a string key, so it's a vulnerability....
                     dbParam.Value = keyValues[i];
 
                     cmd.Parameters.Add(dbParam);
                 }
 
                 cmd.CommandText = $"SELECT * FROM {tablePath} {cmdFilter.ToString()}";
+                //cmd.Parameters.Add()
                 cmd.CommandType = CommandType.Text;
 
                 using (IDataReader dr = cmd.ExecuteReader())
