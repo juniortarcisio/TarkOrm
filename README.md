@@ -1,5 +1,5 @@
 # TarkOrm.NET
-It's a Prototype of a simple micro ORM system inspired in Dapper, I'm slowly developing some ideas by myself. 
+It's a Prototype of a simple micro ORM system inspired in Dapper, I'm slowly developing some ideas by myself, anyone who'd like to contribute is welcome to share your own ideas, fork or pull a suggestion/fix/implementation/etc. 
 
 My meta is to make something more interesting than Dapper, since I think that some dapper interfaces doesn't sound natural or doesn't sound so natural as a repository.
 
@@ -16,12 +16,12 @@ These components are being used in the following usage examples
 #### Country Table
 ```sql
 CREATE TABLE [dbo].[Country](
-	[CountryID] [int] NOT NULL,
-	[CountryXpto] [varchar](2) NOT NULL,
-	[Name] [varchar](150) NOT NULL,
-	[ContinentID] [int] NOT NULL,
-	[FlagB64] [varchar](4000) NULL,
-	[CurrencyID] [int] NULL,
+    [CountryID] [int] NOT NULL,
+    [CountryXpto] [varchar](2) NOT NULL,
+    [Name] [varchar](150) NOT NULL,
+    [ContinentID] [int] NOT NULL,
+    [FlagB64] [varchar](4000) NULL,
+    [CurrencyID] [int] NULL,
 )
 ```
 
