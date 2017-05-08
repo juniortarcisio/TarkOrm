@@ -43,6 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="dustbin2.txt" />
+    <Compile Include="Attributes\IdentityAttribute.cs" />
     <Compile Include="TarkDataAccess.cs" />
     <Compile Include="Attributes\DatabaseAttribute.cs" />
     <Compile Include="Extensions\ConversionExtensions.cs" />

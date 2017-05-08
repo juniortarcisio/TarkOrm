@@ -87,7 +87,6 @@ namespace TarkOrm.NET
             using (IDbCommand cmd = _connection.CreateCommand())
             {
                 StringBuilder cmdFilter = new StringBuilder();
-                cmdFilter.Append("WHERE ");
                 
                 for (int i = 0; i < keyValues.Count(); i++)
                 {
@@ -104,8 +103,7 @@ namespace TarkOrm.NET
                     cmd.Parameters.Add(dbParam);
                 }
 
-                cmd.CommandText = $"SELECT * FROM {tablePath} {cmdFilter.ToString()}";
-                //cmd.Parameters.Add()
+                cmd.CommandText = $"SELECT * FROM {tablePath} WHERE {cmdFilter.ToString()}";
                 cmd.CommandType = CommandType.Text;
 
                 using (IDataReader dr = cmd.ExecuteReader())
@@ -117,6 +115,53 @@ namespace TarkOrm.NET
                     else
                         return default(T);
                 }
+            }
+        }
+
+        public virtual void Add<T>(T entity)
+        {
+            if (entity == null)
+                throw new ArgumentNullException("entity");
+
+            OpenConnection();
+
+            var tablePath = tarkQueryBuilder.GetMapperTablePath<T>();
+
+            using (IDbCommand cmd = _connection.CreateCommand())
+            {
+                StringBuilder cmdColumns = new StringBuilder();
+                StringBuilder cmdValues = new StringBuilder();
+
+                var properties = entity.GetType().GetProperties();
+
+                for (int i = 0; i < properties.Count(); i++)
+                {
+                    var columnName = properties[i].GetMappedColumnName();
+
+                    if (properties[i].IsIdentityColumn())
+                        continue;
+
+                    //Column name appending
+                    cmdColumns.Append(columnName);
+                    cmdValues.Append($"@{ columnName }");
+
+                    if (i != properties.Count() - 1)
+                    {
+                        cmdColumns.Append(", ");
+                        cmdValues.Append(", ");
+                    }
+                    
+                    //Uses ADO Sql Parameters in order to avoid SQL Injection attacks
+                    var dbParam = cmd.CreateParameter();
+                    dbParam.ParameterName = $"@{ columnName }";
+                    dbParam.Value = properties[i].GetValue(entity);
+
+                    cmd.Parameters.Add(dbParam);
+                }
+
+                cmd.CommandText = $"INSERT INTO {tablePath} ({cmdColumns.ToString()}) VALUES ({cmdValues.ToString()})";
+                cmd.CommandType = CommandType.Text;
+                cmd.ExecuteNonQuery();
             }
         }
 

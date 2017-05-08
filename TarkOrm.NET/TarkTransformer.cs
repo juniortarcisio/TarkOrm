@@ -21,8 +21,9 @@ namespace TarkOrm.NET
 
     public class TarkTransformer
     {
+        //TODO: Transform into a global singleton object which can map N entities
         private Dictionary<string, PropertyInfo> _mappedProperties;
-
+        
         /// <summary>
         /// Fill an object property according it's mapped column name
         /// </summary>

@@ -69,6 +69,7 @@
     <Compile Include="Benchmarks.cs" />
     <Compile Include="City.cs" />
     <Compile Include="Country.cs" />
+    <Compile Include="CrudTesting.cs" />
     <Compile Include="LambdaExpressionTests.cs" />
     <Compile Include="PrototypingCmdBuilder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

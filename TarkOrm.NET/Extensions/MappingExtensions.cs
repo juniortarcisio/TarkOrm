@@ -6,6 +6,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using TarkOrm.NET.Attributes;
 
 namespace TarkOrm.NET.Extensions
 {
@@ -24,6 +25,16 @@ namespace TarkOrm.NET.Extensions
                 return columnAttribute.Name;
             else
                 return property.Name;
+        }
+
+        public static bool IsIdentityColumn (this PropertyInfo property)
+        {
+            var identityAttribute = property.GetCustomAttribute<IdentityAttribute>();
+
+            if (identityAttribute == null)
+                return false;
+            else
+                return true;
         }
 
         /// <summary>
