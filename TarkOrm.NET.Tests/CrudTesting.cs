@@ -33,5 +33,21 @@ namespace TarkOrm.NET.Tests
             Debugger.Log(0, "", $"TarkORM Elapsed MS: {watch.ElapsedMilliseconds.ToString()}{Environment.NewLine}");
         }
 
+
+        [TestMethod]
+        public void Delete()
+        {
+            Stopwatch watch = new Stopwatch();
+            watch.Start();
+
+            var tarkDataAcess = new TarkDataAccess("localhost");
+
+            tarkDataAcess.RemoveById<Country>(247);
+
+            watch.Stop();
+
+            Debugger.Log(0, "", $"TarkORM Elapsed MS: {watch.ElapsedMilliseconds.ToString()}{Environment.NewLine}");
+        }
+
     }
 }
