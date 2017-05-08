@@ -73,7 +73,7 @@ Country country = tarkDataAcess.GetById<Country>(10);
 
 # First benchmarks 
 
-This benchmarks were done on a I7 4970k, 16gb ram and running SQL Server 2008 on a SSD Disk.
+This benchmarks were performed on a I7 4970k, 16gb ram and running SQL Server 2008 on a SSD Disk.
 
 ### Over 250 entities
 
