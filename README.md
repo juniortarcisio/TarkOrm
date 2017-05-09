@@ -17,7 +17,7 @@ These components are being used in the following usage examples
 ```sql
 CREATE TABLE [dbo].[Country](
     [CountryID] [int] NOT NULL,
-    [CountryXpto] [varchar](2) NOT NULL,
+    [CountryCode] [varchar](2) NOT NULL,
     [Name] [varchar](150) NOT NULL,
     [ContinentID] [int] NOT NULL,
     [FlagB64] [varchar](4000) NULL,
@@ -32,7 +32,7 @@ public class Country
     [Key]        
     public int CountryID { get; set; }
   
-    [Column("CountryXpto")]
+    [Column("CountryCode")] /*Optional*/
     public string CountryCode { get; set; }
   
     public string Name { get; set; }
@@ -83,7 +83,7 @@ Example of usage:
 ```csharp
 TarkDataAccess tarkDataAcess = new TarkDataAccess("connectionStringName");
 
-tarkDataAcess.Add<Country>(new Country
+tarkDataAcess.Add(new Country
 {
     CountryID = 247,
     ContinentID = 1,
@@ -99,6 +99,32 @@ Result
 ![alt tag](https://github.com/juniortarcisio/TarkOrm.NET/blob/master/unitTestInsert.png?raw=true)
 
 
+### Updating an item from a mapped entity
+
+```csharp
+public virtual void Update<T>(T entity)
+```
+
+
+```csharp
+TarkDataAccess tarkDataAcess = new TarkDataAccess("localhost");
+
+Country country = tarkDataAcess.GetById<Country>(247);
+country.Name = "Testing Country Update2";
+country.ContinentID = 3;
+country.CountryCode = "XX";
+country.CurrencyID = 3;
+country.FlagB64 = "nd";
+tarkDataAcess.Update(country);
+```
+
+Result
+
+![alt tag](https://github.com/juniortarcisio/TarkOrm.NET/blob/master/unitTestUpdate.png?raw=true)
+
+
+
+
 ### Deleting an item from a mapped entity
 
 
@@ -112,6 +138,7 @@ Example of usage:
 TarkDataAccess tarkDataAcess = new TarkDataAccess("connectionStringName");
 tarkDataAcess.RemoveById<Country>(247);
 ```
+
 
 
 # First benchmarks 
