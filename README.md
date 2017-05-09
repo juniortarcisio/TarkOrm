@@ -1,7 +1,7 @@
 # TarkOrm.NET
 It's a Prototype of a simple micro ORM system inspired in Dapper, I'm slowly developing some ideas by myself, anyone who'd like to contribute is welcome to share your own ideas, fork or pull a suggestion/fix/implementation/etc. 
 
-My meta is to make something more interesting than Dapper, since I think that some dapper interfaces doesn't sound natural or doesn't sound so natural as a repository.
+My meta is to make something more interesting than Dapper, since I think that some dapper interfaces doesn't sound natural or doesn't looks like a repository.
 
 My meta is also including some automatic basic queries through the entities and some basic extensible repository ideas, let's see where will it take us.
 
@@ -9,7 +9,6 @@ It can be mapped using DataAnnotation.Schema attributes and I hope I'm going to 
 
 #### Do not consider it as release version, I still expect to refector it some times till it get in a good shape.
 
-.
 
 # Methods
 
@@ -47,8 +46,6 @@ public class Country
 }   
 ```
 
-.
-
 ## Querying a list from a mapped entity
 
 ```csharp
@@ -66,7 +63,6 @@ Result
 
 ![alt tag](https://github.com/juniortarcisio/TarkOrm.NET/blob/master/unitTestGetAll.png?raw=true)
 
-.
 
 ## Selecting an item from a mapped entity
 
@@ -85,7 +81,6 @@ Result
 
 ![alt tag](https://github.com/juniortarcisio/TarkOrm.NET/blob/master/unitTestGetById.png?raw=true)
 
-.
 
 ## Inserting an item from a mapped entity
 
@@ -113,7 +108,6 @@ Result
 
 ![alt tag](https://github.com/juniortarcisio/TarkOrm.NET/blob/master/unitTestInsert.png?raw=true)
 
-.
 
 ## Updating an item from a mapped entity
 
@@ -138,7 +132,6 @@ Result
 
 ![alt tag](https://github.com/juniortarcisio/TarkOrm.NET/blob/master/unitTestUpdate.png?raw=true)
 
-.
 
 ## Deleting an item from a mapped entity
 
@@ -154,7 +147,6 @@ TarkDataAccess tarkDataAcess = new TarkDataAccess("connectionStringName");
 tarkDataAcess.RemoveById<Country>(247);
 ```
 
-.
 
 # First benchmarks 
 
