@@ -45,7 +45,7 @@ public class Country
 }   
 ```
 
-### Querying a list from a mapped entity
+## Querying a list from a mapped entity
 
 ```csharp
 public virtual IEnumerable<T> GetAll<T>
@@ -58,7 +58,11 @@ TarkDataAccess tarkDataAcess = new TarkDataAccess("connectionStringName");
 IEnumerable<Country> lista = tarkDataAcess.GetAll<Country>();
 ```
 
-### Selecting an item from a mapped entity
+Result
+
+![alt tag](https://github.com/juniortarcisio/TarkOrm.NET/blob/master/unitTestGetAll.png?raw=true)
+
+## Selecting an item from a mapped entity
 
 ```csharp
 public virtual T GetById<T>(params object[] keyValues)
@@ -71,8 +75,12 @@ TarkDataAccess tarkDataAcess = new TarkDataAccess("connectionStringName");
 Country country = tarkDataAcess.GetById<Country>(10);
 ```
 
+Result
 
-### Inserting an item from a mapped entity
+![alt tag](https://github.com/juniortarcisio/TarkOrm.NET/blob/master/unitTestGetById.png?raw=true)
+
+
+## Inserting an item from a mapped entity
 
 ```csharp
 public virtual void Add<T>(T entity)
@@ -99,7 +107,7 @@ Result
 ![alt tag](https://github.com/juniortarcisio/TarkOrm.NET/blob/master/unitTestInsert.png?raw=true)
 
 
-### Updating an item from a mapped entity
+## Updating an item from a mapped entity
 
 ```csharp
 public virtual void Update<T>(T entity)
@@ -125,7 +133,7 @@ Result
 
 
 
-### Deleting an item from a mapped entity
+## Deleting an item from a mapped entity
 
 
 ```csharp
