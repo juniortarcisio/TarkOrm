@@ -9,6 +9,8 @@ It can be mapped using DataAnnotation.Schema attributes and I hope I'm going to 
 
 #### Do not consider it as release version, I still expect to refector it some times till it get in a good shape.
 
+.
+
 # Methods
 
 These components are being used in the following usage examples
@@ -45,6 +47,8 @@ public class Country
 }   
 ```
 
+.
+
 ## Querying a list from a mapped entity
 
 ```csharp
@@ -61,6 +65,8 @@ IEnumerable<Country> lista = tarkDataAcess.GetAll<Country>();
 Result
 
 ![alt tag](https://github.com/juniortarcisio/TarkOrm.NET/blob/master/unitTestGetAll.png?raw=true)
+
+.
 
 ## Selecting an item from a mapped entity
 
@@ -79,6 +85,7 @@ Result
 
 ![alt tag](https://github.com/juniortarcisio/TarkOrm.NET/blob/master/unitTestGetById.png?raw=true)
 
+.
 
 ## Inserting an item from a mapped entity
 
@@ -106,6 +113,7 @@ Result
 
 ![alt tag](https://github.com/juniortarcisio/TarkOrm.NET/blob/master/unitTestInsert.png?raw=true)
 
+.
 
 ## Updating an item from a mapped entity
 
@@ -130,8 +138,7 @@ Result
 
 ![alt tag](https://github.com/juniortarcisio/TarkOrm.NET/blob/master/unitTestUpdate.png?raw=true)
 
-
-
+.
 
 ## Deleting an item from a mapped entity
 
@@ -147,7 +154,7 @@ TarkDataAccess tarkDataAcess = new TarkDataAccess("connectionStringName");
 tarkDataAcess.RemoveById<Country>(247);
 ```
 
-
+.
 
 # First benchmarks 
 
