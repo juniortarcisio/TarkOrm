@@ -86,6 +86,8 @@ namespace TarkOrm.NET
 
             var finalObject = (T)Activator.CreateInstance(typeT, new object[] { });
 
+            _mappedProperties = new Dictionary<string, PropertyInfo>();
+
             for (int i = 0; i < dr.Table.Columns.Count; i++)
             {
                 SetPropertyValue(finalObject, dr.Table.Columns[i].ColumnName, dr[i]);
@@ -104,6 +106,8 @@ namespace TarkOrm.NET
             Type typeT = typeof(T);
 
             var finalObject = (T)Activator.CreateInstance(typeT);
+
+            _mappedProperties = new Dictionary<string, PropertyInfo>();
 
             for (int i = 0; i < dr.FieldCount; i++)
             {

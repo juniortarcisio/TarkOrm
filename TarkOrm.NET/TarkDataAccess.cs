@@ -201,6 +201,66 @@ namespace TarkOrm.NET
             }
         }
 
+        public virtual void Update<T>(T entity)
+        {
+            if (entity == null)
+                throw new ArgumentNullException("entity");
+
+            OpenConnection();
+
+            var tablePath = tarkQueryBuilder.GetMapperTablePath<T>();
+
+            using (IDbCommand cmd = _connection.CreateCommand())
+            {
+                StringBuilder cmdUpdate = new StringBuilder();
+                StringBuilder cmdKeys = new StringBuilder();
+
+                var properties = entity.GetType().GetProperties();
+                var propertiesKey = properties.Where(x => x.IsKeyColumn()).ToArray();
+                var propertiesNonKey = properties.Where(x=> !x.IsKeyColumn()).ToArray();
+
+                for (int i = 0; i < propertiesNonKey.Count(); i++)
+                {
+                    var columnName = propertiesNonKey[i].GetMappedColumnName();
+
+                    //Column name appending
+                    cmdUpdate.Append($"{columnName} = @{ columnName }");
+
+                    if (i != propertiesNonKey.Count() - 1)
+                        cmdUpdate.Append(", ");
+
+                    //Uses ADO Sql Parameters in order to avoid SQL Injection attacks
+                    var dbParam = cmd.CreateParameter();
+                    dbParam.ParameterName = $"@{ columnName }";
+                    dbParam.Value = propertiesNonKey[i].GetValue(entity);
+
+                    cmd.Parameters.Add(dbParam);
+                }
+
+                for (int i = 0; i < propertiesKey.Count(); i++)
+                {
+                    var columnName = propertiesKey[i].GetMappedColumnName();
+
+                    //Keys appending
+                    cmdKeys.Append($"{columnName} = @{ columnName }");
+
+                    if (i != propertiesKey.Count() - 1)
+                        cmdUpdate.Append(", ");
+
+                    //Uses ADO Sql Parameters in order to avoid SQL Injection attacks
+                    var dbParam = cmd.CreateParameter();
+                    dbParam.ParameterName = $"@{ columnName }";
+                    dbParam.Value = propertiesKey[i].GetValue(entity);
+
+                    cmd.Parameters.Add(dbParam);
+                }
+
+                cmd.CommandText = $"UPDATE {tablePath} SET {cmdUpdate.ToString()} WHERE {cmdKeys.ToString()}";
+                cmd.CommandType = CommandType.Text;
+                cmd.ExecuteNonQuery();
+            }
+        }
+        
         public void Dispose()
         {
             if (_connection.State != ConnectionState.Open)

@@ -27,6 +27,16 @@ namespace TarkOrm.NET.Extensions
                 return property.Name;
         }
 
+        public static bool IsKeyColumn(this PropertyInfo property)
+        {
+            var identityAttribute = property.GetCustomAttribute<KeyAttribute>();
+
+            if (identityAttribute == null)
+                return false;
+            else
+                return true;
+        }
+
         public static bool IsIdentityColumn (this PropertyInfo property)
         {
             var identityAttribute = property.GetCustomAttribute<IdentityAttribute>();

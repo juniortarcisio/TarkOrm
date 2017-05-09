@@ -18,7 +18,7 @@ namespace TarkOrm.NET.Tests
 
             var tarkDataAcess = new TarkDataAccess("localhost");
 
-            tarkDataAcess.Add<Country>(new Country
+            tarkDataAcess.Add(new Country
             {
                 CountryID = 247,
                 ContinentID = 1,
@@ -27,6 +27,29 @@ namespace TarkOrm.NET.Tests
                 FlagB64 = "",
                 Name = "Testing Country"
             });
+
+            watch.Stop();
+
+            Debugger.Log(0, "", $"TarkORM Elapsed MS: {watch.ElapsedMilliseconds.ToString()}{Environment.NewLine}");
+        }
+
+
+        
+        [TestMethod]
+        public void Update()
+        {
+            Stopwatch watch = new Stopwatch();
+            watch.Start();
+
+            var tarkDataAcess = new TarkDataAccess("localhost");
+
+            var country = tarkDataAcess.GetById<Country>(247);
+            country.Name = "Testing Country Update2";
+            country.ContinentID = 3;
+            country.CountryCode = "XX";
+            country.CurrencyID = 3;
+            country.FlagB64 = "nd";
+            tarkDataAcess.Update(country);
 
             watch.Stop();
 
