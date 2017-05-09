@@ -71,6 +71,49 @@ TarkDataAccess tarkDataAcess = new TarkDataAccess("connectionStringName");
 Country country = tarkDataAcess.GetById<Country>(10);
 ```
 
+
+### Inserting an item from a mapped entity
+
+```csharp
+public virtual void Add<T>(T entity)
+```
+
+Example of usage:
+
+```csharp
+TarkDataAccess tarkDataAcess = new TarkDataAccess("connectionStringName");
+
+tarkDataAcess.Add<Country>(new Country
+{
+    CountryID = 247,
+    ContinentID = 1,
+    CountryCode = "ND",
+    CurrencyID = 1,
+    FlagB64 = "",
+    Name = "Testing Country"
+});
+```
+
+Result
+
+![alt tag](https://github.com/juniortarcisio/TarkOrm.NET/blob/master/unitTestInsert.png?raw=true)
+
+
+### Deleting an item from a mapped entity
+
+
+```csharp
+public virtual void RemoveById<T>(params object[] keyValues)
+```
+
+Example of usage:
+
+```csharp
+TarkDataAccess tarkDataAcess = new TarkDataAccess("connectionStringName");
+tarkDataAcess.RemoveById<Country>(247);
+```
+
+
 # First benchmarks 
 
 This benchmarks were performed on a I7 4970k, 16gb ram and running SQL Server 2008 on a SSD Disk.
