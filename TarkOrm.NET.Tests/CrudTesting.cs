@@ -11,7 +11,7 @@ namespace TarkOrm.NET.Tests
     public class CrudTesting
     {
         [TestMethod]
-        public void Insert()
+        public void Create()
         {
             Stopwatch watch = new Stopwatch();
             watch.Start();
@@ -34,7 +34,23 @@ namespace TarkOrm.NET.Tests
         }
 
 
-        
+        [TestMethod]
+        public void Read()
+        {
+            Stopwatch watch = new Stopwatch();
+            watch.Start();
+
+            var tarkDataAcess = new TarkDataAccess("localhost");
+            var countryList = tarkDataAcess.GetAll<Country>();
+            var country = tarkDataAcess.GetById<Country>(30);
+
+
+            watch.Stop();
+
+            Debugger.Log(0, "", $"TarkORM Elapsed MS: {watch.ElapsedMilliseconds.ToString()}{Environment.NewLine}");
+        }
+
+
         [TestMethod]
         public void Update()
         {
