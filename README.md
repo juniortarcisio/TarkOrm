@@ -82,6 +82,19 @@ Result
 ![alt tag](https://github.com/juniortarcisio/TarkOrm.NET/blob/master/unitTestGetById.png?raw=true)
 
 
+## Querying on a IDbConnection using extension methods (as Dapper)
+
+```csharp
+public static T GetById<T>(this IDbConnection connection, params object[] keyValues)
+```
+
+Example of usage:
+
+```csharp
+string connectionString = ConfigurationManager.ConnectionStrings["localhost"].ConnectionString;
+SqlConnection connection = new SqlConnection(connectionString);
+Country country = connection.GetById<Country>(246);
+```
 
 ## Querying using table hints in a Fluent API (prototype)
 
@@ -94,7 +107,8 @@ public static TarkDataAccess WithTableHint(this IDbConnection connection, string
 Example of usage:
 
 ```csharp
-SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["localhost"].ConnectionString);
+string connectionString = ConfigurationManager.ConnectionStrings["localhost"].ConnectionString;
+SqlConnection connection = new SqlConnection(connectionString);
 Country country = connection.WithTableHint(TableHints.SQLServer.NOLOCK).GetById<Country>(246);
 ```
 
