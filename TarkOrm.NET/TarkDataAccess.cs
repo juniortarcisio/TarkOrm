@@ -18,8 +18,8 @@ namespace TarkOrm.NET
     public partial class TarkDataAccess : IDisposable
     {
         public readonly IDbConnection _connection;
-        private TarkQueryBuilder tarkQueryBuilder = new TarkQueryBuilder();
-        private TarkTransformer tarkTransformer = new TarkTransformer();
+        public TarkQueryBuilder QueryBuilder = new TarkQueryBuilder();
+        public TarkTransformer Transformer = new TarkTransformer();
 
         /// <summary>
         /// </summary>
@@ -59,7 +59,7 @@ namespace TarkOrm.NET
         {
             OpenConnection();
 
-            var tablePath = tarkQueryBuilder.GetMapperTablePath<T>();
+            var tablePath = QueryBuilder.GetMapperTablePath<T>();
 
             using (IDbCommand cmd = _connection.CreateCommand())
             {
@@ -68,7 +68,7 @@ namespace TarkOrm.NET
 
                 using (IDataReader dr = cmd.ExecuteReader())
                 {
-                    return tarkTransformer.ToList<T>(dr);
+                    return Transformer.ToList<T>(dr);
                 }
             }
         }
@@ -78,7 +78,7 @@ namespace TarkOrm.NET
             OpenConnection();
 
             var type = typeof(T);
-            var tablePath = tarkQueryBuilder.GetMapperTablePath<T>();
+            var tablePath = QueryBuilder.GetMapperTablePath<T>();
             var mappedKeys = type.GetMappedOrderedKeys();
 
             if (keyValues.Count() == 0 || mappedKeys.Count() != keyValues.Length)
@@ -110,7 +110,7 @@ namespace TarkOrm.NET
                 {
                     if (dr.Read())
                     {
-                        return tarkTransformer.CreateObject<T>(dr);
+                        return Transformer.CreateObject<T>(dr);
                     }
                     else
                         return default(T);
@@ -125,7 +125,7 @@ namespace TarkOrm.NET
 
             OpenConnection();
 
-            var tablePath = tarkQueryBuilder.GetMapperTablePath<T>();
+            var tablePath = QueryBuilder.GetMapperTablePath<T>();
 
             using (IDbCommand cmd = _connection.CreateCommand())
             {
@@ -170,7 +170,7 @@ namespace TarkOrm.NET
             OpenConnection();
 
             var type = typeof(T);
-            var tablePath = tarkQueryBuilder.GetMapperTablePath<T>();
+            var tablePath = QueryBuilder.GetMapperTablePath<T>();
             var mappedKeys = type.GetMappedOrderedKeys();
 
             if (keyValues.Count() == 0 || mappedKeys.Count() != keyValues.Length)
@@ -208,7 +208,7 @@ namespace TarkOrm.NET
 
             OpenConnection();
 
-            var tablePath = tarkQueryBuilder.GetMapperTablePath<T>();
+            var tablePath = QueryBuilder.GetMapperTablePath<T>();
 
             using (IDbCommand cmd = _connection.CreateCommand())
             {
@@ -265,8 +265,6 @@ namespace TarkOrm.NET
         {
             if (_connection.State != ConnectionState.Open)
                 _connection.Close();
-
-            _connection.Dispose();
         }
     }    
 }

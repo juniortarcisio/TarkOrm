@@ -50,6 +50,7 @@
     <Compile Include="Extensions\Extensions.cs" />
     <Compile Include="Extensions\MappingExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TarkDataExtensions.cs" />
     <Compile Include="TarkQueryBuilder.cs" />
     <Compile Include="TarkTransformer.cs" />
   </ItemGroup>

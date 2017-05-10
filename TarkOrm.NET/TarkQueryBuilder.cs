@@ -17,6 +17,8 @@ namespace TarkOrm.NET
     // - Receiving a DataReader
     public partial class TarkQueryBuilder
     {
+        public string TableHint;
+        
         public string GetMapperTablePath<T>()
         {
             Type type = typeof(T);
@@ -46,11 +48,11 @@ namespace TarkOrm.NET
 
             if (!String.IsNullOrWhiteSpace(databaseName))
             {
-                return String.Format("{0}.{1}.{2}", databaseName, schema, tableName);
+                return String.Format("{0}.{1}.{2} {3}", databaseName, schema, tableName, TableHint);
             }
             else
             {
-                return String.Format("{0}.{1}", schema, tableName);
+                return String.Format("{0}.{1} {2}", schema, tableName, TableHint);
             }
         }
 
@@ -98,4 +100,16 @@ namespace TarkOrm.NET
             }
         }
     }
+
+    public static class TableHints
+    {        
+        public static class SQLServer
+        {
+            public static string NOLOCK = "WITH(NOLOCK)";
+        }
+    }
+    //public struct TableHintsSQLServer 
+    //{
+    //    string NOLOCK = ""
+    //}
 }
