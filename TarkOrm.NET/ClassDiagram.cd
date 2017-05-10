@@ -1,0 +1,70 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="TarkOrm.NET.TarkDataAccess">
+    <Position X="0.5" Y="0.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAYAAAAAACAAAhAAAAAAAAAAAQAAAAAAAgACAAAABIA=</HashCode>
+      <FileName>TarkDataAccess.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="tarkQueryBuilder" />
+      <Field Name="tarkTransformer" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="TarkOrm.NET.TarkQueryBuilder">
+    <Position X="4.25" Y="2.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAIAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>TarkQueryBuilder.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TarkOrm.NET.TarkTransformer">
+    <Position X="4.25" Y="0.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAgEAAAgCAAAAAAA=</HashCode>
+      <FileName>TarkTransformer.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TarkOrm.NET.Attributes.DatabaseAttribute">
+    <Position X="7.5" Y="1.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAgAAAAA=</HashCode>
+      <FileName>Attributes\DatabaseAttribute.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="System.Attribute" Collapsed="true">
+    <Position X="8.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="TarkOrm.NET.Attributes.IdentityAttribute">
+    <Position X="9.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Attributes\IdentityAttribute.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TarkOrm.NET.Extensions.ConversionExtensions">
+    <Position X="0.5" Y="5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Extensions\ConversionExtensions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TarkOrm.NET.Extensions.Extensions">
+    <Position X="0.5" Y="6.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAIAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Extensions\Extensions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TarkOrm.NET.Extensions.MappingExtensions">
+    <Position X="2.75" Y="5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAACAAAAAAAAAAABAAAAAAACAIAAAAAAAAAAAQAAA=</HashCode>
+      <FileName>Extensions\MappingExtensions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
