@@ -82,6 +82,28 @@ Result
 ![alt tag](https://github.com/juniortarcisio/TarkOrm.NET/blob/master/unitTestGetById.png?raw=true)
 
 
+
+## Querying using table hints in a Fluent API (prototype)
+
+It's avaliable on the extension methods for IDbConnection, it allows to use table prefabs table hints or string table hints as indexes and others.
+
+```csharp
+public static TarkDataAccess WithTableHint(this IDbConnection connection, string tableHint)
+```
+
+Example of usage:
+
+```csharp
+SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["localhost"].ConnectionString);
+Country country = connection.WithTableHint(TableHints.SQLServer.NOLOCK).GetById<Country>(246);
+```
+
+Resulting query
+
+```SQL
+SELECT * FROM dbo.Country WITH(NOLOCK) WHERE CountryID = @CountryID 
+```
+
 ## Inserting an item from a mapped entity
 
 ```csharp
