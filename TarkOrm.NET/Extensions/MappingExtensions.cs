@@ -12,6 +12,18 @@ namespace TarkOrm.NET.Extensions
 {
     public static class MappingExtensions
     {
+        public static TarkTransformer TarkTransformer
+        {
+            get
+            {
+                throw new System.NotImplementedException();
+            }
+
+            set
+            {
+            }
+        }
+
         /// <summary>
         /// Returns the Name of the column which the property is mapped to.
         /// If it uses ColumnAttribute it will returns the columnName or else it will returns the self property name.

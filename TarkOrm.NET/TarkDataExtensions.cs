@@ -9,11 +9,15 @@ namespace TarkOrm.NET
 {
     public static class TarkDataExtensions
     {
-        public static IEnumerable<T> GetAll<T>(this IDbConnection connection)
+        public static TarkDataAccess TarkDataAccess
         {
-            using (var dataAccess = new TarkDataAccess(connection))
+            get
             {
-                return dataAccess.GetAll<T>();
+                throw new System.NotImplementedException();
+            }
+
+            set
+            {
             }
         }
 
@@ -23,23 +27,14 @@ namespace TarkOrm.NET
             dataAccess.QueryBuilder.TableHint = tableHint;
             return dataAccess;
         }
-        //public static IEnumerable<T> GetAll<T>(this IDbConnection connection, string TableHint)
-        //{
-        //    using (var dataAcess = new TarkDataAccess(connection))
-        //    {
-        //        dataAcess.QueryBuilder.TableHint = TableHint;
-        //        return dataAcess.GetAll<T>();
-        //    }
-        //}
 
-        //public static T GetById<T>(this IDbConnection connection, string TableHint, params object[] keyValues)
-        //{
-        //    using (var dataAcess = new TarkDataAccess(connection))
-        //    {
-        //        dataAcess.QueryBuilder.TableHint = TableHint;
-        //        return dataAcess.GetById<T>(keyValues);
-        //    }
-        //}
+        public static IEnumerable<T> GetAll<T>(this IDbConnection connection)
+        {
+            using (var dataAccess = new TarkDataAccess(connection))
+            {
+                return dataAccess.GetAll<T>();
+            }
+        }
 
         public static T GetById<T>(this IDbConnection connection, params object[] keyValues)
         {
@@ -57,6 +52,22 @@ namespace TarkOrm.NET
             }
         }
 
+        public static void Update<T>(this IDbConnection connection, T entity)
+        {
+            using (var dataAccess = new TarkDataAccess(connection))
+            {
+                dataAccess.Update<T>(entity);
+            }
+        }
+
+        public static void Remove<T>(this IDbConnection connection, T entity)
+        {
+            using (var dataAccess = new TarkDataAccess(connection))
+            {
+                dataAccess.Remove<T>(entity);
+            }
+        }
+
         public static void RemoveById<T>(this IDbConnection connection, params object[] keyValues)
         {
             using (var dataAccess = new TarkDataAccess(connection))
@@ -65,12 +76,13 @@ namespace TarkOrm.NET
             }
         }
 
-        public static void Update<T>(this IDbConnection connection, T entity)
+        public static TarkQueryBuilderMocker GetMockCommand(this IDbConnection connection)
         {
             using (var dataAccess = new TarkDataAccess(connection))
             {
-                dataAccess.Update<T>(entity);
+                return dataAccess.QueryBuilder.GetMockCommand();
             }
         }
+
     }
 }

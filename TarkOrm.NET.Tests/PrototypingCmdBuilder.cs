@@ -18,7 +18,7 @@ namespace TarkOrm.NET.Tests
 
             var lista = data.GetAll<Country>();
             
-            var item = data.GetById<Country>(10, "AR");
+            //var item = data.GetById<Country>(10, "AR");
 
             //Creates a Where function that receives a lambda
             // the returns of lambda is a field / field property
@@ -31,19 +31,19 @@ namespace TarkOrm.NET.Tests
             //var filtered = data.Where(x => x.field.property???, value).Execute();
 
             //var filtered = data.Where("colname", value) (?)
-            var a = new Country();
+            //var a = new Country();
                         
-            //var filtered = data.Where<Country>(1).Execute();
+            ////var filtered = data.Where<Country>(1).Execute();
 
-            //var rowsAffected data.Insert(new country...);
-            del x = ((y) => 1 * 2);
+            ////var rowsAffected data.Insert(new country...);
+            //del x = ((y) => 1 * 2);
 
-            //var x = () => 1.ToString();
-            Func<int, bool> myfunc = (q => q == 6);
+            ////var x = () => 1.ToString();
+            //Func<int, bool> myfunc = (q => q == 6);
 
-            Func<int, string> myfunc2 = (q => q.ToString());
+            //Func<int, string> myfunc2 = (q => q.ToString());
 
-            //Commands stack before executing? .Execute?
+            ////Commands stack before executing? .Execute?
 
             //var xpto = GetPropertyInfo(item, w => w.Name);
         }

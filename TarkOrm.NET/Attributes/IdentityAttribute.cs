@@ -11,5 +11,17 @@ namespace TarkOrm.NET.Attributes
         public IdentityAttribute()
         {
         }
+
+        public TarkQueryBuilder TarkQueryBuilder
+        {
+            get
+            {
+                throw new System.NotImplementedException();
+            }
+
+            set
+            {
+            }
+        }
     }
 }

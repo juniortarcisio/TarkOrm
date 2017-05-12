@@ -8,6 +8,17 @@ namespace TarkOrm.NET.Extensions
 {
     public static class ConversionExtensions
     {
+        public static TarkTransformer TarkTransformer
+        {
+            get
+            {
+                throw new System.NotImplementedException();
+            }
+
+            set
+            {
+            }
+        }
 
         /// <summary>
         /// Try to converts the value into another type

@@ -18,8 +18,10 @@ namespace TarkOrm.NET
     public partial class TarkDataAccess : IDisposable
     {
         public readonly IDbConnection _connection;
-        public TarkQueryBuilder QueryBuilder = new TarkQueryBuilder();
-        public TarkTransformer Transformer = new TarkTransformer();
+        public TarkQueryBuilder QueryBuilder { get; set; }
+        public TarkTransformer Transformer { get; set; }
+        public IDbCommand MockCommand { get; set; }
+        public bool MockEnabled { get; set; }
 
         /// <summary>
         /// </summary>
@@ -30,7 +32,9 @@ namespace TarkOrm.NET
                 throw new ArgumentNullException("connection");
 
             _connection = connection;
-        }
+            QueryBuilder = new TarkQueryBuilder(this);
+            Transformer = new TarkTransformer();
+    }
 
         /// <summary>
         /// </summary>
@@ -42,6 +46,8 @@ namespace TarkOrm.NET
                 nameOrConnectionString = connectionSetting.ConnectionString;
 
             _connection = new System.Data.SqlClient.SqlConnection(nameOrConnectionString);
+            QueryBuilder = new TarkQueryBuilder(this);
+            Transformer = new TarkTransformer();
         }
 
         private void OpenConnection()
@@ -55,6 +61,23 @@ namespace TarkOrm.NET
             }
         }
 
+        protected bool IsMockCommand(IDbCommand cmd)
+        {
+            if (MockEnabled)
+            {
+                MockCommand = cmd;
+                return true;
+            }
+            else {
+                if (MockCommand != null)
+                {
+                    MockCommand = null;
+                    //mockCommand.Dispose();
+                }
+                return false;
+            }
+        }
+
         public virtual IEnumerable<T> GetAll<T>()
         {
             OpenConnection();
@@ -65,6 +88,9 @@ namespace TarkOrm.NET
             {
                 cmd.CommandText = $"SELECT * FROM {tablePath}";
                 cmd.CommandType = CommandType.Text;
+
+                if (IsMockCommand(cmd))
+                    return null;
 
                 using (IDataReader dr = cmd.ExecuteReader())
                 {
@@ -105,6 +131,9 @@ namespace TarkOrm.NET
 
                 cmd.CommandText = $"SELECT * FROM {tablePath} WHERE {cmdFilter.ToString()}";
                 cmd.CommandType = CommandType.Text;
+
+                if (IsMockCommand(cmd))
+                    return default(T);
 
                 using (IDataReader dr = cmd.ExecuteReader())
                 {
@@ -161,10 +190,57 @@ namespace TarkOrm.NET
 
                 cmd.CommandText = $"INSERT INTO {tablePath} ({cmdColumns.ToString()}) VALUES ({cmdValues.ToString()})";
                 cmd.CommandType = CommandType.Text;
+
+                if (IsMockCommand(cmd))
+                    return;
+
                 cmd.ExecuteNonQuery();
             }
         }
         
+        public virtual void Remove<T>(T entity)
+        {
+            if (entity == null)
+                throw new ArgumentNullException("entity");
+
+            OpenConnection();
+
+            var type = typeof(T);
+            var tablePath = QueryBuilder.GetMapperTablePath<T>();
+
+            var propertiesKey = type.GetProperties().Where(x => x.IsKeyColumn()).ToArray();
+            StringBuilder cmdKeys = new StringBuilder();
+
+            using (IDbCommand cmd = _connection.CreateCommand())
+            {
+                for (int i = 0; i < propertiesKey.Count(); i++)
+                {
+                    var columnName = propertiesKey[i].GetMappedColumnName();
+
+                    //Keys appending
+                    cmdKeys.Append($"{columnName} = @{ columnName }");
+
+                    if (i != propertiesKey.Count() - 1)
+                        cmdKeys.Append(", ");
+
+                    //Uses ADO Sql Parameters in order to avoid SQL Injection attacks
+                    var dbParam = cmd.CreateParameter();
+                    dbParam.ParameterName = $"@{ columnName }";
+                    dbParam.Value = propertiesKey[i].GetValue(entity);
+
+                    cmd.Parameters.Add(dbParam);
+                }
+
+                cmd.CommandText = $"DELETE {tablePath} WHERE {cmdKeys.ToString()}";
+                cmd.CommandType = CommandType.Text;
+
+                if (IsMockCommand(cmd))
+                    return;
+
+                cmd.ExecuteNonQuery();
+            }
+        }
+
         public virtual void RemoveById<T>(params object[] keyValues)
         {
             OpenConnection();
@@ -197,6 +273,10 @@ namespace TarkOrm.NET
 
                 cmd.CommandText = $"DELETE {tablePath} WHERE {cmdFilter.ToString()}";
                 cmd.CommandType = CommandType.Text;
+
+                if (IsMockCommand(cmd))
+                    return;
+
                 cmd.ExecuteNonQuery();
             }
         }
@@ -245,7 +325,7 @@ namespace TarkOrm.NET
                     cmdKeys.Append($"{columnName} = @{ columnName }");
 
                     if (i != propertiesKey.Count() - 1)
-                        cmdUpdate.Append(", ");
+                        cmdKeys.Append(", ");
 
                     //Uses ADO Sql Parameters in order to avoid SQL Injection attacks
                     var dbParam = cmd.CreateParameter();
@@ -257,6 +337,10 @@ namespace TarkOrm.NET
 
                 cmd.CommandText = $"UPDATE {tablePath} SET {cmdUpdate.ToString()} WHERE {cmdKeys.ToString()}";
                 cmd.CommandType = CommandType.Text;
+
+                if (IsMockCommand(cmd))
+                    return;
+
                 cmd.ExecuteNonQuery();
             }
         }

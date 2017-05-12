@@ -12,6 +12,18 @@ namespace TarkOrm.NET.Attributes
 
         public string Server { get; set; }
 
+        public TarkQueryBuilder TarkQueryBuilder
+        {
+            get
+            {
+                throw new System.NotImplementedException();
+            }
+
+            set
+            {
+            }
+        }
+
         /// <summary>
         /// Constructor
         /// </summary>

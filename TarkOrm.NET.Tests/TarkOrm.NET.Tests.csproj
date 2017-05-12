@@ -75,6 +75,7 @@
     <Compile Include="PrototypingCmdBuilder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TableHintTests.cs" />
+    <Compile Include="TarkQueryBuilderMockerTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TarkOrm.NET\TarkOrm.NET.csproj">

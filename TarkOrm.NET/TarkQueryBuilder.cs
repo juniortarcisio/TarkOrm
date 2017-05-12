@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Data;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -17,6 +18,18 @@ namespace TarkOrm.NET
     // - Receiving a DataReader
     public partial class TarkQueryBuilder
     {
+        public TarkDataAccess _tarkDataAccess;
+
+        public TarkQueryBuilder(TarkDataAccess tarkDataAccess)
+        {
+            _tarkDataAccess = tarkDataAccess;
+        }
+
+        public TarkQueryBuilderMocker GetMockCommand()
+        {
+            return new TarkQueryBuilderMocker(_tarkDataAccess);
+        }
+
         public string TableHint;
         
         public string GetMapperTablePath<T>()
@@ -101,6 +114,59 @@ namespace TarkOrm.NET
         }
     }
 
+    public class TarkQueryBuilderMocker
+    {
+        public TarkDataAccess _tarkDataAccess;
+
+        public TarkQueryBuilderMocker(TarkDataAccess tarkDataAccess)
+        {
+            _tarkDataAccess = tarkDataAccess;
+        }
+
+        public IDbCommand GetById<T>(params object[] keyValues)
+        {
+            _tarkDataAccess.MockEnabled = true;
+            _tarkDataAccess.GetById<T>(keyValues);
+            return _tarkDataAccess.MockCommand;
+        }
+
+        public IDbCommand GetAll<T>()
+        {
+            _tarkDataAccess.MockEnabled = true;
+            _tarkDataAccess.GetAll<T>();
+            return _tarkDataAccess.MockCommand;
+        }
+
+        public IDbCommand Add<T>(T entity)
+        {
+            _tarkDataAccess.MockEnabled = true;
+            _tarkDataAccess.Add(entity);
+            return _tarkDataAccess.MockCommand;
+        }
+
+        public IDbCommand Update<T>(T entity)
+        {
+            _tarkDataAccess.MockEnabled = true;
+            _tarkDataAccess.Update(entity);
+            return _tarkDataAccess.MockCommand;
+        }
+
+        public IDbCommand Remove<T>(T entity)
+        {
+            _tarkDataAccess.MockEnabled = true;
+            _tarkDataAccess.Remove(entity);
+            return _tarkDataAccess.MockCommand;
+        }
+
+        public IDbCommand RemoveById<T>(params object[] keyValues)
+        {
+            _tarkDataAccess.MockEnabled = true;
+            _tarkDataAccess.RemoveById<T>(keyValues);
+            return _tarkDataAccess.MockCommand;
+        }
+    }
+    
+
     public static class TableHints
     {        
         public static class SQLServer
@@ -108,8 +174,4 @@ namespace TarkOrm.NET
             public static string NOLOCK = "WITH(NOLOCK)";
         }
     }
-    //public struct TableHintsSQLServer 
-    //{
-    //    string NOLOCK = ""
-    //}
 }
