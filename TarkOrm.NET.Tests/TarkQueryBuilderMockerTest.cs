@@ -19,12 +19,6 @@ namespace TarkOrm.NET.Tests
         {
             SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["localhost"].ConnectionString);
 
-            //var countries = connection.GetAll<Country>();
-
-            //var country = connection.GetById<Country>(246);
-
-            //var country3 = connection.WithTableHint(TableHints.SQLServer.NOLOCK).GetById<Country>(246);
-
             var cmd = connection.GetMockCommand().GetById<Country>(256);
 
             var squery = cmd.CommandText;

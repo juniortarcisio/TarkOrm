@@ -32,7 +32,7 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="TarkOrm.NET.TarkQueryBuilder">
-    <Position X="4.25" Y="1.25" Width="2.5" />
+    <Position X="4.25" Y="0.5" Width="2.5" />
     <TypeIdentifier>
       <HashCode>CAQAAAAAAAAIAAAAAAAAAAAAAAEAAAAAAAAAAAEAAIA=</HashCode>
       <FileName>TarkQueryBuilder.cs</FileName>
@@ -65,13 +65,12 @@
     <AssociationLine Name="TarkQueryBuilder" Type="TarkOrm.NET.TarkQueryBuilder" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
       <Path>
         <Point X="11" Y="3.733" />
-        <Point X="11" Y="3.835" />
-        <Point X="10.148" Y="3.835" />
-        <Point X="10.148" Y="1.096" />
-        <Point X="6.904" Y="1.096" />
-        <Point X="6.904" Y="3.92" />
-        <Point X="5.562" Y="3.92" />
-        <Point X="5.562" Y="3.767" />
+        <Point X="10.981" Y="3.835" />
+        <Point X="10.981" Y="4.596" />
+        <Point X="6.904" Y="4.596" />
+        <Point X="6.904" Y="3.399" />
+        <Point X="5.562" Y="3.399" />
+        <Point X="5.562" Y="3.017" />
       </Path>
       <MemberNameLabel ManuallyPlaced="true">
         <Position X="-2.544" Y="-0.088" />
