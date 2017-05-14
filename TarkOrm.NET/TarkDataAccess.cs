@@ -147,6 +147,44 @@ namespace TarkOrm.NET
             }
         }
 
+        public virtual T GetWhere<T, TProperty>(Expression<Func<T, TProperty>> propertyLambda, object value)
+        {
+            var property = propertyLambda.GetPropertyInfo();
+            var columnName = property.GetMappedColumnName();
+
+            OpenConnection();
+
+            var type = typeof(T);
+            var tablePath = QueryBuilder.GetMapperTablePath<T>();
+            var mappedKeys = type.GetMappedOrderedKeys();
+
+            using (IDbCommand cmd = _connection.CreateCommand())
+            {
+                //Uses ADO Sql Parameters in order to avoid SQL Injection attacks
+                var dbParam = cmd.CreateParameter();
+                dbParam.ParameterName = $"@{ columnName }";
+                dbParam.Value = value;
+
+                cmd.Parameters.Add(dbParam);
+
+                cmd.CommandText = $"SELECT * FROM {tablePath} WHERE { columnName } = @{ columnName }";
+                cmd.CommandType = CommandType.Text;
+
+                if (IsMockCommand(cmd))
+                    return default(T);
+
+                using (IDataReader dr = cmd.ExecuteReader())
+                {
+                    if (dr.Read())
+                    {
+                        return Transformer.CreateObject<T>(dr);
+                    }
+                    else
+                        return default(T);
+                }
+            }
+        }
+
         public virtual void Add<T>(T entity)
         {
             if (entity == null)

@@ -1,5 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Reflection;
+using System.Linq.Expressions;
 
 namespace TarkOrm.NET.Tests
 {
@@ -9,15 +11,13 @@ namespace TarkOrm.NET.Tests
         delegate int del(DateTime abacate);
         
         [TestMethod]
-        public void TestMethod1()
+        public void TestGetWhere()
         {
             //var con = new DataConn
             //SqlConnection con = new SqlConnection();
 
             var data = new TarkDataAccess("data source=PH03N1XR4V4N-PC\\DBLABS;initial catalog=MyPortal;persist security info=True;user id=app_login;password=ph03n1xr4v3n;MultipleActiveResultSets=True;App=TarkOrm.NET");
 
-            var lista = data.GetAll<Country>();
-            
             //var item = data.GetById<Country>(10, "AR");
 
             //Creates a Where function that receives a lambda
@@ -32,7 +32,7 @@ namespace TarkOrm.NET.Tests
 
             //var filtered = data.Where("colname", value) (?)
             //var a = new Country();
-                        
+
             ////var filtered = data.Where<Country>(1).Execute();
 
             ////var rowsAffected data.Insert(new country...);
@@ -45,7 +45,39 @@ namespace TarkOrm.NET.Tests
 
             ////Commands stack before executing? .Execute?
 
-            //var xpto = GetPropertyInfo(item, w => w.Name);
+            var item = data.GetById<Country>(10);
+            var xpto = GetPropertyInfo(item, w => w.Name);
+
+            var x = data.GetWhere<Country, string>(y=>y.Name, "Brazil");
+
+        }
+
+        public PropertyInfo GetPropertyInfo<TSource, TProperty>(
+            TSource source,
+            Expression<Func<TSource, TProperty>> propertyLambda)
+        {
+            Type type = typeof(TSource);
+
+            MemberExpression member = propertyLambda.Body as MemberExpression;
+            if (member == null)
+                throw new ArgumentException(string.Format(
+                    "Expression '{0}' refers to a method, not a property.",
+                    propertyLambda.ToString()));
+
+            PropertyInfo propInfo = member.Member as PropertyInfo;
+            if (propInfo == null)
+                throw new ArgumentException(string.Format(
+                    "Expression '{0}' refers to a field, not a property.",
+                    propertyLambda.ToString()));
+
+            if (type != propInfo.ReflectedType &&
+                !type.IsSubclassOf(propInfo.ReflectedType))
+                throw new ArgumentException(string.Format(
+                    "Expresion '{0}' refers to a property that is not from type {1}.",
+                    propertyLambda.ToString(),
+                    type));
+
+            return propInfo;
         }
 
     }
