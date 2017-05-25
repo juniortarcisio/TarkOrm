@@ -1,5 +1,6 @@
-# TarkOrm.NET
-It's a Prototype of a simple micro ORM system inspired in Dapper, I'm slowly developing some ideas by myself, anyone who'd like to contribute is welcome to share your own ideas, fork or pull a suggestion/fix/implementation/etc. 
+# TarkOrm
+
+It's a simple Micro ORM system inspired in Dapper, I'm slowly developing some ideas by myself, anyone who'd like to contribute is welcome to share your own ideas, fork or pull a suggestion/fix/implementation/etc. 
 
 My meta is to make something more interesting than Dapper, since I think that some dapper interfaces doesn't sound natural or doesn't looks like a repository.
 
@@ -7,7 +8,7 @@ My meta is also including some automatic basic queries through the entities and 
 
 It can be mapped using DataAnnotation.Schema attributes and I hope I'm going to make a basic MappingConfiguration class in the future.
 
-#### Do not consider it as release version, I still expect to refector it some times till it get in a good shape.
+#### I am still expecting to refector it a few some times more before launching an official relase, for now it's only beta or RC ###.
 
 
 # Methods
