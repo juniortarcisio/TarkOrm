@@ -8,7 +8,7 @@ My meta is also including some automatic basic queries through the entities and 
 
 It can be mapped using DataAnnotation.Schema attributes and I hope I'm going to make a basic MappingConfiguration class in the future.
 
-#### I am still expecting to refector it a few some times more before launching an official relase, for now it's only beta or RC ###.
+#### I am still expecting to refector it a few some times more before launching an official relase, for now it's only beta or RC.
 
 
 # Methods
@@ -201,4 +201,4 @@ This benchmarks were performed on a I7 4970k, 16gb ram and running SQL Server 20
 
 # Class Diagram
 
-https://github.com/juniortarcisio/TarkOrm/blob/master/classDiagram.png?raw=true
+![alt tag](https://raw.githubusercontent.com/juniortarcisio/TarkOrm.NET/master/classDiagram.png)
