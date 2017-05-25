@@ -8,7 +8,7 @@ namespace TarkOrm.Extensions
 {
     public static class ConversionExtensions
     {
-        public static TarkTransformer TarkTransformer
+        public static TarkTransformer Transformer
         {
             get
             {

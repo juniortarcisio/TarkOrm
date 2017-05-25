@@ -16,9 +16,12 @@ namespace TarkOrm.Tests
             Stopwatch watch = new Stopwatch();
             watch.Start();
 
-            var tarkDataAcess = new TarkOrm("localhost");
+            var tarkOrm = new TarkOrm("localhost");
 
-            tarkDataAcess.Add(new Country
+            if (tarkOrm.GetById<Country>(247) != null)
+                tarkOrm.RemoveById<Country>(247);
+
+            tarkOrm.Add(new Country
             {
                 CountryID = 247,
                 ContinentID = 1,
@@ -33,23 +36,21 @@ namespace TarkOrm.Tests
             Debugger.Log(0, "", $"TarkORM Elapsed MS: {watch.ElapsedMilliseconds.ToString()}{Environment.NewLine}");
         }
 
-
         [TestMethod]
         public void Read()
         {
             Stopwatch watch = new Stopwatch();
             watch.Start();
 
-            var tarkDataAcess = new TarkOrm("localhost");
-            var countryList = tarkDataAcess.GetAll<Country>();
-            var country = tarkDataAcess.GetById<Country>(30);
+            var tarkOrm = new TarkOrm("localhost");
+            var countryList = tarkOrm.GetAll<Country>();
+            var country = tarkOrm.GetById<Country>(30);
 
 
             watch.Stop();
 
             Debugger.Log(0, "", $"TarkORM Elapsed MS: {watch.ElapsedMilliseconds.ToString()}{Environment.NewLine}");
         }
-
 
         [TestMethod]
         public void Update()
@@ -57,21 +58,20 @@ namespace TarkOrm.Tests
             Stopwatch watch = new Stopwatch();
             watch.Start();
 
-            var tarkDataAcess = new TarkOrm("localhost");
+            var tarkOrm = new TarkOrm("localhost");
 
-            var country = tarkDataAcess.GetById<Country>(247);
+            var country = tarkOrm.GetById<Country>(247);
             country.Name = "Testing Country Update2";
             country.ContinentID = 3;
             country.CountryCode = "XX";
             country.CurrencyID = 3;
             country.FlagB64 = "nd";
-            tarkDataAcess.Update(country);
+            tarkOrm.Update(country);
 
             watch.Stop();
 
             Debugger.Log(0, "", $"TarkORM Elapsed MS: {watch.ElapsedMilliseconds.ToString()}{Environment.NewLine}");
         }
-
 
         [TestMethod]
         public void Delete()
@@ -79,9 +79,8 @@ namespace TarkOrm.Tests
             Stopwatch watch = new Stopwatch();
             watch.Start();
 
-            var tarkDataAcess = new TarkOrm("localhost");
-
-            tarkDataAcess.RemoveById<Country>(247);
+            var tarkOrm = new TarkOrm("localhost");
+            tarkOrm.RemoveById<Country>(247);
 
             watch.Stop();
 

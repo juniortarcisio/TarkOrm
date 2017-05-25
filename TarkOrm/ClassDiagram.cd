@@ -9,7 +9,7 @@
   <Comment CommentText="Core components">
     <Position X="0.5" Y="0.5" Height="0.291" Width="1.21" />
   </Comment>
-  <Class Name="TarkOrm.TarkDataAccess">
+  <Class Name="TarkOrm.TarkOrm">
     <Position X="0.75" Y="1.25" Width="2.25" />
     <AssociationLine Name="QueryBuilder" Type="TarkOrm.TarkQueryBuilder">
       <MemberNameLabel ManuallyPlaced="true">
@@ -22,8 +22,8 @@
       </MemberNameLabel>
     </AssociationLine>
     <TypeIdentifier>
-      <HashCode>AAYAAAAAACAAAgAAAAIBBAEAAQAAABAAAgABAAAABIA=</HashCode>
-      <FileName>TarkDataAccess.cs</FileName>
+      <HashCode>AAYAAAAAACAAAwAAAAIBBAEAAQAAABAAAgABAAAABIA=</HashCode>
+      <FileName>TarkOrm.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
       <Property Name="QueryBuilder" />
@@ -34,25 +34,25 @@
   <Class Name="TarkOrm.TarkQueryBuilder">
     <Position X="4.25" Y="0.5" Width="2.5" />
     <TypeIdentifier>
-      <HashCode>CAQAAAAAAAAIAAAAAAAAAAAAAAEAAAAAAAAAAAEAAIA=</HashCode>
+      <HashCode>CAQAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAEAAIA=</HashCode>
       <FileName>TarkQueryBuilder.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="TarkOrm.TarkTransformer">
     <Position X="4.25" Y="3.5" Width="2.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAgEAAAgCAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAgEAAAgAAAAAAAA=</HashCode>
       <FileName>TarkTransformer.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="TarkOrm.Attributes.DatabaseAttribute">
     <Position X="8.25" Y="2.5" Width="1.75" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAgAAAgA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAABAgAAAAA=</HashCode>
       <FileName>Attributes\DatabaseAttribute.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
-      <Property Name="TarkQueryBuilder" />
+      <Property Name="QueryBuilder" />
     </ShowAsAssociation>
   </Class>
   <Class Name="System.Attribute" Collapsed="true">
@@ -62,98 +62,86 @@
   </Class>
   <Class Name="TarkOrm.Attributes.IdentityAttribute">
     <Position X="10.25" Y="2.5" Width="1.5" />
-    <AssociationLine Name="TarkQueryBuilder" Type="TarkOrm.TarkQueryBuilder" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+    <AssociationLine Name="QueryBuilder" Type="TarkOrm.TarkQueryBuilder" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
       <Path>
-        <Point X="11" Y="3.733" />
+        <Point X="11" Y="3.743" />
         <Point X="10.981" Y="3.835" />
         <Point X="10.981" Y="4.596" />
         <Point X="6.904" Y="4.596" />
         <Point X="6.904" Y="3.399" />
         <Point X="5.562" Y="3.399" />
-        <Point X="5.562" Y="3.017" />
+        <Point X="5.562" Y="2.825" />
       </Path>
       <MemberNameLabel ManuallyPlaced="true">
-        <Position X="-2.544" Y="-0.088" />
+        <Position X="-2.471" Y="1.266" />
       </MemberNameLabel>
     </AssociationLine>
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAA=</HashCode>
       <FileName>Attributes\IdentityAttribute.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
-      <Property Name="TarkQueryBuilder" />
+      <Property Name="QueryBuilder" />
     </ShowAsAssociation>
   </Class>
   <Class Name="TarkOrm.Extensions.ConversionExtensions">
     <Position X="2.5" Y="7.5" Width="2" />
-    <AssociationLine Name="TarkTransformer" Type="TarkOrm.TarkTransformer">
+    <AssociationLine Name="Transformer" Type="TarkOrm.TarkTransformer">
       <MemberNameLabel ManuallyPlaced="true">
         <Position X="0.027" Y="0.206" />
       </MemberNameLabel>
     </AssociationLine>
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAQAAAAAAAIAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAAIAAAAAAAAIAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Extensions\ConversionExtensions.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
-      <Property Name="TarkTransformer" />
+      <Property Name="Transformer" />
     </ShowAsAssociation>
   </Class>
   <Class Name="TarkOrm.Extensions.Extensions">
     <Position X="2.5" Y="6" Width="2" />
-    <AssociationLine Name="TarkTransformer" Type="TarkOrm.TarkTransformer" FixedFromPoint="true" FixedToPoint="true">
+    <AssociationLine Name="Transformer" Type="TarkOrm.TarkTransformer" FixedFromPoint="true" FixedToPoint="true">
       <Path>
         <Point X="3.438" Y="6" />
-        <Point X="3.438" Y="4.923" />
-        <Point X="4.25" Y="4.923" />
+        <Point X="3.438" Y="4.592" />
+        <Point X="4.25" Y="4.592" />
       </Path>
     </AssociationLine>
     <TypeIdentifier>
-      <HashCode>AAAAAAAIAAAAAAAAAAAQAAAAAgAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAIAAAAAAAAAAIAAAAAAgAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Extensions\Extensions.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
-      <Property Name="TarkTransformer" />
+      <Property Name="Transformer" />
     </ShowAsAssociation>
   </Class>
   <Class Name="TarkOrm.Extensions.MappingExtensions">
     <Position X="5.25" Y="6" Width="2" />
-    <AssociationLine Name="TarkTransformer" Type="TarkOrm.TarkTransformer" FixedFromPoint="true">
-      <Path>
-        <Point X="5.75" Y="6" />
-        <Point X="5.75" Y="5.44" />
-      </Path>
-      <MemberNameLabel ManuallyPlaced="true">
-        <Position X="-1.307" Y="0.3" />
-      </MemberNameLabel>
-    </AssociationLine>
     <TypeIdentifier>
-      <HashCode>AAAAACAAAAAAAAAAABAQAAAAACAIAAAAAAAAAAAQAAA=</HashCode>
+      <HashCode>AAAAACAAAAAAAAAAARAAAAAAACAIAAAAAAAAAAAQAAA=</HashCode>
       <FileName>Extensions\MappingExtensions.cs</FileName>
     </TypeIdentifier>
-    <ShowAsAssociation>
-      <Property Name="TarkTransformer" />
-    </ShowAsAssociation>
   </Class>
   <Class Name="TarkOrm.TarkDataExtensions">
     <Position X="0.5" Y="6" Width="1.75" />
-    <AssociationLine Name="TarkDataAccess" Type="TarkOrm.TarkDataAccess">
-      <MemberNameLabel ManuallyPlaced="true">
-        <Position X="-1.234" Y="1.268" />
+    <AssociationLine Name="TarkOrm" Type="TarkOrm.TarkOrm">
+      <MemberNameLabel ManuallyPlaced="true" ManuallySized="true">
+        <Position X="-1.401" Y="0.351" Height="0.182" Width="1.339" />
       </MemberNameLabel>
     </AssociationLine>
     <TypeIdentifier>
-      <HashCode>AAYAAAAAAAAAAgAAAAAABAAAAAAAACAAAgAAAAEACIA=</HashCode>
+      <HashCode>AAYAAAAAAAAAAgAAAAAABAAAAAAAACAAAgAEAAEAAIA=</HashCode>
       <FileName>TarkDataExtensions.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
-      <Property Name="TarkDataAccess" />
+      <Property Name="TarkOrm" />
     </ShowAsAssociation>
   </Class>
   <Class Name="TarkOrm.TarkConfigurationMapping">
     <Position X="8.25" Y="5.25" Width="2.25" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAgAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAgAAAAAA=</HashCode>
       <FileName>TarkConfigurationMapping.cs</FileName>
     </TypeIdentifier>
   </Class>

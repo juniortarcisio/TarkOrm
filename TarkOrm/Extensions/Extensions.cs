@@ -9,7 +9,7 @@ namespace TarkOrm.Extensions
 {
     public static class Extensions
     {
-        public static TarkTransformer TarkTransformer
+        public static TarkTransformer Transformer
         {
             get
             {

@@ -16,22 +16,19 @@ I'm holding in this file some prototype codes temporaly and I'm going to delete 
 
 namespace TarkOrm
 {
-    public partial class TarkQueryBuilder
-    {
-        //TODO: Create an extension proper for SQL Server
-        //public bool EnableNoLock { get; set; }
+    //public partial class TarkQueryBuilder
+    //{
+    //    public virtual CommandBuilder<T> Where<T>(/*Expression<Func<TSource, TProperty>> propertyLambda,*/ object value)
+    //    {
+    //        throw new NotImplementedException();
+    //    }
+    //}
 
-        public virtual CommandBuilder<T> Where<T>(/*Expression<Func<TSource, TProperty>> propertyLambda,*/ object value)
-        {
-            throw new NotImplementedException();
-        }
-    }
-
-    public class CommandBuilder<T>
-    {
-        public IEnumerable<T> Execute()
-        {
-            return null;
-        }
-    }
+    //public class CommandBuilder<T>
+    //{
+    //    public IEnumerable<T> Execute()
+    //    {
+    //        return null;
+    //    }
+    //}
 }

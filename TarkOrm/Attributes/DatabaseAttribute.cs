@@ -12,7 +12,7 @@ namespace TarkOrm.Attributes
 
         public string Server { get; set; }
 
-        public TarkQueryBuilder TarkQueryBuilder
+        public TarkQueryBuilder QueryBuilder
         {
             get
             {

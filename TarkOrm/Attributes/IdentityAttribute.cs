@@ -12,7 +12,7 @@ namespace TarkOrm.Attributes
         {
         }
 
-        public TarkQueryBuilder TarkQueryBuilder
+        public TarkQueryBuilder QueryBuilder
         {
             get
             {

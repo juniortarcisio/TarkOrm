@@ -9,7 +9,7 @@ namespace TarkOrm
 {
     public static class TarkDataExtensions
     {
-        public static TarkOrm TarkDataAccess
+        public static TarkOrm TarkOrm
         {
             get
             {

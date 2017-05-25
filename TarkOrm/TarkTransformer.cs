@@ -20,34 +20,28 @@ namespace TarkOrm
     //Returning the list/object
 
     public class TarkTransformer
-    {
-        //TODO: Transform into a global singleton object which can map N entities
-        private Dictionary<string, PropertyInfo> _mappedProperties;
-        
+    {        
         /// <summary>
         /// Fill an object property according it's mapped column name
         /// </summary>
         /// <param name="obj">object to receive the value</param>
-        /// <param name="mappedColumnName">name of the column mapped to the property</param>
+        /// <param name="columnName">name of the column mapped to the property</param>
         /// <param name="value">value to be filled in the property</param>
         /// <exception cref="ArgumentNullException"></exception>
-        private void SetPropertyValue(object obj, string mappedColumnName, object value)
+        private void SetPropertyValue(object obj, string columnName, object value, TarkTypeMapping typeMapping)
         {
             if (obj == null)
                 throw new ArgumentNullException("obj");
 
-            if (mappedColumnName == null)
+            if (columnName == null)
                 throw new ArgumentNullException("mappedColumnName");
 
             //First search the column before treating nulls,
             //Despite the search proccess, it's possible to get implementation mistake even when it's null
-            PropertyInfo objectProperty;// = obj.GetType().GetMappedProperty(mappedColumnName);
+            PropertyInfo objectProperty;
 
-            if (!_mappedProperties.TryGetValue(mappedColumnName, out objectProperty))
-            {
-                objectProperty = obj.GetType().GetMappedProperty(mappedColumnName);
-                _mappedProperties.Add(mappedColumnName, objectProperty);
-            }
+            if (!typeMapping.PropertiesMappings.TryGetValue(columnName, out objectProperty))
+                throw new MissingMemberException(String.Format("Cannot find mapped property for column \"{0}\"",columnName));
 
             if (value == DBNull.Value || value == null)
                 return;
@@ -76,21 +70,30 @@ namespace TarkOrm
         }
 
         /// <summary>
+        /// Create and object and fill it's mapped properties through a DataReader record 
+        /// </summary>
+        /// <param name="dr">DataReader in the current record with fields mapped to the object type</param>
+        /// <returns>A new instance of the object type with the filled properties</returns>
+        public T CreateObject<T>(DataRow dr)
+        {
+            var mapping = TarkConfigurationMapping.AutoMapType<T>();
+            return CreateObject<T>(dr, mapping);
+        }
+
+        /// <summary>
         /// Create and object and fill it's mapped properties through a DataRow 
         /// </summary>
         /// <param name="dr">DataRow with columns mapped to the object type</param>
         /// <returns>A new instance of the object type with the filled properties</returns>
-        public T CreateObject<T>(DataRow dr)
+        public T CreateObject<T>(DataRow dr, TarkTypeMapping typeMapping)
         {
             Type typeT = typeof(T);
 
             var finalObject = (T)Activator.CreateInstance(typeT, new object[] { });
-
-            _mappedProperties = new Dictionary<string, PropertyInfo>();
-
+ 
             for (int i = 0; i < dr.Table.Columns.Count; i++)
             {
-                SetPropertyValue(finalObject, dr.Table.Columns[i].ColumnName, dr[i]);
+                SetPropertyValue(finalObject, dr.Table.Columns[i].ColumnName, dr[i], typeMapping);
             }
 
             return finalObject;
@@ -103,32 +106,41 @@ namespace TarkOrm
         /// <returns>A new instance of the object type with the filled properties</returns>
         public T CreateObject<T>(IDataReader dr)
         {
+            var mapping = TarkConfigurationMapping.AutoMapType<T>();
+            return CreateObject<T>(dr, mapping);
+        }
+
+        /// <summary>
+        /// Create and object and fill it's mapped properties through a DataReader record 
+        /// </summary>
+        /// <param name="dr">DataReader in the current record with fields mapped to the object type</param>
+        /// <returns>A new instance of the object type with the filled properties</returns>
+        public T CreateObject<T>(IDataReader dr, TarkTypeMapping typeMapping)
+        {
             Type typeT = typeof(T);
 
             var finalObject = (T)Activator.CreateInstance(typeT);
-
-            _mappedProperties = new Dictionary<string, PropertyInfo>();
 
             for (int i = 0; i < dr.FieldCount; i++)
             {
                 var drColumnName = dr.GetName(i);
 
-                SetPropertyValue(finalObject, drColumnName, dr[i]);
+                SetPropertyValue(finalObject, drColumnName, dr[i], typeMapping);
             }
 
             return finalObject;
         }
-        
+
         public IEnumerable<T> ToList<T>(IDataReader dr)
         {
             List<T> lista = new List<T>();
-            
-            //TODO: Actually it clears the list, in the future it will search for an existing mapping configuration
-            _mappedProperties = new Dictionary<string, PropertyInfo>();
+
+            //Search or map the type into the singleton manager
+            var mapping = TarkConfigurationMapping.AutoMapType<T>();
 
             while (dr.Read())
             {
-                lista.Add(CreateObject<T>(dr));
+                lista.Add(CreateObject<T>(dr, mapping));
             }
 
             return lista;
