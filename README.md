@@ -11,6 +11,10 @@ It can be mapped using DataAnnotation.Schema attributes and I hope I'm going to 
 #### I am still expecting to refector it a few some times more before launching an official relase, for now it's only beta or RC.
 
 
+# Class Diagram
+
+![alt tag](https://raw.githubusercontent.com/juniortarcisio/TarkOrm.NET/master/classDiagram.png)
+
 # Methods
 
 These components are being used in the following usage examples
@@ -198,7 +202,3 @@ This benchmarks were performed on a I7 4970k, 16gb ram and running SQL Server 20
 
 ![alt tag](https://raw.githubusercontent.com/juniortarcisio/TarkOrm.NET/master/benchmarkCity.png)
 
-
-# Class Diagram
-
-![alt tag](https://raw.githubusercontent.com/juniortarcisio/TarkOrm.NET/master/classDiagram.png)
