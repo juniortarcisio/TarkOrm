@@ -8,8 +8,12 @@ My meta is also including some automatic basic queries through the entities and 
 
 It can be mapped using DataAnnotation.Schema attributes and I hope I'm going to make a basic MappingConfiguration class in the future.
 
-#### I am still expecting to refector it a few some times more before launching an official relase, for now it's only beta or RC ###.
+#### I am still expecting to refector it a few some times more before launching an official relase, for now it's only beta or RC.
 
+
+# Class Diagram
+
+![alt tag](https://raw.githubusercontent.com/juniortarcisio/TarkOrm.NET/master/classDiagram.png)
 
 # Methods
 
@@ -56,8 +60,8 @@ public virtual IEnumerable<T> GetAll<T>
 Example of usage:
 
 ```csharp
-TarkDataAccess tarkDataAcess = new TarkDataAccess("connectionStringName");
-IEnumerable<Country> lista = tarkDataAcess.GetAll<Country>();
+TarkOrm tarkOrm = new TarkOrm("connectionStringName");
+IEnumerable<Country> lista = tarkOrm.GetAll<Country>();
 ```
 
 Result
@@ -74,8 +78,8 @@ public virtual T GetById<T>(params object[] keyValues)
 Example of usage:
 
 ```csharp
-TarkDataAccess tarkDataAcess = new TarkDataAccess("connectionStringName");
-Country country = tarkDataAcess.GetById<Country>(10);
+TarkOrm tarkOrm = new TarkOrm("connectionStringName");
+Country country = tarkOrm.GetById<Country>(10);
 ```
 
 Result
@@ -102,7 +106,7 @@ Country country = connection.GetById<Country>(246);
 It's avaliable on the extension methods for IDbConnection, it allows to use table prefabs table hints or string table hints as indexes and others.
 
 ```csharp
-public static TarkDataAccess WithTableHint(this IDbConnection connection, string tableHint)
+public static TarkOrm WithTableHint(this IDbConnection connection, string tableHint)
 ```
 
 Example of usage:
@@ -128,9 +132,9 @@ public virtual void Add<T>(T entity)
 Example of usage:
 
 ```csharp
-TarkDataAccess tarkDataAcess = new TarkDataAccess("connectionStringName");
+TarkOrm tarkOrm = new TarkOrm("connectionStringName");
 
-tarkDataAcess.Add(new Country
+tarkOrm.Add(new Country
 {
     CountryID = 247,
     ContinentID = 1,
@@ -154,15 +158,15 @@ public virtual void Update<T>(T entity)
 
 
 ```csharp
-TarkDataAccess tarkDataAcess = new TarkDataAccess("localhost");
+TarkOrm tarkOrm = new TarkOrm("localhost");
 
-Country country = tarkDataAcess.GetById<Country>(247);
+Country country = tarkOrm.GetById<Country>(247);
 country.Name = "Testing Country Update2";
 country.ContinentID = 3;
 country.CountryCode = "XX";
 country.CurrencyID = 3;
 country.FlagB64 = "nd";
-tarkDataAcess.Update(country);
+tarkOrm.Update(country);
 ```
 
 Result
@@ -180,8 +184,8 @@ public virtual void RemoveById<T>(params object[] keyValues)
 Example of usage:
 
 ```csharp
-TarkDataAccess tarkDataAcess = new TarkDataAccess("connectionStringName");
-tarkDataAcess.RemoveById<Country>(247);
+TarkOrm tarkOrm = new TarkOrm("connectionStringName");
+tarkOrm.RemoveById<Country>(247);
 ```
 
 
