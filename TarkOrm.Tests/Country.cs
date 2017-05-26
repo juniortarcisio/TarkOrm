@@ -34,5 +34,7 @@ namespace TarkOrm.Tests
         public string CountryCode { get; set; }
 
         public string name { get; set; }
+
+        public int ContinentID { get; set; }
     }
 }

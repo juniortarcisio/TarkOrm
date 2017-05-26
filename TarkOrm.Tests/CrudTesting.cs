@@ -30,7 +30,7 @@ namespace TarkOrm.Tests
                 FlagB64 = "",
                 Name = "Testing Country"
             });
-
+            
             watch.Stop();
 
             Debugger.Log(0, "", $"TarkORM Elapsed MS: {watch.ElapsedMilliseconds.ToString()}{Environment.NewLine}");
@@ -62,11 +62,11 @@ namespace TarkOrm.Tests
             var tarkOrm = new TarkOrm("localhost");
 
             var country = tarkOrm.GetById<Country>(247);
-            country.Name = "Testing Country Update2";
-            country.ContinentID = 3;
-            country.CountryCode = "XX";
-            country.CurrencyID = 3;
-            country.FlagB64 = "nd";
+            country.Name = "Testing Country Update3";
+            country.ContinentID = 2;
+            country.CountryCode = "YX";
+            country.CurrencyID = 2;
+            country.FlagB64 = "ND";
             tarkOrm.Update(country);
 
             watch.Stop();
@@ -87,6 +87,23 @@ namespace TarkOrm.Tests
 
             Debugger.Log(0, "", $"TarkORM Elapsed MS: {watch.ElapsedMilliseconds.ToString()}{Environment.NewLine}");
         }
+        
+        [TestMethod]
+        public void CreatePartial()
+        {
+            Stopwatch watch = new Stopwatch();
+            watch.Start();
 
+            var tarkOrm = new TarkOrm("localhost");
+
+            tarkOrm.Add(new TestOrm
+            {
+                Name = "Polskyman"            
+            });
+
+            watch.Stop();
+
+            Debugger.Log(0, "", $"TarkORM Elapsed MS: {watch.ElapsedMilliseconds.ToString()}{Environment.NewLine}");
+        }
     }
 }

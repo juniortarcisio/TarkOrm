@@ -221,7 +221,9 @@ namespace TarkOrm
                     //Uses ADO Sql Parameters in order to avoid SQL Injection attacks
                     var dbParam = cmd.CreateParameter();
                     dbParam.ParameterName = $"@{ columnName }";
-                    dbParam.Value = properties[i].GetValue(entity);
+
+                    var paramValue = properties[i].GetValue(entity) ?? DBNull.Value;                    
+                    dbParam.Value = paramValue;
 
                     cmd.Parameters.Add(dbParam);
                 }
@@ -350,7 +352,9 @@ namespace TarkOrm
                     //Uses ADO Sql Parameters in order to avoid SQL Injection attacks
                     var dbParam = cmd.CreateParameter();
                     dbParam.ParameterName = $"@{ columnName }";
-                    dbParam.Value = propertiesNonKey[i].GetValue(entity);
+
+                    var paramValue = propertiesNonKey[i].GetValue(entity) ?? DBNull.Value;
+                    dbParam.Value = paramValue;
 
                     cmd.Parameters.Add(dbParam);
                 }
@@ -368,7 +372,9 @@ namespace TarkOrm
                     //Uses ADO Sql Parameters in order to avoid SQL Injection attacks
                     var dbParam = cmd.CreateParameter();
                     dbParam.ParameterName = $"@{ columnName }";
-                    dbParam.Value = propertiesKey[i].GetValue(entity);
+
+                    var paramValue = propertiesKey[i].GetValue(entity) ?? DBNull.Value;
+                    dbParam.Value = paramValue;
 
                     cmd.Parameters.Add(dbParam);
                 }
