@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -41,7 +42,11 @@ namespace TarkOrm
             PropertyInfo objectProperty;
 
             if (!typeMapping.PropertiesMappings.TryGetValue(columnName, out objectProperty))
-                throw new MissingMemberException(String.Format("Cannot find mapped property for column \"{0}\"",columnName));
+            {            
+                //2017-05-25: Changed to don't throw exceptions if there is no property for the field
+                //throw new MissingMemberException(String.Format("Cannot find mapped property for column \"{0}\"",columnName));
+                return;
+            }
 
             if (value == DBNull.Value || value == null)
                 return;

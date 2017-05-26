@@ -38,7 +38,7 @@ namespace TarkOrm
             Type type = typeof(T);
             PropertyInfo[] properties = type.GetProperties();
             Dictionary<string, PropertyInfo> propertiesMappings = 
-                new Dictionary<string, PropertyInfo>();
+                new Dictionary<string, PropertyInfo>(StringComparer.OrdinalIgnoreCase);
 
             for (int i = 0; i < properties.Length; i++)
             {

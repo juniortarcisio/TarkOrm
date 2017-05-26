@@ -46,6 +46,7 @@ namespace TarkOrm.Tests
             var countryList = tarkOrm.GetAll<Country>();
             var country = tarkOrm.GetById<Country>(30);
 
+            var countryPartial = tarkOrm.GetById<CountryPartial>(30);
 
             watch.Stop();
 
