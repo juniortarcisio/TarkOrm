@@ -17,5 +17,7 @@ namespace TarkOrm.Tests
         public string Name { get; set; }
 
         public DateTime? CreationDate { get; set; }
+
+        public char Classification { get; set; }
     }
 }

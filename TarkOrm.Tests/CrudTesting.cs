@@ -105,5 +105,20 @@ namespace TarkOrm.Tests
 
             Debugger.Log(0, "", $"TarkORM Elapsed MS: {watch.ElapsedMilliseconds.ToString()}{Environment.NewLine}");
         }
+
+        [TestMethod]
+        public void ReadingCharValues()
+        {
+            Stopwatch watch = new Stopwatch();
+            watch.Start();
+
+            var tarkOrm = new TarkOrm("localhost");
+
+            var x = tarkOrm.GetById<TestOrm>(1);
+
+            watch.Stop();
+
+            Debugger.Log(0, "", $"TarkORM Elapsed MS: {watch.ElapsedMilliseconds.ToString()}{Environment.NewLine}");
+        }
     }
 }

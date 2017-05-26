@@ -65,7 +65,7 @@ namespace TarkOrm
 
             try
             {
-                objectProperty.SetValue(obj, value);
+                objectProperty.SetValue(obj, propertyValue); 
             }
             catch (Exception ex)
             {
