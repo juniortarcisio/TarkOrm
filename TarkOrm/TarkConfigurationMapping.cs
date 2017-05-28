@@ -42,6 +42,9 @@ namespace TarkOrm
 
             for (int i = 0; i < properties.Length; i++)
             {
+                if (properties[i].IsIgnoreMappingColumn())
+                    continue;
+
                 var columnName = properties[i].GetMappedColumnName();
                 propertiesMappings.Add(columnName, properties[i]);
             }

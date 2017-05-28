@@ -37,6 +37,9 @@ namespace TarkOrm
             if (columnName == null)
                 throw new ArgumentNullException("mappedColumnName");
 
+            if (typeMapping == null)
+                throw new ArgumentNullException("typeMapping");
+
             //First search the column before treating nulls,
             //Despite the search proccess, it's possible to get implementation mistake even when it's null
             PropertyInfo objectProperty;
@@ -146,6 +149,22 @@ namespace TarkOrm
             while (dr.Read())
             {
                 lista.Add(CreateObject<T>(dr, mapping));
+            }
+
+            return lista;
+        }
+
+
+        public IEnumerable<T> ToList<T>(DataTable dt)
+        {
+            List<T> lista = new List<T>();
+
+            //Search or map the type into the singleton manager
+            var mapping = TarkConfigurationMapping.AutoMapType<T>();
+
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                lista.Add(CreateObject<T>(dt.Rows[i], mapping));
             }
 
             return lista;

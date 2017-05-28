@@ -42,7 +42,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Attributes\IdentityAttribute.cs" />
+    <Compile Include="Attributes\IgnoreMappingAttribute.cs" />
+    <Compile Include="Attributes\ReadonlyAttribute.cs" />
     <Compile Include="TarkConfigurationMapping.cs" />
     <Compile Include="TarkOrm.cs" />
     <Compile Include="Attributes\DatabaseAttribute.cs" />

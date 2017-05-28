@@ -5,11 +5,11 @@ VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TarkOrm", "TarkOrm\TarkOrm.csproj", "{11ED5080-8220-460C-9F6A-B6F3CD9E28B2}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{C6DDF51F-4322-46D7-9405-44A18DEB0632}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TarkOrm.Tests", "TarkOrm.Tests\TarkOrm.Tests.csproj", "{C7E8FB00-7506-4A53-9852-C3FFEABCD484}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{E4A3D50E-4870-4B09-9277-DCEAF2F7F403}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libraries", "Libraries", "{0ABFD14F-0CCC-4CB4-9670-A6138BA1426F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -30,6 +30,7 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
+		{11ED5080-8220-460C-9F6A-B6F3CD9E28B2} = {0ABFD14F-0CCC-4CB4-9670-A6138BA1426F}
 		{C7E8FB00-7506-4A53-9852-C3FFEABCD484} = {E4A3D50E-4870-4B09-9277-DCEAF2F7F403}
 	EndGlobalSection
 EndGlobal

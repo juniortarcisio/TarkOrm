@@ -11,7 +11,7 @@ namespace TarkOrm.Tests
     public class TestOrm
     {
         [Key]
-        [Identity]
+        [Readonly]
         public int Id { get; set; }
 
         public string Name { get; set; }

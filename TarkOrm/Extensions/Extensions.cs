@@ -9,18 +9,6 @@ namespace TarkOrm.Extensions
 {
     public static class Extensions
     {
-        public static TarkTransformer Transformer
-        {
-            get
-            {
-                throw new System.NotImplementedException();
-            }
-
-            set
-            {
-            }
-        }
-
         public static string RemoveSpecialCharacters(string str)
         {
             StringBuilder sb = new StringBuilder();

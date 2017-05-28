@@ -38,11 +38,21 @@ namespace TarkOrm.Extensions
                 return true;
         }
 
-        public static bool IsIdentityColumn (this PropertyInfo property)
+        public static bool IsReadOnlyColumn (this PropertyInfo property)
         {
-            var identityAttribute = property.GetCustomAttribute<IdentityAttribute>();
+            var readonlyAttribute = property.GetCustomAttribute<ReadonlyAttribute>();
 
-            if (identityAttribute == null)
+            if (readonlyAttribute == null)
+                return false;
+            else
+                return true;
+        }
+
+        public static bool IsIgnoreMappingColumn(this PropertyInfo property)
+        {
+            var ignoreMappingAttribute = property.GetCustomAttribute<IgnoreMappingAttribute>();
+
+            if (ignoreMappingAttribute == null)
                 return false;
             else
                 return true;

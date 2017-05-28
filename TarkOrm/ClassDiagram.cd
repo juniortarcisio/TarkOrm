@@ -1,10 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
   <Comment CommentText="Mapping components">
-    <Position X="7.365" Y="0.5" Height="0.291" Width="1.44" />
+    <Position X="7.271" Y="0.5" Height="0.291" Width="1.44" />
   </Comment>
   <Comment CommentText="Extensions">
-    <Position X="0.5" Y="5.5" Height="0.291" Width="0.887" />
+    <Position X="0.5" Y="5.75" Height="0.291" Width="0.887" />
   </Comment>
   <Comment CommentText="Core components">
     <Position X="0.5" Y="0.5" Height="0.291" Width="1.21" />
@@ -46,103 +46,79 @@
     </TypeIdentifier>
   </Class>
   <Class Name="TarkOrm.Attributes.DatabaseAttribute">
-    <Position X="8.25" Y="2.5" Width="1.75" />
+    <Position X="7.25" Y="5" Width="1.75" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAABAgAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAgAAAAA=</HashCode>
       <FileName>Attributes\DatabaseAttribute.cs</FileName>
     </TypeIdentifier>
-    <ShowAsAssociation>
-      <Property Name="QueryBuilder" />
-    </ShowAsAssociation>
   </Class>
   <Class Name="System.Attribute" Collapsed="true">
-    <Position X="9.5" Y="1.25" Width="1.5" />
+    <Position X="9" Y="3.75" Width="1.5" />
     <TypeIdentifier />
     <Lollipop Position="0.2" />
   </Class>
-  <Class Name="TarkOrm.Attributes.IdentityAttribute">
-    <Position X="10.25" Y="2.5" Width="1.5" />
-    <AssociationLine Name="QueryBuilder" Type="TarkOrm.TarkQueryBuilder" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
-      <Path>
-        <Point X="11" Y="3.743" />
-        <Point X="10.981" Y="3.835" />
-        <Point X="10.981" Y="4.596" />
-        <Point X="6.904" Y="4.596" />
-        <Point X="6.904" Y="3.399" />
-        <Point X="5.562" Y="3.399" />
-        <Point X="5.562" Y="2.825" />
-      </Path>
-      <MemberNameLabel ManuallyPlaced="true">
-        <Position X="-2.471" Y="1.266" />
-      </MemberNameLabel>
-    </AssociationLine>
+  <Class Name="TarkOrm.Attributes.ReadonlyAttribute">
+    <Position X="9.25" Y="5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAA=</HashCode>
-      <FileName>Attributes\IdentityAttribute.cs</FileName>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Attributes\ReadonlyAttribute.cs</FileName>
     </TypeIdentifier>
-    <ShowAsAssociation>
-      <Property Name="QueryBuilder" />
-    </ShowAsAssociation>
   </Class>
   <Class Name="TarkOrm.Extensions.ConversionExtensions">
-    <Position X="2.5" Y="7.5" Width="2" />
-    <AssociationLine Name="Transformer" Type="TarkOrm.TarkTransformer">
-      <MemberNameLabel ManuallyPlaced="true">
-        <Position X="0.027" Y="0.206" />
-      </MemberNameLabel>
-    </AssociationLine>
+    <Position X="2.5" Y="7.75" Width="2" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAIAAAAAAAAIAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Extensions\ConversionExtensions.cs</FileName>
     </TypeIdentifier>
-    <ShowAsAssociation>
-      <Property Name="Transformer" />
-    </ShowAsAssociation>
   </Class>
   <Class Name="TarkOrm.Extensions.Extensions">
-    <Position X="2.5" Y="6" Width="2" />
-    <AssociationLine Name="Transformer" Type="TarkOrm.TarkTransformer" FixedFromPoint="true" FixedToPoint="true">
-      <Path>
-        <Point X="3.438" Y="6" />
-        <Point X="3.438" Y="4.592" />
-        <Point X="4.25" Y="4.592" />
-      </Path>
-    </AssociationLine>
+    <Position X="2.5" Y="6.25" Width="2" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAIAAAAAAAAAAIAAAAAAgAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAIAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Extensions\Extensions.cs</FileName>
     </TypeIdentifier>
-    <ShowAsAssociation>
-      <Property Name="Transformer" />
-    </ShowAsAssociation>
   </Class>
   <Class Name="TarkOrm.Extensions.MappingExtensions">
-    <Position X="5.25" Y="6" Width="2" />
+    <Position X="4.75" Y="6.25" Width="2" />
     <TypeIdentifier>
       <HashCode>AAAAACAAAAAAAAAAARAAAAAAACAIAAAAAAAAAAAQAAA=</HashCode>
       <FileName>Extensions\MappingExtensions.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="TarkOrm.TarkDataExtensions">
-    <Position X="0.5" Y="6" Width="1.75" />
-    <AssociationLine Name="TarkOrm" Type="TarkOrm.TarkOrm">
+    <Position X="0.5" Y="6.25" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAYAAAAAAAAAAgAAAAAABAAAAAAAACAAAgAAAAEAAIA=</HashCode>
+      <FileName>TarkDataExtensions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TarkOrm.TarkConfigurationMapping">
+    <Position X="7.25" Y="1" Width="2.25" />
+    <AssociationLine Name="Mappings" Type="TarkOrm.TarkTypeMapping">
       <MemberNameLabel ManuallyPlaced="true" ManuallySized="true">
-        <Position X="-1.401" Y="0.351" Height="0.182" Width="1.339" />
+        <Position X="0.037" Y="0.05" Height="0.182" Width="0.891" />
       </MemberNameLabel>
     </AssociationLine>
     <TypeIdentifier>
-      <HashCode>AAYAAAAAAAAAAgAAAAAABAAAAAAAACAAAgAEAAEAAIA=</HashCode>
-      <FileName>TarkDataExtensions.cs</FileName>
-    </TypeIdentifier>
-    <ShowAsAssociation>
-      <Property Name="TarkOrm" />
-    </ShowAsAssociation>
-  </Class>
-  <Class Name="TarkOrm.TarkConfigurationMapping">
-    <Position X="8.25" Y="5.25" Width="2.25" />
-    <TypeIdentifier>
       <HashCode>AAgAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAgAAAAAA=</HashCode>
       <FileName>TarkConfigurationMapping.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="Mappings" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="TarkOrm.TarkTypeMapping">
+    <Position X="10.5" Y="1" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAQAAAAAAAAA=</HashCode>
+      <FileName>TarkConfigurationMapping.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TarkOrm.Attributes.IgnoreMappingAttribute">
+    <Position X="11.25" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Attributes\IgnoreMappingAttribute.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Font Name="Segoe UI" Size="9" />

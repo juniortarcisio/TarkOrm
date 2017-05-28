@@ -205,7 +205,7 @@ namespace TarkOrm
                 {
                     var columnName = properties[i].GetMappedColumnName();
 
-                    if (properties[i].IsIdentityColumn())
+                    if (properties[i].IsReadOnlyColumn() || properties[i].IsIgnoreMappingColumn())
                         continue;
 
                     //Column name appending
@@ -341,6 +341,9 @@ namespace TarkOrm
 
                 for (int i = 0; i < propertiesNonKey.Count(); i++)
                 {
+                    if (propertiesNonKey[i].IsReadOnlyColumn() || propertiesNonKey[i].IsIgnoreMappingColumn())
+                        continue;
+
                     var columnName = propertiesNonKey[i].GetMappedColumnName();
 
                     //Column name appending

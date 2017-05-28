@@ -67,16 +67,16 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="Benchmarks.cs" />
-    <Compile Include="City.cs" />
-    <Compile Include="Country.cs" />
-    <Compile Include="CrudTesting.cs" />
-    <Compile Include="LambdaExpressionTests.cs" />
-    <Compile Include="PrototypingCmdBuilder.cs" />
+    <Compile Include="TarkOrmTests\Benchmarks.cs" />
+    <Compile Include="Entities\City.cs" />
+    <Compile Include="Entities\Country.cs" />
+    <Compile Include="TarkOrmTests\CrudTesting.cs" />
+    <Compile Include="Prototyping\LambdaExpressionTests.cs" />
+    <Compile Include="Prototyping\PrototypingCmdBuilder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TableHintTests.cs" />
-    <Compile Include="TarkQueryBuilderMockerTest.cs" />
-    <Compile Include="TestOrm.cs" />
+    <Compile Include="TarkOrmTests\TableHintTests.cs" />
+    <Compile Include="TarkOrmTests\TarkQueryBuilderMockerTest.cs" />
+    <Compile Include="Entities\TestOrm.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TarkOrm\TarkOrm.csproj">

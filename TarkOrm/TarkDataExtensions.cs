@@ -9,18 +9,6 @@ namespace TarkOrm
 {
     public static class TarkDataExtensions
     {
-        public static TarkOrm TarkOrm
-        {
-            get
-            {
-                throw new System.NotImplementedException();
-            }
-
-            set
-            {
-            }
-        }
-
         public static TarkOrm WithTableHint(this IDbConnection connection, string tableHint)
         {
             var dataAccess = new TarkOrm(connection);
@@ -84,5 +72,28 @@ namespace TarkOrm
             }
         }
 
+        public static T ToObject<T>(this DataRow row)
+        {
+            return new TarkOrm(string.Empty).Transformer.CreateObject<T>(row);
+        }
+
+        public static T ToObject<T>(this IDataReader dr)
+        {
+            if (dr.Read())
+                return new TarkOrm(string.Empty).Transformer.CreateObject<T>(dr);
+            else
+                return default(T);
+        }
+        
+        public static IEnumerable<T> ToObjectList<T>(this IDataReader dr)
+        {
+                return new TarkOrm(string.Empty).Transformer.ToList<T>(dr);
+        }
+
+
+        public static IEnumerable<T> ToObjectList<T>(this DataTable dt)
+        {
+            return new TarkOrm(string.Empty).Transformer.ToList<T>(dt);
+        }
     }
 }
