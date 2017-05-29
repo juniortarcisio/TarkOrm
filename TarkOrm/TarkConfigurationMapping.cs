@@ -4,6 +4,8 @@ using System.Reflection;
 using System.Collections.Generic;
 using TarkOrm.Extensions;
 using System.Linq.Expressions;
+using TarkOrm.Attributes;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace TarkOrm
 {
@@ -25,9 +27,9 @@ namespace TarkOrm
             }
         }
 
-        public static ITarkTypeMapping GetMapping<T>()
+        public static TarkTypeMapping<T> GetMapping<T>()
         {
-            return Mappings.
+            return (TarkTypeMapping<T>)Mappings.
                 Where(x => x.GetMappingType() == typeof(T)).
                 FirstOrDefault();
         }
@@ -57,11 +59,42 @@ namespace TarkOrm
                 if (properties[i].IsIgnoreMappingColumn())
                     continue;
 
-                var columnName = properties[i].GetMappedColumnName();
+                //var columnName = properties[i].GetMappedColumnName();
+                string columnName;
+
+                var columnAttribute = properties[i].GetCustomAttribute<ColumnAttribute>();
+                if (columnAttribute != null && !String.IsNullOrWhiteSpace(columnAttribute.Name))
+                    columnName = columnAttribute.Name;
+                else
+                    columnName = properties[i].Name;
+
                 propertiesMappings.Add(columnName, properties[i]);
             }
 
             var newMapping = new TarkTypeMapping<T>(type, propertiesMappings);
+
+            //Database
+            var databaseAttribute = type.GetCustomAttribute<DatabaseAttribute>();
+            if (databaseAttribute != null && !String.IsNullOrWhiteSpace(databaseAttribute.Name))
+            {
+                newMapping.Database = databaseAttribute.Name;
+            }
+
+            //Table and schema
+            var tableAttribute = type.GetCustomAttribute<TableAttribute>();
+            if (tableAttribute != null)
+            {
+                if (!String.IsNullOrWhiteSpace(tableAttribute.Name))
+                    newMapping.Table = tableAttribute.Name;
+
+                if (!String.IsNullOrWhiteSpace(tableAttribute.Schema))
+                    newMapping.Schema = tableAttribute.Schema;
+            }
+            else
+            {
+                newMapping.Table = type.Name;
+            }
+
             Mappings.Add(newMapping);
             
             return newMapping;
@@ -90,6 +123,12 @@ namespace TarkOrm
 
         public Type Type { get; set; }
 
+        public string Database { get; set; }
+
+        public string Schema { get; set; } = "dbo";
+
+        public string Table { get; set; }
+        
         public Dictionary<string, PropertyInfo> PropertiesMappings;
 
         public Type GetMappingType()
@@ -128,6 +167,40 @@ namespace TarkOrm
                 }                
             }
 
+            return this;
+        }
+
+
+        public TarkTypeMapping<T> ToDatabase(string database)
+        {
+            Database = database;
+            return this;
+        }
+
+        public TarkTypeMapping<T> ToSchema(string schema)
+        {
+            Schema = schema;
+            return this;
+        }
+
+        public TarkTypeMapping<T> ToTable(string tableName)
+        {
+            Table = tableName;
+            return this;
+        }
+
+        public TarkTypeMapping<T> ToTable(string schema, string tableName)
+        {
+            Schema = schema;
+            Table = tableName;
+            return this;
+        }
+
+        public TarkTypeMapping<T> ToTable(string database, string schema, string tableName)
+        {
+            Database = database;
+            Schema = schema;
+            Table = tableName;
             return this;
         }
     }

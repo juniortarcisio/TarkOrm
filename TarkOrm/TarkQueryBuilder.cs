@@ -35,81 +35,36 @@ namespace TarkOrm
         public string GetMapperTablePath<T>()
         {
             Type type = typeof(T);
-            string databaseName = null;
-            string tableName = null;
-            string schema = "dbo";
 
-            var databaseAttribute = type.GetCustomAttribute<DatabaseAttribute>();
-            if (databaseAttribute != null && !String.IsNullOrWhiteSpace(databaseAttribute.Name))
+            //var databaseAttribute = type.GetCustomAttribute<DatabaseAttribute>();
+            //if (databaseAttribute != null && !String.IsNullOrWhiteSpace(databaseAttribute.Name))
+            //{
+            //    databaseName = databaseAttribute.Name;
+            //}
+
+            //var tableAttribute = type.GetCustomAttribute<TableAttribute>();
+            //if (tableAttribute != null)
+            //{
+            //    if (!String.IsNullOrWhiteSpace(tableAttribute.Name))
+            //        tableName = tableAttribute.Name;
+
+            //    if (!String.IsNullOrWhiteSpace(tableAttribute.Schema))
+            //        schema = tableAttribute.Schema;
+            //}
+            //else
+            //{
+            //    tableName = type.Name;
+            //}
+
+            var typeMapping = (TarkTypeMapping<T>) TarkConfigurationMapping.ManageMapping<T>();
+            
+            if (!String.IsNullOrWhiteSpace(typeMapping.Database))
             {
-                databaseName = databaseAttribute.Name;
-            }
-
-            var tableAttribute = type.GetCustomAttribute<TableAttribute>();
-            if (tableAttribute != null)
-            {
-                if (!String.IsNullOrWhiteSpace(tableAttribute.Name))
-                    tableName = tableAttribute.Name;
-
-                if (!String.IsNullOrWhiteSpace(tableAttribute.Schema))
-                    schema = tableAttribute.Schema;
-            }
-            else
-            {
-                tableName = type.Name;
-            }
-
-            if (!String.IsNullOrWhiteSpace(databaseName))
-            {
-                return String.Format("{0}.{1}.{2} {3}", databaseName, schema, tableName, TableHint);
-            }
-            else
-            {
-                return String.Format("{0}.{1} {2}", schema, tableName, TableHint);
-            }
-        }
-
-        public string GetProcedureName<T>()
-        {
-            Type typeT = typeof(T);
-            PropertyInfo[] columnProperty = typeT.GetProperties();
-
-            string databaseName = null;
-
-            var databaseAttribute = typeT.GetCustomAttribute<DatabaseAttribute>();
-            if (databaseAttribute == null)
-            {
-                throw new CustomAttributeFormatException("DatabaseAttribute not defined");
-            }
-
-            if (!String.IsNullOrWhiteSpace(databaseAttribute.Name))
-                databaseName = databaseAttribute.Name;
-
-            string tableName = null;
-            string schema = "dbo";
-
-            var tableAttribute = typeT.GetCustomAttribute<TableAttribute>();
-            if (tableAttribute != null)
-            {
-                if (!String.IsNullOrWhiteSpace(tableAttribute.Name))
-                    tableName = tableAttribute.Name;
-
-                if (!String.IsNullOrWhiteSpace(tableAttribute.Schema))
-                    schema = tableAttribute.Schema;
+                return String.Format("{0}.{1}.{2} {3}", typeMapping.Database, typeMapping.Schema, typeMapping.Table, TableHint);
             }
             else
             {
-                tableName = typeT.Name;
-            }
-
-            if (!String.IsNullOrWhiteSpace(databaseName))
-            {
-                //TODO: Move the procedure name pattern to a external config file, maybe it could check if a procedure exists before using the default method
-                return String.Format("{0}.{1}.sp_{2}_GetAll", databaseName, schema, tableName);
-            }
-            else
-            {
-                return String.Format("{1}.p_{2}_GetAll", schema, tableName);
+                return String.Format("{0}.{1} {2}", typeMapping.Schema, typeMapping.Table, TableHint);
             }
         }
     }

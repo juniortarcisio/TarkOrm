@@ -23,7 +23,7 @@ namespace TarkOrm.Tests
     }
 
 
-    [Table("TestOrm")]
+    //[Table("TestOrm")]
     public class TestOrmTestMapping
     {
         [Key]

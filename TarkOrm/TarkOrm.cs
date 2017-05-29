@@ -200,6 +200,9 @@ namespace TarkOrm
             var property = propertyLambda.GetPropertyInfo();
             var columnName = property.GetMappedColumnName();
 
+            if (columnName == null)
+                throw new InvalidFilterCriteriaException("Property mapping not found");
+
             OpenConnection();
 
             var type = typeof(T);

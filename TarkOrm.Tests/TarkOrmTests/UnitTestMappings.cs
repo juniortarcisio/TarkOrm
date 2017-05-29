@@ -17,7 +17,8 @@ namespace TarkOrm.Tests.TarkOrmTests
 
             TarkConfigurationMapping.AutoMapType<TestOrmTestMapping>()
                 .MapProperty(x => x.classx, "Classification")
-                .MapProperty(x => x.description, "Name");
+                .MapProperty(x => x.description, "Name")
+                .ToTable("TestOrm");
 
             var list = tarkOrm.GetAll<TestOrmTestMapping>();
 
@@ -37,8 +38,9 @@ namespace TarkOrm.Tests.TarkOrmTests
             TarkConfigurationMapping.AutoMapType<TestOrmTestMapping>()
                 .MapProperty(x => x.classx, "Classification")
                 .MapProperty(x => x.description, "Name")
-                .IgnoreProperty(x => x.Id);    
-                //TODO: Readonly, Table, DataBase, +?            
+                .IgnoreProperty(x => x.Id)
+                .ToTable("TestOrm"); 
+                //TODO: Readonly, key    
 
             var list = tarkOrm.GetAll<TestOrmTestMapping>();
 

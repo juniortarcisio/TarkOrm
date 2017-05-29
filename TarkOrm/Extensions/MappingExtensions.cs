@@ -4,8 +4,6 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using TarkOrm.Attributes;
 using System.Linq.Expressions;
 
@@ -30,6 +28,7 @@ namespace TarkOrm.Extensions
 
         public static bool IsKeyColumn(this PropertyInfo property)
         {
+            //TODO: use the mapping from Configuration Mapping
             var identityAttribute = property.GetCustomAttribute<KeyAttribute>();
 
             if (identityAttribute == null)
@@ -40,6 +39,8 @@ namespace TarkOrm.Extensions
 
         public static bool IsReadOnlyColumn (this PropertyInfo property)
         {
+            //TODO: use the mapping from Configuration Mapping
+            //Can be migrated only when the ReadOnly exists on the ConfigurationMapping
             var readonlyAttribute = property.GetCustomAttribute<ReadonlyAttribute>();
 
             if (readonlyAttribute == null)
@@ -50,6 +51,7 @@ namespace TarkOrm.Extensions
 
         public static bool IsIgnoreMappingColumn(this PropertyInfo property)
         {
+            //TODO: use the mapping from Configuration Mapping
             var ignoreMappingAttribute = property.GetCustomAttribute<IgnoreMappingAttribute>();
 
             if (ignoreMappingAttribute == null)
@@ -65,28 +67,29 @@ namespace TarkOrm.Extensions
         /// <param name="columnName">name of the column which the property is mapped to.</param>
         /// <returns>Return the property mapper to the columnName</returns>
         /// <exception cref="MissingFieldException">If the mapper property cannot be found</exception>
-        public static PropertyInfo GetMappedProperty(this Type type, string columnName)
-        {
-            PropertyInfo objectProperty = null;
-            PropertyInfo[] properties = type.GetProperties();
+        //public static PropertyInfo GetMappedProperty(this Type type, string columnName)
+        //{
+        //    PropertyInfo objectProperty = null;
+        //    PropertyInfo[] properties = type.GetProperties();
 
-            for (int i = 0; i < properties.Length; i++)
-            {
-                if (columnName == properties[i].GetMappedColumnName())
-                {
-                    objectProperty = properties[i];
-                    break;
-                }
-            }
+        //    for (int i = 0; i < properties.Length; i++)
+        //    {
+        //        if (columnName == properties[i].GetMappedColumnName())
+        //        {
+        //            objectProperty = properties[i];
+        //            break;
+        //        }
+        //    }
 
-            if (objectProperty == null)                 
-                throw new MissingMemberException(String.Format("Cannot find \"{0}\" object mapped property", columnName));
-            else
-                return objectProperty;
-        }
+        //    if (objectProperty == null)                 
+        //        throw new MissingMemberException(String.Format("Cannot find \"{0}\" object mapped property", columnName));
+        //    else
+        //        return objectProperty;
+        //}
         
         public static string[] GetMappedOrderedKeys(this Type type)
         {
+            //TODO: use the mapping from Configuration Mapping
             PropertyInfo[] properties = type.GetProperties();
             HashSet<string> keys = new HashSet<string>();
 
@@ -94,6 +97,7 @@ namespace TarkOrm.Extensions
             {
                 if (properties[i].GetCustomAttribute<KeyAttribute>() != null)
                 {
+                    //Can be migrated only when the Key exists on the ConfigurationMapping
                     keys.Add(properties[i].GetMappedColumnName());
                 }
             }                      
