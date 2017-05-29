@@ -59,7 +59,6 @@ namespace TarkOrm
                 if (properties[i].IsIgnoreMappingColumn())
                     continue;
 
-                //var columnName = properties[i].GetMappedColumnName();
                 string columnName;
 
                 var columnAttribute = properties[i].GetCustomAttribute<ColumnAttribute>();
@@ -170,6 +169,18 @@ namespace TarkOrm
             return this;
         }
 
+        public string[] GetMappedOrderedKeys()
+        {
+            HashSet<string> keys = new HashSet<string>();
+
+            foreach (var item in PropertiesMappings)
+            {
+                if (item.Value.IsKeyColumn())
+                    keys.Add(item.Key);
+            }
+
+            return keys.ToArray();
+        }
 
         public TarkTypeMapping<T> ToDatabase(string database)
         {

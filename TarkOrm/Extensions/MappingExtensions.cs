@@ -19,6 +19,8 @@ namespace TarkOrm.Extensions
         /// <returns>Name of the column which the property is mapped to.</returns>
         public static string GetMappedColumnName(this PropertyInfo property)
         {
+            //TODO: Search it in ConfigurationMapping
+            //TODO: Refactor places which use this property to maybe remove it
             var columnAttribute = property.GetCustomAttribute<ColumnAttribute>();
             if (columnAttribute != null && !String.IsNullOrWhiteSpace(columnAttribute.Name))
                 return columnAttribute.Name;
@@ -58,51 +60,6 @@ namespace TarkOrm.Extensions
                 return false;
             else
                 return true;
-        }
-
-        /// <summary>
-        /// Returns the mapped property of a type from the columnName
-        /// </summary>
-        /// <param name="type"></param>
-        /// <param name="columnName">name of the column which the property is mapped to.</param>
-        /// <returns>Return the property mapper to the columnName</returns>
-        /// <exception cref="MissingFieldException">If the mapper property cannot be found</exception>
-        //public static PropertyInfo GetMappedProperty(this Type type, string columnName)
-        //{
-        //    PropertyInfo objectProperty = null;
-        //    PropertyInfo[] properties = type.GetProperties();
-
-        //    for (int i = 0; i < properties.Length; i++)
-        //    {
-        //        if (columnName == properties[i].GetMappedColumnName())
-        //        {
-        //            objectProperty = properties[i];
-        //            break;
-        //        }
-        //    }
-
-        //    if (objectProperty == null)                 
-        //        throw new MissingMemberException(String.Format("Cannot find \"{0}\" object mapped property", columnName));
-        //    else
-        //        return objectProperty;
-        //}
-        
-        public static string[] GetMappedOrderedKeys(this Type type)
-        {
-            //TODO: use the mapping from Configuration Mapping
-            PropertyInfo[] properties = type.GetProperties();
-            HashSet<string> keys = new HashSet<string>();
-
-            for (int i = 0; i < properties.Length; i++)
-            {
-                if (properties[i].GetCustomAttribute<KeyAttribute>() != null)
-                {
-                    //Can be migrated only when the Key exists on the ConfigurationMapping
-                    keys.Add(properties[i].GetMappedColumnName());
-                }
-            }                      
-
-            return keys.ToArray();
         }
 
         public static PropertyInfo GetPropertyInfo<TSource, TProperty>(

@@ -105,7 +105,9 @@ namespace TarkOrm
 
             var type = typeof(T);
             var tablePath = QueryBuilder.GetMapperTablePath<T>();
-            var mappedKeys = type.GetMappedOrderedKeys();
+
+            var typeMapping = (TarkTypeMapping<T>)TarkConfigurationMapping.ManageMapping<T>();
+            var mappedKeys = typeMapping.GetMappedOrderedKeys();
 
             if (keyValues.Count() == 0 || mappedKeys.Count() != keyValues.Length)
                 throw new MissingPrimaryKeyException();
@@ -153,7 +155,9 @@ namespace TarkOrm
 
             var type = typeof(T);
             var tablePath = QueryBuilder.GetMapperTablePath<T>();
-            var mappedKeys = type.GetMappedOrderedKeys();
+
+            var typeMapping = (TarkTypeMapping<T>)TarkConfigurationMapping.ManageMapping<T>();
+            var mappedKeys = typeMapping.GetMappedOrderedKeys();
 
             if (keyValues.Count() == 0 || mappedKeys.Count() != keyValues.Length)
                 throw new MissingPrimaryKeyException();
@@ -207,7 +211,9 @@ namespace TarkOrm
 
             var type = typeof(T);
             var tablePath = QueryBuilder.GetMapperTablePath<T>();
-            var mappedKeys = type.GetMappedOrderedKeys();
+
+            var typeMapping = (TarkTypeMapping<T>)TarkConfigurationMapping.ManageMapping<T>();
+            var mappedKeys = typeMapping.GetMappedOrderedKeys();
 
             using (IDbCommand cmd = _connection.CreateCommand())
             {
@@ -252,28 +258,32 @@ namespace TarkOrm
 
                 var properties = entity.GetType().GetProperties();
 
-                for (int i = 0; i < properties.Count(); i++)
-                {
-                    var columnName = properties[i].GetMappedColumnName();
+                var typeMapping = (TarkTypeMapping<T>)TarkConfigurationMapping.ManageMapping<T>();
 
-                    if (properties[i].IsReadOnlyColumn() || properties[i].IsIgnoreMappingColumn())
+                var lastItem = typeMapping.PropertiesMappings.Last();                
+                foreach (var item in typeMapping.PropertiesMappings)
+                {
+
+                    var columnName = item.Key;
+
+                    if (item.Value.IsReadOnlyColumn())
                         continue;
 
                     //Column name appending
                     cmdColumns.Append(columnName);
                     cmdValues.Append($"@{ columnName }");
 
-                    if (i != properties.Count() - 1)
+                    if (item.Key != lastItem.Key)
                     {
                         cmdColumns.Append(", ");
                         cmdValues.Append(", ");
                     }
-                    
+
                     //Uses ADO Sql Parameters in order to avoid SQL Injection attacks
                     var dbParam = cmd.CreateParameter();
                     dbParam.ParameterName = $"@{ columnName }";
 
-                    var paramValue = properties[i].GetValue(entity) ?? DBNull.Value;                    
+                    var paramValue = item.Value.GetValue(entity) ?? DBNull.Value;
                     dbParam.Value = paramValue;
 
                     cmd.Parameters.Add(dbParam);
@@ -299,7 +309,9 @@ namespace TarkOrm
             var type = typeof(T);
             var tablePath = QueryBuilder.GetMapperTablePath<T>();
 
-            var propertiesKey = type.GetProperties().Where(x => x.IsKeyColumn()).ToArray();
+            var typeMapping = (TarkTypeMapping<T>)TarkConfigurationMapping.ManageMapping<T>();
+            var propertiesKey = typeMapping.PropertiesMappings.Values.Where(x => x.IsKeyColumn()).ToArray();
+
             StringBuilder cmdKeys = new StringBuilder();
 
             using (IDbCommand cmd = _connection.CreateCommand())
@@ -338,7 +350,9 @@ namespace TarkOrm
 
             var type = typeof(T);
             var tablePath = QueryBuilder.GetMapperTablePath<T>();
-            var mappedKeys = type.GetMappedOrderedKeys();
+
+            var typeMapping = (TarkTypeMapping<T>)TarkConfigurationMapping.ManageMapping<T>();
+            var mappedKeys = typeMapping.GetMappedOrderedKeys();
 
             if (keyValues.Count() == 0 || mappedKeys.Count() != keyValues.Length)
                 throw new MissingPrimaryKeyException();
@@ -386,9 +400,11 @@ namespace TarkOrm
                 StringBuilder cmdUpdate = new StringBuilder();
                 StringBuilder cmdKeys = new StringBuilder();
 
+                var typeMapping = (TarkTypeMapping<T>)TarkConfigurationMapping.ManageMapping<T>();
+
                 var properties = entity.GetType().GetProperties();
-                var propertiesKey = properties.Where(x => x.IsKeyColumn()).ToArray();
-                var propertiesNonKey = properties.Where(x=> !x.IsKeyColumn()).ToArray();
+                var propertiesKey = typeMapping.PropertiesMappings.Values.Where(x => x.IsKeyColumn()).ToArray();
+                var propertiesNonKey = typeMapping.PropertiesMappings.Values.Where(x => !x.IsKeyColumn()).ToArray();
 
                 for (int i = 0; i < propertiesNonKey.Count(); i++)
                 {
