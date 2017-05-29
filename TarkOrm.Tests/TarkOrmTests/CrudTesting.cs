@@ -11,7 +11,7 @@ namespace TarkOrm.Tests
     public class CrudTesting
     {
         [TestMethod]
-        public void Create()
+        public void UnitTest_CRUD_Create()
         {
             Stopwatch watch = new Stopwatch();
             watch.Start();
@@ -37,7 +37,7 @@ namespace TarkOrm.Tests
         }
 
         [TestMethod]
-        public void Read()
+        public void UnitTest_CRUD_Read()
         {
             Stopwatch watch = new Stopwatch();
             watch.Start();
@@ -54,7 +54,7 @@ namespace TarkOrm.Tests
         }
 
         [TestMethod]
-        public void Update()
+        public void UnitTest_CRUD_Update()
         {
             Stopwatch watch = new Stopwatch();
             watch.Start();
@@ -75,7 +75,7 @@ namespace TarkOrm.Tests
         }
 
         [TestMethod]
-        public void Delete()
+        public void UnitTest_CRUD_Delete()
         {
             Stopwatch watch = new Stopwatch();
             watch.Start();
@@ -89,7 +89,7 @@ namespace TarkOrm.Tests
         }
         
         [TestMethod]
-        public void CreatePartial()
+        public void UnitTest_CRUD_CreatePartial()
         {
             Stopwatch watch = new Stopwatch();
             watch.Start();
@@ -107,7 +107,7 @@ namespace TarkOrm.Tests
         }
 
         [TestMethod]
-        public void ReadingCharValues()
+        public void UnitTest_CRUD_ReadingCharValues()
         {
             Stopwatch watch = new Stopwatch();
             watch.Start();
@@ -115,6 +115,22 @@ namespace TarkOrm.Tests
             var tarkOrm = new TarkOrm("localhost");
 
             var x = tarkOrm.GetById<TestOrm>(1);
+
+            watch.Stop();
+
+            Debugger.Log(0, "", $"TarkORM Elapsed MS: {watch.ElapsedMilliseconds.ToString()}{Environment.NewLine}");
+        }
+
+        [TestMethod]
+        public void UnitTest_CRUD_ReadingExists()
+        {
+            Stopwatch watch = new Stopwatch();
+            watch.Start();
+
+            var tarkOrm = new TarkOrm("localhost");
+
+            var x = tarkOrm.Exists<TestOrm>(1);
+            var y = tarkOrm.Exists<TestOrm>(99);
 
             watch.Stop();
 

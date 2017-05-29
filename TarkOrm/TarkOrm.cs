@@ -146,6 +146,54 @@ namespace TarkOrm
                 }
             }
         }
+        
+        public virtual bool Exists<T>(params object[] keyValues)
+        {
+            OpenConnection();
+
+            var type = typeof(T);
+            var tablePath = QueryBuilder.GetMapperTablePath<T>();
+            var mappedKeys = type.GetMappedOrderedKeys();
+
+            if (keyValues.Count() == 0 || mappedKeys.Count() != keyValues.Length)
+                throw new MissingPrimaryKeyException();
+
+            using (IDbCommand cmd = _connection.CreateCommand())
+            {
+                StringBuilder cmdFilter = new StringBuilder();
+
+                for (int i = 0; i < keyValues.Count(); i++)
+                {
+                    cmdFilter.Append($"{ mappedKeys[i] } = @{ mappedKeys[i] } ");
+
+                    if (i != keyValues.Count() - 1)
+                        cmdFilter.Append("AND ");
+
+                    //Uses ADO Sql Parameters in order to avoid SQL Injection attacks
+                    var dbParam = cmd.CreateParameter();
+                    dbParam.ParameterName = $"@{ mappedKeys[i] }";
+                    dbParam.Value = keyValues[i];
+
+                    cmd.Parameters.Add(dbParam);
+                }
+
+                cmd.CommandText = $"SELECT TOP 1 NULL FROM {tablePath} WHERE {cmdFilter.ToString()}";
+                cmd.CommandType = CommandType.Text;
+
+                if (IsMockCommand(cmd))
+                    return false;
+
+                using (IDataReader dr = cmd.ExecuteReader())
+                {
+                    if (dr.Read())
+                    {
+                        return true;
+                    }
+                    else
+                        return false;
+                }
+            }
+        }
 
         public virtual T GetWhere<T, TProperty>(Expression<Func<T, TProperty>> propertyLambda, object value)
         {

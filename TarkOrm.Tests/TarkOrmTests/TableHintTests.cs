@@ -15,7 +15,7 @@ namespace TarkOrm.Tests
     public class TableHintTests
     {
         [TestMethod]
-        public void TestMethod1()
+        public void UnitTest_TableHints()
         {
             SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["localhost"].ConnectionString);
             

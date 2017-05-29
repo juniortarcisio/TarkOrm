@@ -15,7 +15,7 @@ namespace TarkOrm.Tests
     public class TarkQueryBuilderMockerTest
     {
         [TestMethod]
-        public void TestMethod1()
+        public void UnitTest_CommandMocking()
         {
             SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["localhost"].ConnectionString);
 

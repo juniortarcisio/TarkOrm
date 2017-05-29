@@ -32,6 +32,14 @@ namespace TarkOrm
             }
         }
 
+        public static bool Exists<T>(this IDbConnection connection, params object[] keyValues)
+        {
+            using (var dataAccess = new TarkOrm(connection))
+            {
+                return dataAccess.Exists<T>(keyValues);
+            }
+        }
+
         public static void Add<T>(this IDbConnection connection, T entity)
         {
             using (var dataAccess = new TarkOrm(connection))

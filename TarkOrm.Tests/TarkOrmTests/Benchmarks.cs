@@ -13,58 +13,6 @@ namespace TarkOrm.Tests
     public class Benchmarks
     {
         [TestMethod]
-        public void Benchmark1()
-        {
-            Stopwatch watch = new Stopwatch();
-            watch.Start();
-
-            //Entity
-            var listEntity = new DbLabsContext().Countries;
-            foreach (var item in listEntity)
-            {
-                item.Name.ToString();
-            }
-
-            watch.Stop();
-
-            Debugger.Log(0, "", $"Entity Elapsed MS: {watch.ElapsedMilliseconds.ToString()}{Environment.NewLine}" );
-
-            watch.Reset();
-            watch.Start();
-
-            //Tark
-            var data = new TarkOrm("data source=PH03N1XR4V4N-PC\\DBLABS;initial catalog=MyPortal;persist security info=True;user id=app_login;password=ph03n1xr4v3n;MultipleActiveResultSets=True;App=TarkOrm");
-
-            var lista = data.GetAll<Country>();
-
-            foreach (var item in lista)
-            {
-                item.Name.ToString();
-            }
-
-            watch.Stop();
-
-            Debugger.Log(0, "", $"TarkORM Elapsed MS: {watch.ElapsedMilliseconds.ToString()}{Environment.NewLine}");
-
-            watch.Reset();
-            watch.Start();
-
-            //Dapper
-            IEnumerable<Country> listaDapper = data._connection.Query<Country>("SELECT * FROM Country");
-
-            foreach (var item in listaDapper)
-            {
-                item.Name.ToString();
-            }
-
-            watch.Stop();
-
-            Debugger.Log(0, "", $"Dapper Elapsed MS: {watch.ElapsedMilliseconds.ToString()}{Environment.NewLine}");
-
-        }
-
-
-        [TestMethod]
         public void BenchmarkCountryTark()
         {
             Stopwatch watch = new Stopwatch();
@@ -169,43 +117,7 @@ namespace TarkOrm.Tests
             Debugger.Log(0, "", $"Entity Elapsed MS: {watch.ElapsedMilliseconds.ToString()}{Environment.NewLine}");
         }
 
-        [TestMethod]
-        public void Benchmark2()
-        {
-
-            Stopwatch watch = new Stopwatch();
-
-            var listEntity = new DbLabsContext().Countries;
-
-            watch.Start();
-
-            foreach (var item in listEntity)
-            {
-                item.Name.ToString();
-            }
-
-            watch.Stop();
-
-            Debugger.Log(0, "", $"Entity Elapsed MS: {watch.ElapsedMilliseconds.ToString()}{Environment.NewLine}");
-
-            watch.Reset();
-
-            var data = new TarkOrm("data source=PH03N1XR4V4N-PC\\DBLABS;initial catalog=MyPortal;persist security info=True;user id=app_login;password=ph03n1xr4v3n;MultipleActiveResultSets=True;App=TarkOrm");
-
-            watch.Start();
-            var lista = data.GetAll<Country>();
-
-            foreach (var item in lista)
-            {
-                item.Name.ToString();
-            }
-
-            watch.Stop();
-
-            Debugger.Log(0, "", $"TarkORM Elapsed MS: {watch.ElapsedMilliseconds.ToString()}{Environment.NewLine}");
-
-            var x = 2;
-        }
+    
 
         [TestMethod]
         public void BenchmarkCityEntity()
@@ -311,90 +223,6 @@ namespace TarkOrm.Tests
             watch.Stop();
 
             Debugger.Log(0, "", $"Dapper Elapsed MS: {watch.ElapsedMilliseconds.ToString()}{Environment.NewLine}");
-        }
-
-        [TestMethod]
-        public void Benchmark4()
-        {
-            Stopwatch watch = new Stopwatch();
-
-            watch.Start();
-
-            var listEntity = new DbLabsContext().Countries;
-            foreach (var item in listEntity)
-            {
-                item.Name.ToString();
-            }
-
-            watch.Stop();
-
-            Debugger.Log(0, "", $"Entity Elapsed MS: {watch.ElapsedMilliseconds.ToString()}{Environment.NewLine}");
-
-
-            watch.Start();
-
-            var listEntity2 = new DbLabsContext().Countries;
-            foreach (var item in listEntity2)
-            {
-                item.CountryCode.ToString();
-            }
-
-            watch.Stop();
-
-            Debugger.Log(0, "", $"Entity Elapsed MS: {watch.ElapsedMilliseconds.ToString()}{Environment.NewLine}");
-
-            watch.Reset();
-            watch.Start();
-
-            var data = new TarkOrm("data source=PH03N1XR4V4N-PC\\DBLABS;initial catalog=MyPortal;persist security info=True;user id=app_login;password=ph03n1xr4v3n;MultipleActiveResultSets=True;App=TarkOrm");
-
-            var lista = data.GetAll<Country>();
-
-            foreach (var item in lista)
-            {
-                item.Name.ToString();
-            }
-
-            watch.Stop();
-
-            Debugger.Log(0, "", $"TarkORM Elapsed MS: {watch.ElapsedMilliseconds.ToString()}{Environment.NewLine}");
-
-
-            var lista2 = data.GetAll<Country>();
-
-            foreach (var item in lista2)
-            {
-                item.CountryCode.ToString();
-            }
-
-            watch.Stop();
-
-            Debugger.Log(0, "", $"TarkORM Elapsed MS: {watch.ElapsedMilliseconds.ToString()}{Environment.NewLine}");
-
-        }
-
-        [TestMethod]
-        public void TestEntityDynamicInstance()
-        {
-            //DbContext context = new DbContext("data source=PH03N1XR4V4N-PC\\DBLABS;initial catalog=MyPortal;persist security info=True;user id=app_login;password=ph03n1xr4v3n;MultipleActiveResultSets=True;App=TarkOrm");
-
-            //var set = context.Set<Country>();
-
-            //var countryArg = set.Where(x => x.Name == "Argentina").FirstOrDefault();
-
-            //countryArg.ToString();
-            //context.Entry<Country>
-
-            DbLabsContext<Country> ctx = new DbLabsContext<Country>();
-
-            var set = ctx.Set<Country>();
-
-            var countries = set.Where(x => x.CountryID > 0);
-            countries.Count();
-            
-            //var countries = ctx.
-            //countries.Count();
-            //var countryArg = ctx.Entry<Country>().Where(x => x.CountryID == 1).FirstOrDefault();            
         }
 
         [TestMethod]
