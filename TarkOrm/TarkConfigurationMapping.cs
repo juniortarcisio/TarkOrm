@@ -3,6 +3,7 @@ using System.Linq;
 using System.Reflection;
 using System.Collections.Generic;
 using TarkOrm.Extensions;
+using System.Linq.Expressions;
 
 namespace TarkOrm
 {
@@ -11,29 +12,40 @@ namespace TarkOrm
     /// </summary>
     public static class TarkConfigurationMapping
     {
-        private static HashSet<TarkTypeMapping> _mappings;        
+        private static HashSet<ITarkTypeMapping> _mappings;        
 
-        public static HashSet<TarkTypeMapping> Mappings
+        public static HashSet<ITarkTypeMapping> Mappings
         {
             get
             {
                 if (_mappings == null)
-                    _mappings = new HashSet<TarkTypeMapping>();
+                    _mappings = new HashSet<ITarkTypeMapping>();
 
                 return _mappings;
             }
         }
 
-        public static TarkTypeMapping GetMapping<T>()
+        public static ITarkTypeMapping GetMapping<T>()
         {
-            return Mappings.Where(x => x.Type == typeof(T)).FirstOrDefault();
+            return Mappings.
+                Where(x => x.GetMappingType() == typeof(T)).
+                FirstOrDefault();
         }
-        
-        public static TarkTypeMapping AutoMapType<T>()
+
+        public static ITarkTypeMapping ManageMapping<T>()
         {
             var existingMapping = GetMapping<T>();
             if (existingMapping != null)
-                return existingMapping;
+                return (TarkTypeMapping<T>)existingMapping;
+            else
+                return AutoMapType<T>();
+        }
+
+        public static TarkTypeMapping<T> AutoMapType<T>()
+        {
+            var existingMapping = GetMapping<T>();
+            if (existingMapping != null)
+                return (TarkTypeMapping<T>)existingMapping;
 
             Type type = typeof(T);
             PropertyInfo[] properties = type.GetProperties();
@@ -49,14 +61,21 @@ namespace TarkOrm
                 propertiesMappings.Add(columnName, properties[i]);
             }
 
-            var newMapping = new TarkTypeMapping(type, propertiesMappings);
+            var newMapping = new TarkTypeMapping<T>(type, propertiesMappings);
             Mappings.Add(newMapping);
             
             return newMapping;
-        }
+        }        
+    }
+    
+    public interface ITarkTypeMapping
+    {
+        Type GetMappingType();
+
+        Dictionary<string, PropertyInfo> GetPropertiesMapping();
     }
 
-    public class TarkTypeMapping
+    public class TarkTypeMapping<T> : ITarkTypeMapping
     {
         public TarkTypeMapping(Type type)
         {
@@ -70,7 +89,46 @@ namespace TarkOrm
         }
 
         public Type Type { get; set; }
-        
+
         public Dictionary<string, PropertyInfo> PropertiesMappings;
+
+        public Type GetMappingType()
+        {
+            return Type;
+        }
+
+        public Dictionary<string, PropertyInfo> GetPropertiesMapping()
+        {
+            return PropertiesMappings;
+        }
+
+        public TarkTypeMapping<T> MapProperty<TProperty>(Expression<Func<T, TProperty>> propertyLambda, string columnName)
+        {
+            var property = propertyLambda.GetPropertyInfo();
+            
+            if (PropertiesMappings.ContainsKey(columnName))
+                PropertiesMappings[columnName] = property;
+            else
+                PropertiesMappings.Add(columnName, property);
+
+            return this;
+        }
+
+        public TarkTypeMapping<T> IgnoreProperty<TProperty>(Expression<Func<T, TProperty>> propertyLambda)
+        {
+            var property = propertyLambda.GetPropertyInfo();
+
+            if (PropertiesMappings.ContainsValue(property))
+            {
+                var propertyKeys = PropertiesMappings.Where(x => x.Value == property).Select(x=> x.Key).ToArray();
+
+                foreach (var key in propertyKeys)
+                {
+                    PropertiesMappings.Remove(key);
+                }                
+            }
+
+            return this;
+        }
     }
 }

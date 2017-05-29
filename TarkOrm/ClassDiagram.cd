@@ -22,7 +22,7 @@
       </MemberNameLabel>
     </AssociationLine>
     <TypeIdentifier>
-      <HashCode>AAYAAAAAACAAAwAAAAIBBAEAAQAAABAAAgABAAAABIA=</HashCode>
+      <HashCode>AAYAAAAAACAAAwAAAAIBBAEAAQAAABAAAgABAAEABIA=</HashCode>
       <FileName>TarkOrm.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
@@ -81,38 +81,31 @@
   <Class Name="TarkOrm.Extensions.MappingExtensions">
     <Position X="4.75" Y="6.25" Width="2" />
     <TypeIdentifier>
-      <HashCode>AAAAACAAAAAAAAAAARAAAAAAACAIAAAAAAAAAAAQAAA=</HashCode>
+      <HashCode>AAAAACAAAAAAAAAAARAAAAAAEAAIAAAAAAAAAAARAAA=</HashCode>
       <FileName>Extensions\MappingExtensions.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="TarkOrm.TarkDataExtensions">
     <Position X="0.5" Y="6.25" Width="1.75" />
     <TypeIdentifier>
-      <HashCode>AAYAAAAAAAAAAgAAAAAABAAAAAAAACAAAgAAAAEAAIA=</HashCode>
+      <HashCode>AAYAAAAAAAAAAwAAABAABAAAAAAAACAAAgAAAAEAAJA=</HashCode>
       <FileName>TarkDataExtensions.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="TarkOrm.TarkConfigurationMapping">
     <Position X="7.25" Y="1" Width="2.25" />
-    <AssociationLine Name="Mappings" Type="TarkOrm.TarkTypeMapping">
-      <MemberNameLabel ManuallyPlaced="true" ManuallySized="true">
-        <Position X="0.037" Y="0.05" Height="0.182" Width="0.891" />
-      </MemberNameLabel>
-    </AssociationLine>
     <TypeIdentifier>
       <HashCode>AAgAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAgAAAAAA=</HashCode>
       <FileName>TarkConfigurationMapping.cs</FileName>
     </TypeIdentifier>
-    <ShowAsCollectionAssociation>
-      <Property Name="Mappings" />
-    </ShowAsCollectionAssociation>
   </Class>
-  <Class Name="TarkOrm.TarkTypeMapping">
+  <Class Name="TarkOrm.TarkTypeMapping&lt;T&gt;">
     <Position X="10.5" Y="1" Width="2.25" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAQAAAAAAAAA=</HashCode>
+      <HashCode>AAAACAAAAAAAAAAAAAAAAAAAAIAAAAAAAQAAAAAAAAA=</HashCode>
       <FileName>TarkConfigurationMapping.cs</FileName>
     </TypeIdentifier>
+    <Lollipop Position="0.2" />
   </Class>
   <Class Name="TarkOrm.Attributes.IgnoreMappingAttribute">
     <Position X="11.25" Y="5" Width="1.5" />

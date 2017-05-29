@@ -29,7 +29,7 @@ namespace TarkOrm
         /// <param name="columnName">name of the column mapped to the property</param>
         /// <param name="value">value to be filled in the property</param>
         /// <exception cref="ArgumentNullException"></exception>
-        private void SetPropertyValue(object obj, string columnName, object value, TarkTypeMapping typeMapping)
+        private void SetPropertyValue(object obj, string columnName, object value, ITarkTypeMapping typeMapping)
         {
             if (obj == null)
                 throw new ArgumentNullException("obj");
@@ -44,7 +44,7 @@ namespace TarkOrm
             //Despite the search proccess, it's possible to get implementation mistake even when it's null
             PropertyInfo objectProperty;
 
-            if (!typeMapping.PropertiesMappings.TryGetValue(columnName, out objectProperty))
+            if (!typeMapping.GetPropertiesMapping().TryGetValue(columnName, out objectProperty))
             {            
                 //2017-05-25: Changed to don't throw exceptions if there is no property for the field
                 //throw new MissingMemberException(String.Format("Cannot find mapped property for column \"{0}\"",columnName));
@@ -84,7 +84,7 @@ namespace TarkOrm
         /// <returns>A new instance of the object type with the filled properties</returns>
         public T CreateObject<T>(DataRow dr)
         {
-            var mapping = TarkConfigurationMapping.AutoMapType<T>();
+            var mapping = TarkConfigurationMapping.ManageMapping<T>();
             return CreateObject<T>(dr, mapping);
         }
 
@@ -93,7 +93,7 @@ namespace TarkOrm
         /// </summary>
         /// <param name="dr">DataRow with columns mapped to the object type</param>
         /// <returns>A new instance of the object type with the filled properties</returns>
-        public T CreateObject<T>(DataRow dr, TarkTypeMapping typeMapping)
+        public T CreateObject<T>(DataRow dr, ITarkTypeMapping typeMapping)
         {
             Type typeT = typeof(T);
 
@@ -114,7 +114,7 @@ namespace TarkOrm
         /// <returns>A new instance of the object type with the filled properties</returns>
         public T CreateObject<T>(IDataReader dr)
         {
-            var mapping = TarkConfigurationMapping.AutoMapType<T>();
+            var mapping = TarkConfigurationMapping.ManageMapping<T>();
             return CreateObject<T>(dr, mapping);
         }
 
@@ -123,7 +123,7 @@ namespace TarkOrm
         /// </summary>
         /// <param name="dr">DataReader in the current record with fields mapped to the object type</param>
         /// <returns>A new instance of the object type with the filled properties</returns>
-        public T CreateObject<T>(IDataReader dr, TarkTypeMapping typeMapping)
+        public T CreateObject<T>(IDataReader dr, ITarkTypeMapping typeMapping)
         {
             Type typeT = typeof(T);
 
@@ -144,7 +144,7 @@ namespace TarkOrm
             List<T> lista = new List<T>();
 
             //Search or map the type into the singleton manager
-            var mapping = TarkConfigurationMapping.AutoMapType<T>();
+            var mapping = TarkConfigurationMapping.ManageMapping<T>();
 
             while (dr.Read())
             {
@@ -160,7 +160,7 @@ namespace TarkOrm
             List<T> lista = new List<T>();
 
             //Search or map the type into the singleton manager
-            var mapping = TarkConfigurationMapping.AutoMapType<T>();
+            var mapping = TarkConfigurationMapping.ManageMapping<T>();
 
             for (int i = 0; i < dt.Rows.Count; i++)
             {

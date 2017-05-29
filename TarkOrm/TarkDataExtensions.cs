@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Linq.Expressions;
 
 namespace TarkOrm
 {
@@ -14,6 +15,14 @@ namespace TarkOrm
             var dataAccess = new TarkOrm(connection);
             dataAccess.QueryBuilder.TableHint = tableHint;
             return dataAccess;
+        }
+
+        public static T GetWhere<T, TProperty>(this IDbConnection connection, Expression<Func<T, TProperty>> propertyLambda, object value)
+        {
+            using (var dataAccess = new TarkOrm(connection))
+            {
+                return dataAccess.GetWhere(propertyLambda, value);
+            }
         }
 
         public static IEnumerable<T> GetAll<T>(this IDbConnection connection)
