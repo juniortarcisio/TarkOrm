@@ -199,17 +199,16 @@ namespace TarkOrm
             }
         }
 
-        public virtual T GetWhere<T, TProperty>(Expression<Func<T, TProperty>> propertyLambda, object value)
+        public virtual IEnumerable<T> GetWhere<T, TProperty>(Expression<Func<T, TProperty>> propertyLambda, object value)
         {
             var property = propertyLambda.GetPropertyInfo();
-            var columnName = property.GetMappedColumnName();
+            var columnName = property.GetMappedColumnName<T>();
 
             if (columnName == null)
                 throw new InvalidFilterCriteriaException("Property mapping not found");
 
             OpenConnection();
 
-            var type = typeof(T);
             var tablePath = QueryBuilder.GetMapperTablePath<T>();
 
             var typeMapping = (TarkTypeMapping<T>)TarkConfigurationMapping.ManageMapping<T>();
@@ -224,20 +223,15 @@ namespace TarkOrm
 
                 cmd.Parameters.Add(dbParam);
 
-                cmd.CommandText = $"SELECT * FROM {tablePath} WHERE { columnName } = @{ columnName }";
+                cmd.CommandText = $"SELECT * FROM {tablePath} WHERE {columnName} = @{columnName}";
                 cmd.CommandType = CommandType.Text;
 
                 if (IsMockCommand(cmd))
-                    return default(T);
+                    return null;
 
                 using (IDataReader dr = cmd.ExecuteReader())
                 {
-                    if (dr.Read())
-                    {
-                        return Transformer.CreateObject<T>(dr);
-                    }
-                    else
-                        return default(T);
+                    return Transformer.ToList<T>(dr);
                 }
             }
         }
@@ -310,26 +304,26 @@ namespace TarkOrm
             var tablePath = QueryBuilder.GetMapperTablePath<T>();
 
             var typeMapping = (TarkTypeMapping<T>)TarkConfigurationMapping.ManageMapping<T>();
-            var propertiesKey = typeMapping.PropertiesMappings.Values.Where(x => x.IsKeyColumn()).ToArray();
-
+            var mappingKeys = typeMapping.PropertiesMappings.Where(x => x.Value.IsKeyColumn()).ToArray();
+            
             StringBuilder cmdKeys = new StringBuilder();
 
             using (IDbCommand cmd = _connection.CreateCommand())
             {
-                for (int i = 0; i < propertiesKey.Count(); i++)
+                for (int i = 0; i < mappingKeys.Count(); i++)
                 {
-                    var columnName = propertiesKey[i].GetMappedColumnName();
+                    var columnName = mappingKeys[i].Key;
 
                     //Keys appending
                     cmdKeys.Append($"{columnName} = @{ columnName }");
 
-                    if (i != propertiesKey.Count() - 1)
+                    if (i != mappingKeys.Count() - 1)
                         cmdKeys.Append(", ");
 
                     //Uses ADO Sql Parameters in order to avoid SQL Injection attacks
                     var dbParam = cmd.CreateParameter();
                     dbParam.ParameterName = $"@{ columnName }";
-                    dbParam.Value = propertiesKey[i].GetValue(entity);
+                    dbParam.Value = mappingKeys[i].Value.GetValue(entity);
 
                     cmd.Parameters.Add(dbParam);
                 }
@@ -401,49 +395,47 @@ namespace TarkOrm
                 StringBuilder cmdKeys = new StringBuilder();
 
                 var typeMapping = (TarkTypeMapping<T>)TarkConfigurationMapping.ManageMapping<T>();
-
-                var properties = entity.GetType().GetProperties();
-                var propertiesKey = typeMapping.PropertiesMappings.Values.Where(x => x.IsKeyColumn()).ToArray();
-                var propertiesNonKey = typeMapping.PropertiesMappings.Values.Where(x => !x.IsKeyColumn()).ToArray();
-
-                for (int i = 0; i < propertiesNonKey.Count(); i++)
+                var mappedKeys = typeMapping.PropertiesMappings.Where(x => x.Value.IsKeyColumn()).ToArray();
+                var mappedNonKeys = typeMapping.PropertiesMappings.Where(x => !x.Value.IsKeyColumn()).ToArray();
+                
+                for (int i = 0; i < mappedNonKeys.Count(); i++)
                 {
-                    if (propertiesNonKey[i].IsReadOnlyColumn() || propertiesNonKey[i].IsIgnoreMappingColumn())
+                    if (mappedNonKeys[i].Value.IsReadOnlyColumn())
                         continue;
 
-                    var columnName = propertiesNonKey[i].GetMappedColumnName();
+                    var columnName = mappedNonKeys[i].Key;
 
                     //Column name appending
                     cmdUpdate.Append($"{columnName} = @{ columnName }");
 
-                    if (i != propertiesNonKey.Count() - 1)
+                    if (i != mappedNonKeys.Count() - 1)
                         cmdUpdate.Append(", ");
 
                     //Uses ADO Sql Parameters in order to avoid SQL Injection attacks
                     var dbParam = cmd.CreateParameter();
                     dbParam.ParameterName = $"@{ columnName }";
 
-                    var paramValue = propertiesNonKey[i].GetValue(entity) ?? DBNull.Value;
+                    var paramValue = mappedNonKeys[i].Value.GetValue(entity) ?? DBNull.Value;
                     dbParam.Value = paramValue;
 
                     cmd.Parameters.Add(dbParam);
                 }
 
-                for (int i = 0; i < propertiesKey.Count(); i++)
+                for (int i = 0; i < mappedKeys.Count(); i++)
                 {
-                    var columnName = propertiesKey[i].GetMappedColumnName();
+                    var columnName = mappedKeys[i].Key;
 
                     //Keys appending
                     cmdKeys.Append($"{columnName} = @{ columnName }");
 
-                    if (i != propertiesKey.Count() - 1)
+                    if (i != mappedKeys.Count() - 1)
                         cmdKeys.Append(", ");
 
                     //Uses ADO Sql Parameters in order to avoid SQL Injection attacks
                     var dbParam = cmd.CreateParameter();
                     dbParam.ParameterName = $"@{ columnName }";
 
-                    var paramValue = propertiesKey[i].GetValue(entity) ?? DBNull.Value;
+                    var paramValue = mappedKeys[i].Value.GetValue(entity) ?? DBNull.Value;
                     dbParam.Value = paramValue;
 
                     cmd.Parameters.Add(dbParam);

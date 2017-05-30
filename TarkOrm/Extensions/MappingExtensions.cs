@@ -17,15 +17,16 @@ namespace TarkOrm.Extensions
         /// </summary>
         /// <param name="property"></param>
         /// <returns>Name of the column which the property is mapped to.</returns>
-        public static string GetMappedColumnName(this PropertyInfo property)
+        public static string GetMappedColumnName<T>(this PropertyInfo property)
         {
-            //TODO: Search it in ConfigurationMapping
-            //TODO: Refactor places which use this property to maybe remove it
-            var columnAttribute = property.GetCustomAttribute<ColumnAttribute>();
-            if (columnAttribute != null && !String.IsNullOrWhiteSpace(columnAttribute.Name))
-                return columnAttribute.Name;
-            else
-                return property.Name;
+            var typeMapping = (TarkTypeMapping<T>)TarkConfigurationMapping.ManageMapping<T>();
+
+            var propertyMapping = typeMapping.PropertiesMappings.Where(x => x.Value == property);
+
+            if (propertyMapping.Count() == 0)
+                return null;
+
+            return propertyMapping.FirstOrDefault().Key;
         }
 
         public static bool IsKeyColumn(this PropertyInfo property)

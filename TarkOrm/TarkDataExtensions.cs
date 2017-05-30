@@ -17,7 +17,7 @@ namespace TarkOrm
             return dataAccess;
         }
 
-        public static T GetWhere<T, TProperty>(this IDbConnection connection, Expression<Func<T, TProperty>> propertyLambda, object value)
+        public static IEnumerable<T> GetWhere<T, TProperty>(this IDbConnection connection, Expression<Func<T, TProperty>> propertyLambda, object value)
         {
             using (var dataAccess = new TarkOrm(connection))
             {
