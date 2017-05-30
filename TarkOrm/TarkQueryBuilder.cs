@@ -1,12 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Data;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-using TarkOrm.Attributes;
 
 namespace TarkOrm
 {
@@ -35,26 +28,6 @@ namespace TarkOrm
         public string GetMapperTablePath<T>()
         {
             Type type = typeof(T);
-
-            //var databaseAttribute = type.GetCustomAttribute<DatabaseAttribute>();
-            //if (databaseAttribute != null && !String.IsNullOrWhiteSpace(databaseAttribute.Name))
-            //{
-            //    databaseName = databaseAttribute.Name;
-            //}
-
-            //var tableAttribute = type.GetCustomAttribute<TableAttribute>();
-            //if (tableAttribute != null)
-            //{
-            //    if (!String.IsNullOrWhiteSpace(tableAttribute.Name))
-            //        tableName = tableAttribute.Name;
-
-            //    if (!String.IsNullOrWhiteSpace(tableAttribute.Schema))
-            //        schema = tableAttribute.Schema;
-            //}
-            //else
-            //{
-            //    tableName = type.Name;
-            //}
 
             var typeMapping = (TarkTypeMapping<T>) TarkConfigurationMapping.ManageMapping<T>();
             
@@ -120,7 +93,6 @@ namespace TarkOrm
             return _tarkDataAccess.MockCommand;
         }
     }
-    
 
     public static class TableHints
     {        

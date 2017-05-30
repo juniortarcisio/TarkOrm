@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TarkOrm.Attributes;
 
 namespace TarkOrm.Tests
 {
@@ -17,6 +18,6 @@ namespace TarkOrm.Tests
 
         public string Name { get; set; }
 
-        public int ProvinceID { get; set; }
+        public int? ProvinceID { get; set; }
     }
 }

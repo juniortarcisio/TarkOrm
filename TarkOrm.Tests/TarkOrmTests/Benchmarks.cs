@@ -6,6 +6,7 @@ using System.Data.Entity;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Diagnostics;
 using Dapper;
+using System.Data.Entity.ModelConfiguration.Conventions;
 
 namespace TarkOrm.Tests
 {
@@ -357,6 +358,7 @@ namespace TarkOrm.Tests
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
+            modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
             Database.SetInitializer(new NullDatabaseInitializer<DbLabsContext>());
         }
     }
@@ -372,6 +374,7 @@ namespace TarkOrm.Tests
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
+            modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
             modelBuilder.RegisterEntityType(typeof(T));
         }
     }

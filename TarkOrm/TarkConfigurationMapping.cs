@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using TarkOrm.Extensions;
 using System.Linq.Expressions;
 using TarkOrm.Attributes;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace TarkOrm
 {
@@ -38,7 +37,7 @@ namespace TarkOrm
         {
             var existingMapping = GetMapping<T>();
             if (existingMapping != null)
-                return (TarkTypeMapping<T>)existingMapping;
+                return existingMapping;
             else
                 return AutoMapType<T>();
         }
@@ -47,7 +46,7 @@ namespace TarkOrm
         {
             var existingMapping = GetMapping<T>();
             if (existingMapping != null)
-                return (TarkTypeMapping<T>)existingMapping;
+                return existingMapping;
 
             Type type = typeof(T);
             PropertyInfo[] properties = type.GetProperties();
@@ -62,7 +61,7 @@ namespace TarkOrm
                 string columnName;
 
                 var columnAttribute = properties[i].GetCustomAttribute<ColumnAttribute>();
-                if (columnAttribute != null && !String.IsNullOrWhiteSpace(columnAttribute.Name))
+                if (columnAttribute != null && !string.IsNullOrWhiteSpace(columnAttribute.Name))
                     columnName = columnAttribute.Name;
                 else
                     columnName = properties[i].Name;
@@ -74,7 +73,7 @@ namespace TarkOrm
 
             //Database
             var databaseAttribute = type.GetCustomAttribute<DatabaseAttribute>();
-            if (databaseAttribute != null && !String.IsNullOrWhiteSpace(databaseAttribute.Name))
+            if (databaseAttribute != null && !string.IsNullOrWhiteSpace(databaseAttribute.Name))
             {
                 newMapping.Database = databaseAttribute.Name;
             }
@@ -83,10 +82,10 @@ namespace TarkOrm
             var tableAttribute = type.GetCustomAttribute<TableAttribute>();
             if (tableAttribute != null)
             {
-                if (!String.IsNullOrWhiteSpace(tableAttribute.Name))
+                if (!string.IsNullOrWhiteSpace(tableAttribute.Name))
                     newMapping.Table = tableAttribute.Name;
 
-                if (!String.IsNullOrWhiteSpace(tableAttribute.Schema))
+                if (!string.IsNullOrWhiteSpace(tableAttribute.Schema))
                     newMapping.Schema = tableAttribute.Schema;
             }
             else

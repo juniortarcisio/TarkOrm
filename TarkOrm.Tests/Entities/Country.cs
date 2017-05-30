@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using TarkOrm.Attributes;
 
 namespace TarkOrm.Tests
 {
@@ -22,7 +16,7 @@ namespace TarkOrm.Tests
         [Column("flagb64")]
         public string FlagB64{ get; set; }
 
-        public int CurrencyID { get; set; }
+        public int? CurrencyID { get; set; }
     }
 
     [Table("Country")]
