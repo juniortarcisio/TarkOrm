@@ -148,7 +148,7 @@ namespace TarkOrm
             }
         }
         
-        public virtual bool Exists<T>(params object[] keyValues)
+        public virtual bool ExistsById<T>(params object[] keyValues)
         {
             OpenConnection();
 
@@ -181,6 +181,51 @@ namespace TarkOrm
                 }
 
                 cmd.CommandText = $"SELECT TOP 1 NULL FROM {tablePath} WHERE {cmdFilter.ToString()}";
+                cmd.CommandType = CommandType.Text;
+
+                if (IsMockCommand(cmd))
+                    return false;
+
+                using (IDataReader dr = cmd.ExecuteReader())
+                {
+                    if (dr.Read())
+                    {
+                        return true;
+                    }
+                    else
+                        return false;
+                }
+            }
+        }
+        
+        public virtual bool ExistsWhere<T, TProperty>(Expression<Func<T, TProperty>> propertyLambda, object value)
+        {
+            var typeMapping = (TarkTypeMapping<T>)TarkConfigurationMapping.ManageMapping<T>();
+            var property = propertyLambda.GetPropertyInfo();
+
+            KeyValuePair<string, TarkColumnMapping> columnMapping =
+                typeMapping.PropertiesMappings.Where(x => x.Value.Property == property).FirstOrDefault();
+
+            if (columnMapping.Equals(default(KeyValuePair<string, TarkColumnMapping>)))
+                throw new InvalidFilterCriteriaException("Property mapping not found");
+
+            var columnName = columnMapping.Key;
+
+            OpenConnection();
+
+            var tablePath = QueryBuilder.GetMapperTablePath<T>();
+            var mappedKeys = typeMapping.GetMappedOrderedKeys();
+
+            using (IDbCommand cmd = _connection.CreateCommand())
+            {
+                //Uses ADO Sql Parameters in order to avoid SQL Injection attacks
+                var dbParam = cmd.CreateParameter();
+                dbParam.ParameterName = $"@{ columnName }";
+                dbParam.Value = value;
+
+                cmd.Parameters.Add(dbParam);
+
+                cmd.CommandText = $"SELECT * FROM {tablePath} WHERE {columnName} = @{columnName}";
                 cmd.CommandType = CommandType.Text;
 
                 if (IsMockCommand(cmd))

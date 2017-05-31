@@ -4,10 +4,13 @@
     <Position X="7.271" Y="0.562" Height="0.291" Width="1.44" />
   </Comment>
   <Comment CommentText="Extensions">
-    <Position X="0.5" Y="5.75" Height="0.291" Width="0.887" />
+    <Position X="0.51" Y="5.854" Height="0.291" Width="0.887" />
   </Comment>
   <Comment CommentText="Core components">
     <Position X="0.5" Y="0.562" Height="0.291" Width="1.21" />
+  </Comment>
+  <Comment CommentText="Attributes">
+    <Position X="4.792" Y="5.635" Height="0.291" Width="0.887" />
   </Comment>
   <Class Name="TarkOrm.TarkOrm">
     <Position X="0.75" Y="1.25" Width="2.25" />
@@ -22,7 +25,7 @@
       </MemberNameLabel>
     </AssociationLine>
     <TypeIdentifier>
-      <HashCode>AAYAAAAAACAAAwAAAAIBBAEAAQAAABAAAgABAAEABIA=</HashCode>
+      <HashCode>AAYAAAAAACAgAwAAAAIBBAEAAQAAABAAAgABAAAEBIA=</HashCode>
       <FileName>TarkOrm.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>

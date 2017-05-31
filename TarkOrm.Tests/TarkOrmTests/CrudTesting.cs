@@ -129,8 +129,8 @@ namespace TarkOrm.Tests
 
             var tarkOrm = new TarkOrm("localhost");
 
-            var x = tarkOrm.Exists<TestOrm>(1);
-            var y = tarkOrm.Exists<TestOrm>(99);
+            var x = tarkOrm.ExistsById<TestOrm>(1);
+            var y = tarkOrm.ExistsById<TestOrm>(99);
 
             watch.Stop();
 

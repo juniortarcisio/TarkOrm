@@ -41,11 +41,19 @@ namespace TarkOrm
             }
         }
 
-        public static bool Exists<T>(this IDbConnection connection, params object[] keyValues)
+        public static bool ExistsWhere<T, TProperty>(this IDbConnection connection, Expression<Func<T, TProperty>> propertyLambda, object value)
         {
             using (var dataAccess = new TarkOrm(connection))
             {
-                return dataAccess.Exists<T>(keyValues);
+                return dataAccess.ExistsWhere(propertyLambda, value);
+            }
+        }
+
+        public static bool ExistsById<T>(this IDbConnection connection, params object[] keyValues)
+        {
+            using (var dataAccess = new TarkOrm(connection))
+            {
+                return dataAccess.ExistsById<T>(keyValues);
             }
         }
 
