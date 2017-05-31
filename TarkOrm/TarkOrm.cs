@@ -7,6 +7,7 @@ using System.Data;
 using TarkOrm.Extensions;
 using System.Linq.Expressions;
 using System.Configuration;
+using TarkOrm.Mapping;
 
 //Should the open and close connection be here? It's not flexible
 //What about a fluent API -> Open, return itself, or a param open/close?

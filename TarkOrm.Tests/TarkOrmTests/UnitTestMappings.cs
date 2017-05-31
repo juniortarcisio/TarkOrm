@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Diagnostics;
+using TarkOrm.Mapping;
 
 namespace TarkOrm.Tests.TarkOrmTests
 {
