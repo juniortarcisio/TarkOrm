@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace TarkOrm.Attributes
 {
-    public class ReadonlyAttribute : Attribute
+    public class ReadOnlyAttribute : Attribute
     {
-        public ReadonlyAttribute()
+        public ReadOnlyAttribute()
         {
         }
     }

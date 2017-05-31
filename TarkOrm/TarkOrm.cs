@@ -199,17 +199,20 @@ namespace TarkOrm
 
         public virtual IEnumerable<T> GetWhere<T, TProperty>(Expression<Func<T, TProperty>> propertyLambda, object value)
         {
+            var typeMapping = (TarkTypeMapping<T>)TarkConfigurationMapping.ManageMapping<T>();
             var property = propertyLambda.GetPropertyInfo();
-            var columnName = property.GetMappedColumnName<T>();
 
-            if (columnName == null)
+            KeyValuePair<string,TarkColumnMapping> columnMapping = 
+                typeMapping.PropertiesMappings.Where(x => x.Value.Property == property).FirstOrDefault();
+
+            if (columnMapping.Equals(default(KeyValuePair<string, TarkColumnMapping>)))
                 throw new InvalidFilterCriteriaException("Property mapping not found");
+
+            var columnName = columnMapping.Key;
 
             OpenConnection();
 
             var tablePath = QueryBuilder.GetMapperTablePath<T>();
-
-            var typeMapping = (TarkTypeMapping<T>)TarkConfigurationMapping.ManageMapping<T>();
             var mappedKeys = typeMapping.GetMappedOrderedKeys();
 
             using (IDbCommand cmd = _connection.CreateCommand())
@@ -275,7 +278,7 @@ namespace TarkOrm
                     var dbParam = cmd.CreateParameter();
                     dbParam.ParameterName = $"@{ columnName }";
 
-                    var paramValue = item.Value.GetValue(entity) ?? DBNull.Value;
+                    var paramValue = item.Value.Property.GetValue(entity) ?? DBNull.Value;
                     dbParam.Value = paramValue;
 
                     cmd.Parameters.Add(dbParam);
@@ -321,7 +324,7 @@ namespace TarkOrm
                     //Uses ADO Sql Parameters in order to avoid SQL Injection attacks
                     var dbParam = cmd.CreateParameter();
                     dbParam.ParameterName = $"@{ columnName }";
-                    dbParam.Value = mappingKeys[i].Value.GetValue(entity);
+                    dbParam.Value = mappingKeys[i].Value.Property.GetValue(entity);
 
                     cmd.Parameters.Add(dbParam);
                 }
@@ -413,7 +416,7 @@ namespace TarkOrm
                     var dbParam = cmd.CreateParameter();
                     dbParam.ParameterName = $"@{ columnName }";
 
-                    var paramValue = mappedNonKeys[i].Value.GetValue(entity) ?? DBNull.Value;
+                    var paramValue = mappedNonKeys[i].Value.Property.GetValue(entity) ?? DBNull.Value;
                     dbParam.Value = paramValue;
 
                     cmd.Parameters.Add(dbParam);
@@ -433,7 +436,7 @@ namespace TarkOrm
                     var dbParam = cmd.CreateParameter();
                     dbParam.ParameterName = $"@{ columnName }";
 
-                    var paramValue = mappedKeys[i].Value.GetValue(entity) ?? DBNull.Value;
+                    var paramValue = mappedKeys[i].Value.Property.GetValue(entity) ?? DBNull.Value;
                     dbParam.Value = paramValue;
 
                     cmd.Parameters.Add(dbParam);

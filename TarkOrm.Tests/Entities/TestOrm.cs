@@ -6,7 +6,7 @@ namespace TarkOrm.Tests
     public class TestOrm
     {
         [Key]
-        [Readonly]
+        [ReadOnly]
         public int Id { get; set; }
 
         public string Name { get; set; }
@@ -21,7 +21,7 @@ namespace TarkOrm.Tests
     public class TestOrmTestMapping
     {
         [Key]
-        [Readonly]
+        [ReadOnly]
         public int Id { get; set; }
 
         public string description { get; set; }

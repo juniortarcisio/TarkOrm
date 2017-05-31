@@ -42,9 +42,9 @@ namespace TarkOrm
 
             //First search the column before treating nulls,
             //Despite the search proccess, it's possible to get implementation mistake even when it's null
-            PropertyInfo objectProperty;
+            TarkColumnMapping columnMapping;
 
-            if (!typeMapping.GetPropertiesMapping().TryGetValue(columnName, out objectProperty))
+            if (!typeMapping.GetPropertiesMapping().TryGetValue(columnName, out columnMapping))
             {            
                 //2017-05-25: Changed to don't throw exceptions if there is no property for the field
                 //throw new MissingMemberException(String.Format("Cannot find mapped property for column \"{0}\"",columnName));
@@ -58,22 +58,22 @@ namespace TarkOrm
 
             try
             {
-                propertyValue = value.To(objectProperty.PropertyType);
+                propertyValue = value.To(columnMapping.Property.PropertyType);
             }
             catch (Exception ex)
             {
                 throw new InvalidCastException(
-                    String.Format("Cannot cast data value to object property type \"{1}\".", objectProperty.Name), ex);
+                    String.Format("Cannot cast data value to object property type \"{1}\".", columnMapping.Property.Name), ex);
             }
 
             try
             {
-                objectProperty.SetValue(obj, propertyValue); 
+                columnMapping.Property.SetValue(obj, propertyValue); 
             }
             catch (Exception ex)
             {
                 throw new InvalidCastException(
-                    String.Format("Cannot set value to object property \"{1}\".", objectProperty.Name), ex);
+                    String.Format("Cannot set value to object property \"{1}\".", columnMapping.Property.Name), ex);
             }
         }
 
