@@ -37,15 +37,16 @@ namespace TarkOrm.Tests.TarkOrmTests
 
             var tarkOrm = new TarkOrm("localhost");
 
+            TarkConfigurationMapping.DefaultStringDbType = System.Data.DbType.AnsiString;
             TarkConfigurationMapping.CreateEmptyMapType<TestOrmTestMapping>()
                 .MapProperty(x => x.classx, "Classification")
                 .MapProperty(x => x.description, "Name")
                 .MapProperty(x => x.CreationDate)
                 .MapProperty(x => x.Id, new KeyAttribute())
-                .ToTable("TestOrm");   
-
-            var list = tarkOrm.GetAll<TestOrmTestMapping>();
-
+                .ToTable("TestOrm");
+            
+            var list = tarkOrm.GetWhere<TestOrmTestMapping, string>(x => x.description, "Polskyman");
+                        
             var item = tarkOrm.GetById<TestOrmTestMapping>(1);
 
             watch.Stop();
