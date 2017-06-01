@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using TarkOrm.Attributes;
 
@@ -31,20 +32,20 @@ namespace TarkOrm.Mapping
             Attributes = new HashSet<Attribute>() { attribute };
         }
 
-        public TarkColumnMapping(PropertyInfo property, HashSet<Attribute> attributes)
+        public TarkColumnMapping(PropertyInfo property, params Attribute[] attributes)
         {
             Property = property;
-            Attributes = attributes;
+            Attributes = new HashSet<Attribute>(attributes);
         }
 
         public bool IsKeyColumn()
         {
-            return Attributes.Contains(new KeyAttribute());
+            return Attributes.Any(x => x is KeyAttribute);
         }
 
         public bool IsReadOnlyColumn()
         {
-            return Attributes.Contains(new ReadOnlyAttribute());
+            return Attributes.Any(x => x is ReadOnlyAttribute);
         }
     }
 }

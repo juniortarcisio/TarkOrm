@@ -42,6 +42,22 @@ namespace TarkOrm.Mapping
                 return AutoMapType<T>();
         }
 
+        public static TarkTypeMapping<T> CreateEmptyMapType<T>()
+        {
+            var existingMapping = GetMapping<T>();
+            if (existingMapping != null)
+                Mappings.Remove(existingMapping);
+
+            Type type = typeof(T);
+            Dictionary<string, TarkColumnMapping> propertiesMappings =
+                new Dictionary<string, TarkColumnMapping>(StringComparer.OrdinalIgnoreCase);
+
+            var newMapping = new TarkTypeMapping<T>(type, propertiesMappings);
+            Mappings.Add(newMapping);
+
+            return newMapping;
+        }
+
         public static TarkTypeMapping<T> AutoMapType<T>()
         {
             var existingMapping = GetMapping<T>();

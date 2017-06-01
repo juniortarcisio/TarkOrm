@@ -4,6 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using TarkOrm.Attributes;
 using TarkOrm.Extensions;
 
 namespace TarkOrm.Mapping
@@ -32,8 +33,6 @@ namespace TarkOrm.Mapping
 
         public Dictionary<string, TarkColumnMapping> PropertiesMappings;
 
-        //public Tuple<string, PropertyInfo, List<Attribute>> PropertiesMappings2;
-
         public Type GetMappingType()
         {
             return Type;
@@ -44,14 +43,50 @@ namespace TarkOrm.Mapping
             return PropertiesMappings;
         }
 
+        public TarkTypeMapping<T> MapProperty<TProperty>(Expression<Func<T, TProperty>> propertyLambda, string columnName, params Attribute[] attributes)
+        {
+            var property = propertyLambda.GetPropertyInfo();
+
+            if (PropertiesMappings.ContainsKey(columnName))
+                throw new DuplicatedMappingException(columnName,typeof(T).Name);
+
+            PropertiesMappings.Add(columnName, new TarkColumnMapping(property, attributes));
+
+            return this;
+        }
+
         public TarkTypeMapping<T> MapProperty<TProperty>(Expression<Func<T, TProperty>> propertyLambda, string columnName)
         {
             var property = propertyLambda.GetPropertyInfo();
 
             if (PropertiesMappings.ContainsKey(columnName))
-                PropertiesMappings[columnName] = new TarkColumnMapping(property);
-            else
-                PropertiesMappings.Add(columnName, new TarkColumnMapping(property));
+                throw new DuplicatedMappingException(columnName, typeof(T).Name);
+
+            PropertiesMappings.Add(columnName, new TarkColumnMapping(property));
+
+            return this;
+        }
+
+        public TarkTypeMapping<T> MapProperty<TProperty>(Expression<Func<T, TProperty>> propertyLambda, params Attribute[] attributes)
+        {
+            var property = propertyLambda.GetPropertyInfo();
+
+            if (PropertiesMappings.ContainsKey(property.Name))
+                throw new DuplicatedMappingException(property.Name, typeof(T).Name);
+
+            PropertiesMappings.Add(property.Name, new TarkColumnMapping(property, attributes));
+
+            return this;
+        }
+
+        public TarkTypeMapping<T> MapProperty<TProperty>(Expression<Func<T, TProperty>> propertyLambda)
+        {
+            var property = propertyLambda.GetPropertyInfo();
+
+            if (PropertiesMappings.ContainsKey(property.Name))
+                throw new DuplicatedMappingException(property.Name, typeof(T).Name);
+
+            PropertiesMappings.Add(property.Name, new TarkColumnMapping(property));
 
             return this;
         }
@@ -75,16 +110,14 @@ namespace TarkOrm.Mapping
 
         public string[] GetMappedOrderedKeys()
         {
-            HashSet<string> keys = new HashSet<string>();
-
-            foreach (var item in PropertiesMappings)
-            {
-                if (item.Value.IsKeyColumn())
-                    keys.Add(item.Key);
-            }
+            var keys = from p in PropertiesMappings
+                       where p.Value.Attributes.Any(x => x is KeyAttribute)
+                       orderby ((KeyAttribute)p.Value.Attributes.Where(x => x is KeyAttribute).FirstOrDefault()).Order
+                       select p.Key;
 
             return keys.ToArray();
         }
+
 
         public TarkTypeMapping<T> ToDatabase(string database)
         {

@@ -127,6 +127,9 @@ namespace TarkOrm
                     dbParam.ParameterName = $"@{ mappedKeys[i] }";
                     dbParam.Value = keyValues[i];
 
+                    if (dbParam.Value is string)
+                        dbParam.DbType = DbType.AnsiString;
+
                     cmd.Parameters.Add(dbParam);
                 }
 
@@ -177,6 +180,9 @@ namespace TarkOrm
                     dbParam.ParameterName = $"@{ mappedKeys[i] }";
                     dbParam.Value = keyValues[i];
 
+                    if (dbParam.Value is string)
+                        dbParam.DbType = DbType.AnsiString;
+
                     cmd.Parameters.Add(dbParam);
                 }
 
@@ -223,6 +229,9 @@ namespace TarkOrm
                 dbParam.ParameterName = $"@{ columnName }";
                 dbParam.Value = value;
 
+                if (dbParam.Value is string)
+                    dbParam.DbType = DbType.AnsiString;
+
                 cmd.Parameters.Add(dbParam);
 
                 cmd.CommandText = $"SELECT * FROM {tablePath} WHERE {columnName} = @{columnName}";
@@ -267,6 +276,9 @@ namespace TarkOrm
                 var dbParam = cmd.CreateParameter();
                 dbParam.ParameterName = $"@{ columnName }";
                 dbParam.Value = value;
+
+                if (dbParam.Value is string)
+                    dbParam.DbType = DbType.AnsiString;
 
                 cmd.Parameters.Add(dbParam);
 
@@ -327,6 +339,9 @@ namespace TarkOrm
                     var paramValue = item.Value.Property.GetValue(entity) ?? DBNull.Value;
                     dbParam.Value = paramValue;
 
+                    if (dbParam.Value is string)
+                        dbParam.DbType = DbType.AnsiString;
+
                     cmd.Parameters.Add(dbParam);
                 }
 
@@ -372,6 +387,9 @@ namespace TarkOrm
                     dbParam.ParameterName = $"@{ columnName }";
                     dbParam.Value = mappingKeys[i].Value.Property.GetValue(entity);
 
+                    if (dbParam.Value is string)
+                        dbParam.DbType = DbType.AnsiString;
+
                     cmd.Parameters.Add(dbParam);
                 }
 
@@ -413,6 +431,9 @@ namespace TarkOrm
                     var dbParam = cmd.CreateParameter();
                     dbParam.ParameterName = $"@{ mappedKeys[i] }";
                     dbParam.Value = keyValues[i];
+
+                    if (dbParam.Value is string)
+                        dbParam.DbType = DbType.AnsiString;
 
                     cmd.Parameters.Add(dbParam);
                 }
@@ -465,6 +486,9 @@ namespace TarkOrm
                     var paramValue = mappedNonKeys[i].Value.Property.GetValue(entity) ?? DBNull.Value;
                     dbParam.Value = paramValue;
 
+                    if (dbParam.Value is string)
+                        dbParam.DbType = DbType.AnsiString;
+
                     cmd.Parameters.Add(dbParam);
                 }
 
@@ -484,6 +508,9 @@ namespace TarkOrm
 
                     var paramValue = mappedKeys[i].Value.Property.GetValue(entity) ?? DBNull.Value;
                     dbParam.Value = paramValue;
+
+                    if (dbParam.Value is string)
+                        dbParam.DbType = DbType.AnsiString;
 
                     cmd.Parameters.Add(dbParam);
                 }

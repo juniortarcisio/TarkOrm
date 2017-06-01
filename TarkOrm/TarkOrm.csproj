@@ -46,6 +46,7 @@
     <Compile Include="Attributes\KeyAttribute.cs" />
     <Compile Include="Attributes\ReadonlyAttribute.cs" />
     <Compile Include="Attributes\TableAttribute.cs" />
+    <Compile Include="Mapping\DuplicatedMappingException.cs" />
     <Compile Include="Mapping\ITarkTypeMapping.cs" />
     <Compile Include="Mapping\TarkColumnMapping.cs" />
     <Compile Include="Mapping\TarkConfigurationMapping.cs" />
