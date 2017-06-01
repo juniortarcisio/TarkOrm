@@ -128,7 +128,7 @@ namespace TarkOrm
                     dbParam.Value = keyValues[i];
 
                     if (dbParam.Value is string)
-                        dbParam.DbType = DbType.AnsiString;
+                        dbParam.DbType = TarkConfigurationMapping.DefaultStringDbType; 
 
                     cmd.Parameters.Add(dbParam);
                 }
@@ -181,7 +181,7 @@ namespace TarkOrm
                     dbParam.Value = keyValues[i];
 
                     if (dbParam.Value is string)
-                        dbParam.DbType = DbType.AnsiString;
+                        dbParam.DbType = TarkConfigurationMapping.DefaultStringDbType;
 
                     cmd.Parameters.Add(dbParam);
                 }
@@ -230,7 +230,7 @@ namespace TarkOrm
                 dbParam.Value = value;
 
                 if (dbParam.Value is string)
-                    dbParam.DbType = DbType.AnsiString;
+                    dbParam.DbType = TarkConfigurationMapping.DefaultStringDbType;
 
                 cmd.Parameters.Add(dbParam);
 
@@ -278,7 +278,7 @@ namespace TarkOrm
                 dbParam.Value = value;
 
                 if (dbParam.Value is string)
-                    dbParam.DbType = DbType.AnsiString;
+                    dbParam.DbType = TarkConfigurationMapping.DefaultStringDbType;
 
                 cmd.Parameters.Add(dbParam);
 
@@ -340,7 +340,7 @@ namespace TarkOrm
                     dbParam.Value = paramValue;
 
                     if (dbParam.Value is string)
-                        dbParam.DbType = DbType.AnsiString;
+                        dbParam.DbType = TarkConfigurationMapping.DefaultStringDbType;
 
                     cmd.Parameters.Add(dbParam);
                 }
@@ -388,7 +388,7 @@ namespace TarkOrm
                     dbParam.Value = mappingKeys[i].Value.Property.GetValue(entity);
 
                     if (dbParam.Value is string)
-                        dbParam.DbType = DbType.AnsiString;
+                        dbParam.DbType = TarkConfigurationMapping.DefaultStringDbType;
 
                     cmd.Parameters.Add(dbParam);
                 }
@@ -433,7 +433,7 @@ namespace TarkOrm
                     dbParam.Value = keyValues[i];
 
                     if (dbParam.Value is string)
-                        dbParam.DbType = DbType.AnsiString;
+                        dbParam.DbType = TarkConfigurationMapping.DefaultStringDbType;
 
                     cmd.Parameters.Add(dbParam);
                 }
@@ -487,7 +487,7 @@ namespace TarkOrm
                     dbParam.Value = paramValue;
 
                     if (dbParam.Value is string)
-                        dbParam.DbType = DbType.AnsiString;
+                        dbParam.DbType = TarkConfigurationMapping.DefaultStringDbType;
 
                     cmd.Parameters.Add(dbParam);
                 }
@@ -510,7 +510,7 @@ namespace TarkOrm
                     dbParam.Value = paramValue;
 
                     if (dbParam.Value is string)
-                        dbParam.DbType = DbType.AnsiString;
+                        dbParam.DbType = TarkConfigurationMapping.DefaultStringDbType;
 
                     cmd.Parameters.Add(dbParam);
                 }

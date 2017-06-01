@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Diagnostics;
+using TarkOrm.Attributes;
 using TarkOrm.Mapping;
 
 namespace TarkOrm.Tests.TarkOrmTests
@@ -36,14 +37,16 @@ namespace TarkOrm.Tests.TarkOrmTests
 
             var tarkOrm = new TarkOrm("localhost");
 
-            TarkConfigurationMapping.AutoMapType<TestOrmTestMapping>()
+            TarkConfigurationMapping.CreateEmptyMapType<TestOrmTestMapping>()
                 .MapProperty(x => x.classx, "Classification")
                 .MapProperty(x => x.description, "Name")
-                .IgnoreProperty(x => x.Id)
-                .ToTable("TestOrm"); 
-                //TODO: Readonly, key    
+                .MapProperty(x => x.CreationDate)
+                .MapProperty(x => x.Id, new KeyAttribute())
+                .ToTable("TestOrm");   
 
             var list = tarkOrm.GetAll<TestOrmTestMapping>();
+
+            var item = tarkOrm.GetById<TestOrmTestMapping>(1);
 
             watch.Stop();
 

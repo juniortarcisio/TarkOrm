@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using TarkOrm.Extensions;
 using System.Linq.Expressions;
 using TarkOrm.Attributes;
+using System.Data;
 
 namespace TarkOrm.Mapping
 {
@@ -25,6 +26,8 @@ namespace TarkOrm.Mapping
                 return _mappings;
             }
         }
+
+        public static DbType DefaultStringDbType { get; set; } = DbType.AnsiString;
 
         public static TarkTypeMapping<T> GetMapping<T>()
         {
