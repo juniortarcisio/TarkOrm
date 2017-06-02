@@ -189,10 +189,10 @@ namespace TarkOrm.Tests
 
             var lista = data.GetAll<City>();
 
-            foreach (var item in lista)
-            {
-                //var x = item.CityID;
-            }
+            //foreach (var item in lista)
+            //{
+            //    //var x = item.CityID;
+            //}
 
             watch.Stop();
 
@@ -342,6 +342,28 @@ namespace TarkOrm.Tests
             watch.Stop();
 
             Debugger.Log(0, "", $"Entity Elapsed MS: {watch.ElapsedMilliseconds.ToString()}{Environment.NewLine}");
+        }
+                
+        [TestMethod]
+        public void BenchmarkTarkORMDynamic()
+        {
+            Stopwatch watch = new Stopwatch();
+            //TarkORM
+            watch.Reset();
+            watch.Start();
+
+            var data = new TarkOrm("data source=PH03N1XR4V4N-PC\\DBLABS;initial catalog=MyPortal;persist security info=True;user id=app_login;password=ph03n1xr4v3n;MultipleActiveResultSets=True;App=TarkOrm");
+
+            //var lista = data.GetAll<City>();
+
+            //foreach (var item in lista)
+            //{
+            //    //var x = item.CityID;
+            //}
+
+            watch.Stop();
+
+            Debugger.Log(0, "", $"TarkORM Elapsed MS: {watch.ElapsedMilliseconds.ToString()}{Environment.NewLine}");
         }
     }
 

@@ -43,12 +43,7 @@ namespace TarkOrm
 
             if (value == DBNull.Value)
                 return;
-
-            //obj[columnName] = Convert.ChangeType(value,
-            //    columnMapping.GetCachePropertyConvertType(),
-            //    CultureInfo.InvariantCulture
-            //    );
-
+            
             columnMapping.Property.SetValue(obj,
                 Convert.ChangeType(value,
                 columnMapping.GetCachePropertyConvertType(),
@@ -81,7 +76,7 @@ namespace TarkOrm
  
             for (int i = 0; i < dr.Table.Columns.Count; i++)
             {
-                //SetPropertyValue(finalObject, dr.Table.Columns[i].ColumnName, dr[i], typeMapping);
+                SetPropertyValue(finalObject, dr.Table.Columns[i].ColumnName, dr[i], typeMapping);
             }
 
             return finalObject;
@@ -111,7 +106,6 @@ namespace TarkOrm
         private T CreateObject<T>(IDataReader dr, TarkTypeMapping<T> typeMapping, string[] columnNames)
         {
             var finalObject = (T)Activator.CreateInstance(typeof(T));
-            //dynamic finalObject = new ExpandoObject();
             
             object[] values = new object[dr.FieldCount];
             dr.GetValues(values);
@@ -119,7 +113,7 @@ namespace TarkOrm
             for (int i = 0; i < dr.FieldCount; i++)
                 SetPropertyValue(finalObject, columnNames[i], values[i], typeMapping);
 
-            return finalObject; //Convert.ChangeType(finalObject, typeof(T), CultureInfo.InvariantCulture);
+            return finalObject; 
         }
 
         public IEnumerable<T> ToList<T>(IDataReader dr)
@@ -136,6 +130,40 @@ namespace TarkOrm
             while (dr.Read())
             {
                 lista.Add(CreateObject(dr, mapping, columnNames));
+            }
+
+            return lista;
+        }
+
+
+        private dynamic CreateDynamicObject(IDataReader dr, string[] columnNames)
+        {
+            dynamic finalObject = new ExpandoObject();
+
+            object[] values = new object[dr.FieldCount];
+            dr.GetValues(values);
+
+            for (int i = 0; i < dr.FieldCount; i++)
+            {
+                if (values[i] == DBNull.Value) continue;
+
+                ((IDictionary<string, object>) finalObject)[columnNames[i]] = values[i];
+            }
+
+            return finalObject; 
+        }
+        
+        public IEnumerable<dynamic> ToDynamicList(IDataReader dr)
+        {
+            List<dynamic> lista = new List<dynamic>();
+
+            string[] columnNames = new string[dr.FieldCount];
+            for (int i = 0; i < dr.FieldCount; i++)
+                columnNames[i] = dr.GetName(i);
+
+            while (dr.Read())
+            {
+                lista.Add(CreateDynamicObject(dr, columnNames));
             }
 
             return lista;
