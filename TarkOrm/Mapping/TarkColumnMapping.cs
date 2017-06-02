@@ -15,6 +15,11 @@ namespace TarkOrm.Mapping
 
         public TarkColumnMapping() { }
 
+        /// <summary>
+        /// Caches the property type that should be received 
+        /// </summary>
+        private Type _chachePropertyConvertType;
+
         public TarkColumnMapping(PropertyInfo property)
         {
             Property = property;
@@ -46,6 +51,21 @@ namespace TarkOrm.Mapping
         public bool IsReadOnlyColumn()
         {
             return Attributes.Any(x => x is ReadOnlyAttribute);
+        }
+
+        public Type GetCachePropertyConvertType()
+        {
+            if (_chachePropertyConvertType == null)
+            {
+                if (Property.PropertyType.IsGenericType && Property.PropertyType.GetGenericTypeDefinition() == typeof(Nullable<>))
+                {
+                    _chachePropertyConvertType = Nullable.GetUnderlyingType(Property.PropertyType);
+                }
+                else
+                    _chachePropertyConvertType = Property.PropertyType;
+            }
+
+            return _chachePropertyConvertType;
         }
     }
 }

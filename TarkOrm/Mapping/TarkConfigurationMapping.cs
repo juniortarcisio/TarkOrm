@@ -36,7 +36,7 @@ namespace TarkOrm.Mapping
                 FirstOrDefault();
         }
 
-        public static ITarkTypeMapping ManageMapping<T>()
+        public static TarkTypeMapping<T> ManageMapping<T>()
         {
             var existingMapping = GetMapping<T>();
             if (existingMapping != null)

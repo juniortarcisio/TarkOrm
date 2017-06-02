@@ -191,7 +191,7 @@ namespace TarkOrm.Tests
 
             foreach (var item in lista)
             {
-                var x = item.CityID;
+                //var x = item.CityID;
             }
 
             watch.Stop();

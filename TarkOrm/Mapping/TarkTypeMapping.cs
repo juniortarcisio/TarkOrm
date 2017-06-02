@@ -117,8 +117,7 @@ namespace TarkOrm.Mapping
 
             return keys.ToArray();
         }
-
-
+        
         public TarkTypeMapping<T> ToDatabase(string database)
         {
             Database = database;

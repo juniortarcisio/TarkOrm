@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
+using System.Dynamic;
+using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -30,52 +32,29 @@ namespace TarkOrm
         /// <param name="columnName">name of the column mapped to the property</param>
         /// <param name="value">value to be filled in the property</param>
         /// <exception cref="ArgumentNullException"></exception>
-        private void SetPropertyValue(object obj, string columnName, object value, ITarkTypeMapping typeMapping)
+        private void SetPropertyValue<T>(T obj, string columnName, object value, TarkTypeMapping<T> typeMapping)
         {
-            if (obj == null)
-                throw new ArgumentNullException("obj");
-
-            if (columnName == null)
-                throw new ArgumentNullException("mappedColumnName");
-
-            if (typeMapping == null)
-                throw new ArgumentNullException("typeMapping");
-
-            //First search the column before treating nulls,
-            //Despite the search proccess, it's possible to get implementation mistake even when it's null
             TarkColumnMapping columnMapping;
 
             if (!typeMapping.GetPropertiesMapping().TryGetValue(columnName, out columnMapping))
-            {            
-                //2017-05-25: Changed to don't throw exceptions if there is no property for the field
-                //throw new MissingMemberException(String.Format("Cannot find mapped property for column \"{0}\"",columnName));
                 return;
-            }
+            //2017-05-25: Changed to don't throw exceptions if there is no property for the field
+            //throw new MissingMemberException(String.Format("Cannot find mapped property for column \"{0}\"",columnName));
 
-            if (value == DBNull.Value || value == null)
+            if (value == DBNull.Value)
                 return;
 
-            object propertyValue;
+            //obj[columnName] = Convert.ChangeType(value,
+            //    columnMapping.GetCachePropertyConvertType(),
+            //    CultureInfo.InvariantCulture
+            //    );
 
-            try
-            {
-                propertyValue = value.To(columnMapping.Property.PropertyType);
-            }
-            catch (Exception ex)
-            {
-                throw new InvalidCastException(
-                    String.Format("Cannot cast data value to object property type \"{1}\".", columnMapping.Property.Name), ex);
-            }
-
-            try
-            {
-                columnMapping.Property.SetValue(obj, propertyValue); 
-            }
-            catch (Exception ex)
-            {
-                throw new InvalidCastException(
-                    String.Format("Cannot set value to object property \"{1}\".", columnMapping.Property.Name), ex);
-            }
+            columnMapping.Property.SetValue(obj,
+                Convert.ChangeType(value,
+                columnMapping.GetCachePropertyConvertType(),
+                CultureInfo.InvariantCulture
+                )
+            );
         }
 
         /// <summary>
@@ -94,7 +73,7 @@ namespace TarkOrm
         /// </summary>
         /// <param name="dr">DataRow with columns mapped to the object type</param>
         /// <returns>A new instance of the object type with the filled properties</returns>
-        public T CreateObject<T>(DataRow dr, ITarkTypeMapping typeMapping)
+        public T CreateObject<T>(DataRow dr, TarkTypeMapping<T> typeMapping)
         {
             Type typeT = typeof(T);
 
@@ -102,7 +81,7 @@ namespace TarkOrm
  
             for (int i = 0; i < dr.Table.Columns.Count; i++)
             {
-                SetPropertyValue(finalObject, dr.Table.Columns[i].ColumnName, dr[i], typeMapping);
+                //SetPropertyValue(finalObject, dr.Table.Columns[i].ColumnName, dr[i], typeMapping);
             }
 
             return finalObject;
@@ -116,7 +95,12 @@ namespace TarkOrm
         public T CreateObject<T>(IDataReader dr)
         {
             var mapping = TarkConfigurationMapping.ManageMapping<T>();
-            return CreateObject<T>(dr, mapping);
+
+            string[] columnNames = new string[dr.FieldCount];
+            for (int i = 0; i < dr.FieldCount; i++)
+                columnNames[i] = dr.GetName(i);
+
+            return CreateObject(dr, mapping, columnNames);
         }
 
         /// <summary>
@@ -124,20 +108,18 @@ namespace TarkOrm
         /// </summary>
         /// <param name="dr">DataReader in the current record with fields mapped to the object type</param>
         /// <returns>A new instance of the object type with the filled properties</returns>
-        public T CreateObject<T>(IDataReader dr, ITarkTypeMapping typeMapping)
+        private T CreateObject<T>(IDataReader dr, TarkTypeMapping<T> typeMapping, string[] columnNames)
         {
-            Type typeT = typeof(T);
-
-            var finalObject = (T)Activator.CreateInstance(typeT);
+            var finalObject = (T)Activator.CreateInstance(typeof(T));
+            //dynamic finalObject = new ExpandoObject();
+            
+            object[] values = new object[dr.FieldCount];
+            dr.GetValues(values);
 
             for (int i = 0; i < dr.FieldCount; i++)
-            {
-                var drColumnName = dr.GetName(i);
+                SetPropertyValue(finalObject, columnNames[i], values[i], typeMapping);
 
-                SetPropertyValue(finalObject, drColumnName, dr[i], typeMapping);
-            }
-
-            return finalObject;
+            return finalObject; //Convert.ChangeType(finalObject, typeof(T), CultureInfo.InvariantCulture);
         }
 
         public IEnumerable<T> ToList<T>(IDataReader dr)
@@ -147,14 +129,17 @@ namespace TarkOrm
             //Search or map the type into the singleton manager
             var mapping = TarkConfigurationMapping.ManageMapping<T>();
 
+            string[] columnNames = new string[dr.FieldCount];
+            for (int i = 0; i < dr.FieldCount; i++)
+                columnNames[i] = dr.GetName(i);
+
             while (dr.Read())
             {
-                lista.Add(CreateObject<T>(dr, mapping));
+                lista.Add(CreateObject(dr, mapping, columnNames));
             }
 
             return lista;
         }
-
 
         public IEnumerable<T> ToList<T>(DataTable dt)
         {
