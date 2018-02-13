@@ -93,7 +93,9 @@ namespace TarkOrm
 
                 using (IDataReader dr = cmd.ExecuteReader())
                 {
-                    return Transformer.ToList<T>(dr);
+                    var result = Transformer.ToList<T>(dr);
+                    dr.Close();
+                    return result;
                 }
             }
         }
@@ -141,12 +143,18 @@ namespace TarkOrm
 
                 using (IDataReader dr = cmd.ExecuteReader())
                 {
+                    T result;
+
                     if (dr.Read())
                     {
-                        return Transformer.CreateObject<T>(dr);
+                        result = Transformer.CreateObject<T>(dr);
                     }
                     else
-                        return default(T);
+                        result = default(T);
+
+                    dr.Close();
+
+                    return result;
                 }
             }
         }
@@ -194,12 +202,9 @@ namespace TarkOrm
 
                 using (IDataReader dr = cmd.ExecuteReader())
                 {
-                    if (dr.Read())
-                    {
-                        return true;
-                    }
-                    else
-                        return false;
+                    var result = dr.Read();
+                    dr.Close();
+                    return result;
                 }
             }
         }
@@ -242,12 +247,9 @@ namespace TarkOrm
 
                 using (IDataReader dr = cmd.ExecuteReader())
                 {
-                    if (dr.Read())
-                    {
-                        return true;
-                    }
-                    else
-                        return false;
+                    var result = dr.Read();
+                    dr.Close();
+                    return result;
                 }
             }
         }
@@ -290,7 +292,9 @@ namespace TarkOrm
 
                 using (IDataReader dr = cmd.ExecuteReader())
                 {
-                    return Transformer.ToList<T>(dr);
+                    var result = Transformer.ToList<T>(dr);
+                    dr.Close();
+                    return result;
                 }
             }
         }
@@ -529,6 +533,8 @@ namespace TarkOrm
         {
             if (_connection.State != ConnectionState.Open)
                 _connection.Close();
+
+            _connection.Dispose();
         }
     }    
 }
